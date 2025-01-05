@@ -1,3 +1,4 @@
 checkpoints*
 runs/
+inference_results/
 __pycache__/

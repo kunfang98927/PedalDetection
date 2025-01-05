@@ -29,14 +29,14 @@ def load_model(
 def infer(model, spectrogram, device="cpu"):
     spectrogram = spectrogram.to(device)
     with torch.no_grad():
-        outputs, _ = model(spectrogram)
+        outputs, latent_repr, attn_weights_list = model(spectrogram)
         predictions = torch.argmax(torch.softmax(outputs, dim=-1), dim=-1)
-    return predictions.squeeze(0).cpu().numpy()
+    return predictions.squeeze(0).cpu().numpy(), latent_repr, attn_weights_list
 
 
 def main():
     # Parameters
-    checkpoint_path = "checkpoints-1/model_epoch_20_val_loss_0.5710_val_acc_0.9045.pt"
+    checkpoint_path = "checkpoints-2/model_epoch_80_val_loss_0.7233_val_acc_0.9340.pt"
     feature_dim = 64
     hidden_dim = 256
     num_heads = 2
@@ -64,7 +64,7 @@ def main():
     accs = []
     for spectrogram, label in zip(spectrograms, labels):
         spectrogram = torch.tensor(spectrogram, dtype=torch.float32).unsqueeze(0)
-        predictions = infer(model, spectrogram, device=device)
+        predictions, _, _ = infer(model, spectrogram, device=device)
         acc = (predictions == label).sum() / len(label)
         accs.append(acc)
 

@@ -4,16 +4,16 @@ from torch.utils.tensorboard import SummaryWriter
 import os
 
 
-def contrastive_loss(embeddings, labels, temperature=0.07):
-    _, hidden_dim = embeddings.shape
-    embeddings = embeddings.view(-1, hidden_dim)  # Flatten for pairwise computation
+def contrastive_loss(latent_repr, labels, temperature=0.07):
+    _, hidden_dim = latent_repr.shape
+    latent_repr = latent_repr.view(-1, hidden_dim)  # Flatten for pairwise computation
     labels = labels.view(-1)
 
     similarity = (
-        torch.matmul(embeddings, embeddings.T) / temperature
+        torch.matmul(latent_repr, latent_repr.T) / temperature
     )  # Cosine similarity
     similarity = (
-        similarity - torch.eye(similarity.size(0), device=embeddings.device) * 1e9
+        similarity - torch.eye(similarity.size(0), device=latent_repr.device) * 1e9
     )  # Mask self-similarity
 
     labels = labels.unsqueeze(1) == labels.unsqueeze(0)  # Positive mask
@@ -109,16 +109,16 @@ class PedalTrainer:
         ):
 
             inputs, labels = inputs.to(self.device), labels.to(self.device)
-            class_logits, embeddings = self.model(inputs)
+            class_logits, latent_repr, _ = self.model(inputs)
 
             # Only calculate classification loss for valid labels
             loss_mask = labels != -1
             labels = labels[loss_mask]
             class_logits = class_logits[loss_mask]
-            embeddings = embeddings[loss_mask]
+            latent_repr = latent_repr[loss_mask]
 
             classification_loss = self.criterion(class_logits, labels)
-            contrastive_loss_value = contrastive_loss(embeddings, labels)
+            contrastive_loss_value = contrastive_loss(latent_repr, labels)
 
             loss = alpha * classification_loss + beta * contrastive_loss_value
 
@@ -152,15 +152,15 @@ class PedalTrainer:
         with torch.no_grad():
             for inputs, labels, acoustic_settings in self.val_dataloader:
                 inputs, labels = inputs.to(self.device), labels.to(self.device)
-                class_logits, embeddings = self.model(inputs)
+                class_logits, latent_repr, _ = self.model(inputs)
 
                 loss_mask = labels != -1
                 labels = labels[loss_mask]
                 class_logits = class_logits[loss_mask]
-                embeddings = embeddings[loss_mask]
+                latent_repr = latent_repr[loss_mask]
 
                 classification_loss = self.criterion(class_logits, labels)
-                contrastive_loss_value = contrastive_loss(embeddings, labels)
+                contrastive_loss_value = contrastive_loss(latent_repr, labels)
 
                 loss = classification_loss + contrastive_loss_value
                 val_loss += loss.item()

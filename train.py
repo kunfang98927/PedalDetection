@@ -12,7 +12,7 @@ def main():
     feature_dim = 64
     max_acoustic_setting_value = 5
     acoustic_setting_dim = 3
-    data_samples = 640
+    data_samples = 64
 
     # Prepare data
     spectrograms, labels, acoustic_settings = prepare_data(
@@ -75,7 +75,7 @@ def main():
         num_train_epochs=200,
         train_batch_size=32,
         val_batch_size=32,
-        save_dir="checkpoints-1",
+        save_dir="checkpoints-2",
     )
 
     # Train the model
