@@ -83,10 +83,6 @@ class PedalDetectionModel(nn.Module):
                 for _ in range(num_layers)
             ]
         )
-
-        self.ffn_layer = nn.Sequential(
-            nn.Linear(hidden_dim, ff_dim), nn.ReLU(), nn.Linear(ff_dim, hidden_dim)
-        )  # For latent representations
         self.classification_output_layer = nn.Linear(
             hidden_dim, num_classes
         )  # For frame-wise classification
@@ -101,10 +97,7 @@ class PedalDetectionModel(nn.Module):
                 x, src_mask=src_mask, src_key_padding_mask=src_key_padding_mask
             )
             attn_weights_list.append(attn_weights)
-
-        latent_repr = F.normalize(
-            self.ffn_layer(x), p=2, dim=-1
-        )  # Latent representations
+        latent_repr = F.normalize(x, p=2, dim=-1)  # Latent representations
         class_logits = self.classification_output_layer(
             latent_repr
         )  # Classification using latent reps
