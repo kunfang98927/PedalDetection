@@ -12,7 +12,7 @@ def main():
     feature_dim = 64
     max_acoustic_setting_value = 5
     acoustic_setting_dim = 3
-    data_samples = 64
+    data_samples = 640
 
     # Prepare data
     spectrograms, labels, acoustic_settings = prepare_data(
@@ -52,6 +52,7 @@ def main():
         num_layers=4,
         num_classes=3,
     )
+    print(model)
 
     # Optimizer and Scheduler
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
@@ -75,11 +76,11 @@ def main():
         num_train_epochs=200,
         train_batch_size=32,
         val_batch_size=32,
-        save_dir="checkpoints-2",
+        save_dir="checkpoints-12",
     )
 
     # Train the model
-    trainer.train()
+    trainer.train(alpha=0.8, beta=0.2)
 
 
 if __name__ == "__main__":

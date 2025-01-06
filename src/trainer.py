@@ -79,7 +79,7 @@ class PedalTrainer:
         for epoch in range(self.num_train_epochs):
             print(f"Starting Epoch {epoch + 1}/{self.num_train_epochs}")
             train_loss = self.train_one_epoch(epoch, alpha=alpha, beta=beta)
-            val_loss, val_accuracy = self.validate(epoch)
+            val_loss, val_accuracy = self.validate(epoch, alpha=alpha, beta=beta)
             print(
                 f"Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}"
             )
@@ -109,7 +109,7 @@ class PedalTrainer:
         ):
 
             inputs, labels = inputs.to(self.device), labels.to(self.device)
-            class_logits, latent_repr, _ = self.model(inputs)
+            class_logits, latent_repr = self.model(inputs)
 
             # Only calculate classification loss for valid labels
             loss_mask = labels != -1
@@ -141,7 +141,7 @@ class PedalTrainer:
 
         return total_loss / len(self.train_dataloader)
 
-    def validate(self, epoch):
+    def validate(self, epoch, alpha=0.5, beta=0.5):
         self.model.eval()
         val_loss = 0.0
         total_classification_loss = 0.0
@@ -152,7 +152,7 @@ class PedalTrainer:
         with torch.no_grad():
             for inputs, labels, acoustic_settings in self.val_dataloader:
                 inputs, labels = inputs.to(self.device), labels.to(self.device)
-                class_logits, latent_repr, _ = self.model(inputs)
+                class_logits, latent_repr = self.model(inputs)
 
                 loss_mask = labels != -1
                 labels = labels[loss_mask]
@@ -162,7 +162,7 @@ class PedalTrainer:
                 classification_loss = self.criterion(class_logits, labels)
                 contrastive_loss_value = contrastive_loss(latent_repr, labels)
 
-                loss = classification_loss + contrastive_loss_value
+                loss = alpha * classification_loss + beta * contrastive_loss_value
                 val_loss += loss.item()
                 total_classification_loss += classification_loss.item()
                 total_contrastive_loss += contrastive_loss_value.item()
