@@ -1,7 +1,8 @@
+import os
 import torch
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
-import os
+from sklearn.metrics import f1_score
 
 
 def contrastive_loss(latent_repr, labels, temperature=0.07):
@@ -79,9 +80,9 @@ class PedalTrainer:
         for epoch in range(self.num_train_epochs):
             print(f"Starting Epoch {epoch + 1}/{self.num_train_epochs}")
             train_loss = self.train_one_epoch(epoch, alpha=alpha, beta=beta)
-            val_loss, val_accuracy = self.validate(epoch, alpha=alpha, beta=beta)
+            val_loss, val_f1 = self.validate(epoch, alpha=alpha, beta=beta)
             print(
-                f"Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}"
+                f"Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val F1: {val_f1:.4f}"
             )
 
             if (epoch + 1) % self.eval_epochs == 0 and epoch != 0:
@@ -90,7 +91,7 @@ class PedalTrainer:
                     val_loss < max(best_val_losses)
                     or len(self.best_checkpoints) < self.save_total_limit
                 ):
-                    self.save_best_model(val_loss, val_accuracy, epoch)
+                    self.save_best_model(val_loss, val_f1, epoch)
 
                     if len(best_val_losses) > self.save_total_limit:
                         remove_idx = best_val_losses.index(max(best_val_losses))
@@ -146,8 +147,7 @@ class PedalTrainer:
         val_loss = 0.0
         total_classification_loss = 0.0
         total_contrastive_loss = 0.0
-        correct = 0
-        total = 0
+        f1s = []
 
         with torch.no_grad():
             for inputs, labels, acoustic_settings in self.val_dataloader:
@@ -169,10 +169,15 @@ class PedalTrainer:
 
                 outputs = torch.softmax(class_logits, dim=-1)
                 predictions = torch.argmax(outputs, dim=-1)
-                correct += (predictions == labels).sum().item()
-                total += labels.numel()
 
-        accuracy = correct / total
+                # calculate f1
+                labels = labels.cpu().numpy()
+                predictions = predictions.cpu().numpy()
+                f1 = f1_score(labels, predictions, average="weighted")
+                f1s.append(f1)
+
+        # calculate avg f1
+        avg_f1 = sum(f1s) / len(f1s)
 
         # Log to TensorBoard
         self.writer.add_scalar(
@@ -188,14 +193,14 @@ class PedalTrainer:
             total_contrastive_loss / len(self.val_dataloader),
             epoch,
         )
-        self.writer.add_scalar("Validation/Accuracy", accuracy, epoch)
+        self.writer.add_scalar("Validation/F1", avg_f1, epoch)
 
-        return val_loss / len(self.val_dataloader), accuracy
+        return val_loss / len(self.val_dataloader), avg_f1
 
-    def save_best_model(self, val_loss, val_accuracy, epoch):
+    def save_best_model(self, val_loss, val_f1, epoch):
         best_checkpoint_path = os.path.join(
             self.save_dir,
-            f"model_epoch_{epoch + 1}_val_loss_{val_loss:.4f}_val_acc_{val_accuracy:.4f}.pt",
+            f"model_epoch_{epoch + 1}_val_loss_{val_loss:.4f}_val_f1_{val_f1:.4f}.pt",
         )
         torch.save(self.model.state_dict(), best_checkpoint_path)
         self.best_checkpoints.append(best_checkpoint_path)

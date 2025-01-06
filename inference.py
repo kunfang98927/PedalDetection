@@ -40,7 +40,7 @@ def infer(model, spectrogram, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "checkpoints-12/model_epoch_120_val_loss_0.3317_val_acc_0.8306.pt"
+    checkpoint_path = "checkpoints-12/model_epoch_130_val_loss_0.3269_val_acc_0.8328.pt"
     feature_dim = 64
     hidden_dim = 256
     num_heads = 2
@@ -94,7 +94,7 @@ def main():
         model,
         num_layers,
         num_heads,
-        save_path="inference_results/attention_plot_epoch120.png",
+        save_path="inference_results/attention_plot_epoch130.png",
     )
 
     # visualize clusters
@@ -105,7 +105,7 @@ def main():
         latent_reprs,
         predictions,
         label_regions,
-        save_path="inference_results/clusters_epoch120.png",
+        save_path="inference_results/clusters_epoch130.png",
     )
 
     print("Average Accuracy:", sum(accs) / len(accs))
@@ -120,7 +120,7 @@ def main():
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
     plt.title("Confusion Matrix")
-    plt.savefig("inference_results/confusion_matrix_epoch120.png")
+    plt.savefig("inference_results/confusion_matrix_epoch130.png")
 
 
 if __name__ == "__main__":

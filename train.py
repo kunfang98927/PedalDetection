@@ -52,7 +52,6 @@ def main():
         num_layers=4,
         num_classes=3,
     )
-    print(model)
 
     # Optimizer and Scheduler
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
@@ -76,11 +75,11 @@ def main():
         num_train_epochs=200,
         train_batch_size=32,
         val_batch_size=32,
-        save_dir="checkpoints-12",
+        save_dir="checkpoints-14",
     )
 
     # Train the model
-    trainer.train(alpha=0.8, beta=0.2)
+    trainer.train(alpha=1.0, beta=0.0)
 
 
 if __name__ == "__main__":
