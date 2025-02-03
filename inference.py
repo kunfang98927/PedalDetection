@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
 from src.model import PedalDetectionModel
-from src.utils import prepare_data, visualize_attention, visualize_clusters
+from src.utils import load_data, split_data, visualize_attention, visualize_clusters
 
 
 def load_model(
@@ -30,23 +30,25 @@ def load_model(
     return model
 
 
-def infer(model, spectrogram, device="cpu"):
-    spectrogram = spectrogram.to(device)
+def infer(model, feature, loss_mask, device="cpu"):
+    feature = feature.to(device)
     with torch.no_grad():
-        outputs, latent_repr = model(spectrogram)
-        predictions = torch.argmax(torch.softmax(outputs, dim=-1), dim=-1)
-    return predictions.squeeze(0).cpu().numpy(), latent_repr
+        pedal_outputs, room_outputs, latent_repr = model(feature, loss_mask=loss_mask)
+        pedal_predictions = torch.argmax(torch.softmax(pedal_outputs, dim=-1), dim=-1)
+        room_predictions = torch.argmax(torch.softmax(room_outputs, dim=-1), dim=-1)
+    return pedal_predictions.squeeze(0).cpu().numpy(), room_predictions.squeeze(0).cpu().numpy(), latent_repr
 
 
 def main():
     # Parameters
-    checkpoint_path = "checkpoints-12/model_epoch_130_val_loss_0.3269_val_acc_0.8328.pt"
-    feature_dim = 64
+    checkpoint_path = "checkpoints-0/model_epoch_20_val_loss_4.7377_val_pedal_f1_0.2642.pt"
+    feature_dim = 141
+    max_frame = 1000
     hidden_dim = 256
     num_heads = 2
     ff_dim = 256
     num_layers = 4
-    num_classes = 3
+    num_classes = 128
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Load model
@@ -61,67 +63,101 @@ def main():
         device=device,
     )
 
-    # Prepare data
-    spectrograms, labels, _ = prepare_data(data_samples=1)
+    # Data path
+    data_path = "data/processed_data.npz"
+
+    # Load data
+    features, labels, metadata = load_data(data_path)
+    _, _, test_features, _, _, test_labels, _, _, test_metadata = split_data(
+        features, labels, metadata, val_size=0.1, test_size=0.1, random_state=42
+    )
 
     # Perform inference
     label_ratio = 0.5
-    accs = []
+    pedal_accs = []
+    room_accs = []
     latent_reprs = []
-    predictions = []
+    pedal_predictions = []
+    room_predictions = []
     label_regions = []
-    for spectrogram, label in zip(spectrograms, labels):
-        spectrogram = torch.tensor(spectrogram, dtype=torch.float32).unsqueeze(0)
-        prediction, latent_repr = infer(model, spectrogram, device=device)
+    for feature, label, metadata in zip(test_features, test_labels, test_metadata):
+        # Segment by max_frame
+        start_frame = np.random.randint(0, feature.shape[1] - max_frame)
+        selected_feature = feature[:, start_frame : start_frame + max_frame].T
+        selected_label = label[start_frame : start_frame + max_frame]
+
+        selected_feature = torch.tensor(selected_feature, dtype=torch.float32).unsqueeze(0)
 
         # only get the middle region of the label
-        seq_len = label.shape[0]
-        label_start = int((1 - label_ratio) / 2 * seq_len)
-        label_end = int((1 + label_ratio) / 2 * seq_len)
-        label = label[label_start:label_end]
+        label_start = int((1 - label_ratio) / 2 * max_frame)
+        label_end = int((1 + label_ratio) / 2 * max_frame)
+        label_masked = np.full(selected_label.shape, -1)
+        selected_label = selected_label[label_start:label_end]
+        label_masked[label_start:label_end] = selected_label
+        loss_mask = label_masked != -1
+        loss_mask = torch.tensor(loss_mask, dtype=torch.bool).unsqueeze(0)
 
-        prediction = prediction[label_start:label_end]
+        pedal_prediction, room_prediction, latent_repr = infer(model, selected_feature, loss_mask, device=device)
+
+        pedal_prediction = pedal_prediction[label_start:label_end]
         latent_repr = latent_repr[:, label_start:label_end]
 
-        acc = (prediction == label).sum() / len(label)
-        accs.append(acc)
+        pedal_acc = (pedal_prediction == selected_label).sum() / len(selected_label)
+        pedal_accs.append(pedal_acc)
+        room_acc = (room_prediction == metadata[0] - 1).sum() / len(selected_label)
+        room_accs.append(room_acc)
         latent_reprs.append(latent_repr)
-        predictions.append(prediction)
-        label_regions.append(label)
+        pedal_predictions.append(pedal_prediction)
+        room_predictions.append(room_prediction)
+        label_regions.append(selected_label)
 
     # visualize attention weights
     visualize_attention(
         model,
         num_layers,
         num_heads,
-        save_path="inference_results/attention_plot_epoch130.png",
+        save_path="inference_results/attention_plot.png",
     )
 
     # visualize clusters
     latent_reprs = torch.cat(latent_reprs, dim=1).squeeze(0)
-    predictions = np.concatenate(np.array(predictions), axis=0)
+    pedal_predictions = np.concatenate(np.array(pedal_predictions), axis=0)
     label_regions = np.concatenate(np.array(label_regions), axis=0)
     visualize_clusters(
         latent_reprs,
-        predictions,
+        pedal_predictions,
         label_regions,
-        save_path="inference_results/clusters_epoch130.png",
+        save_path="inference_results/clusters.png",
     )
 
-    print("Average Accuracy:", sum(accs) / len(accs))
+    # Pedal classification report
+    print("Average Pedal Accuracy:", sum(pedal_accs) / len(pedal_accs))
     print(
-        classification_report(label_regions, predictions, target_names=["0", "1", "2"])
+        classification_report(label_regions, pedal_predictions)
     )
+
+    # Room classification report
+    print("Average Room Accuracy:", sum(room_accs) / len(room_accs))
+    print(classification_report([metadata[0] - 1 for metadata in test_metadata], room_predictions, target_names=["dry room", "clean studio", "concert hall"]))
 
     # save confusion matrix
-    cm = confusion_matrix(label_regions, predictions)
-    plt.figure(figsize=(6, 6))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="viridis", cbar=False, square=True)
+    pedal_cm = confusion_matrix(label_regions, pedal_predictions)
+    room_cm = confusion_matrix([metadata[0] - 1 for metadata in test_metadata], room_predictions)
+    
+    plt.figure(figsize=(10, 5))
+    plt.subplot(1, 2, 1)
+    sns.heatmap(pedal_cm, annot=True, fmt="d", cmap="Blues")
+    plt.title("Pedal Classification Confusion Matrix")
     plt.xlabel("Predicted")
-    plt.ylabel("Actual")
-    plt.title("Confusion Matrix")
-    plt.savefig("inference_results/confusion_matrix_epoch130.png")
+    plt.ylabel("True")
 
+    plt.subplot(1, 2, 2)
+    sns.heatmap(room_cm, annot=True, fmt="d", cmap="Blues")
+    plt.title("Room Classification Confusion Matrix")
+    plt.xlabel("Predicted")
+    plt.ylabel("True")
+
+    plt.savefig("inference_results/confusion_matrix.png")
 
 if __name__ == "__main__":
     main()

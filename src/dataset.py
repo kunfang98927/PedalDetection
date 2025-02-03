@@ -6,37 +6,44 @@ import numpy as np
 class PedalDataset(Dataset):
     def __init__(
         self,
-        spectrograms,
+        features,
         labels,
-        acoustic_settings,
-        augmentations=None,
+        metadata,
+        num_samples_per_clip=10,
+        max_frame=500, # about 86.13 fps
         label_ratio=0.5,
     ):
-        self.spectrograms = spectrograms
+        self.features = features
         self.labels = labels
-        self.acoustic_settings = acoustic_settings
-        self.augmentations = augmentations
+        self.metadata = metadata
+        self.num_samples_per_clip = num_samples_per_clip
+        self.max_frame = max_frame
         self.label_ratio = label_ratio
 
     def __len__(self):
-        return len(self.spectrograms)
+        return len(self.features) * self.num_samples_per_clip
 
     def __getitem__(self, idx):
-        spectrogram = self.spectrograms[idx]  # Shape: [seq_len, feature_dim]
-        label = self.labels[idx]  # Shape: [seq_len]
-        acoustic_setting = self.acoustic_settings[idx]
+        feat_idx = idx // self.num_samples_per_clip # Index of the feature
+        feature = self.features[feat_idx]  # Shape: [feature_dim, seq_len]
+        label = self.labels[feat_idx]  # Shape: [seq_len]
+        metadata = self.metadata[feat_idx] # Shape: [num_metadata]
+        synth_setting = metadata[0] - 1.0 # 1: dry room no reverb; 2: clean studio moderate reverb; 3: large concert hall max reverb
+        piece_id = metadata[1] # piece id
+        midi_id = metadata[2] # midi id
 
-        if self.augmentations:
-            spectrogram = self.augmentations(spectrogram)
+        # Randomly select self.max_frame frames from the sequence
+        start_frame = np.random.randint(0, feature.shape[1] - self.max_frame)
+        selected_feature = feature[:, start_frame:start_frame + self.max_frame].T
+        selected_label = label[start_frame:start_frame + self.max_frame]
 
-        seq_len = label.shape[0]
-        label_start = int((1 - self.label_ratio) / 2 * seq_len)
-        label_end = int((1 + self.label_ratio) / 2 * seq_len)
-        label_masked = np.full(label.shape, -1)
-        label_masked[label_start:label_end] = label[label_start:label_end]
+        # Mask beginning and end of the sequence, and keep the middle part for training
+        label_start = int((1 - self.label_ratio) / 2 * self.max_frame)
+        label_end = int((1 + self.label_ratio) / 2 * self.max_frame)
+        label_masked = np.full(selected_label.shape, -1)
+        label_masked[label_start:label_end] = selected_label[label_start:label_end]
 
-        spectrogram = torch.tensor(spectrogram, dtype=torch.float32)
+        selected_feature = torch.tensor(selected_feature, dtype=torch.float32)
         label_masked = torch.tensor(label_masked, dtype=torch.long)
-        acoustic_setting = torch.tensor(acoustic_setting, dtype=torch.float32)
 
-        return spectrogram, label_masked, acoustic_setting
+        return selected_feature, label_masked, synth_setting #, piece_id, midi_id

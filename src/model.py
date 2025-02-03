@@ -35,17 +35,34 @@ class PedalDetectionModel(nn.Module):
                 for _ in range(num_layers)
             ]
         )
+        # Classification output layer
         self.classification_output_layer = nn.Linear(
             hidden_dim, num_classes
-        )  # For frame-wise classification
+        )
+        # Room classification head
+        self.room_head = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.ReLU(),
+            nn.Linear(hidden_dim // 2, 3)  # Output logits for 0 or 1
+        )
 
-    def forward(self, x, src_mask=None):
+    def forward(self, x, loss_mask=None, src_mask=None):
         x = self.input_proj(x)  # Project input to hidden dimension
         x = self.positional_encoding(x)  # Add positional encoding
         for layer in self.layers:
             x = layer(x, mask=src_mask)
-        latent_repr = F.normalize(x, p=2, dim=-1)  # Latent representations
+        latent_repr = F.normalize(x, p=2, dim=-1)  # Latent representations, (bs, seq_len, hidden_dim)
         class_logits = self.classification_output_layer(
             latent_repr
-        )  # Classification using latent reps
-        return class_logits, latent_repr
+        )  # Classification using latent reps, (bs, seq_len, num_classes)
+
+        # calculate mean of latent repr, for all non-masked frames
+        latent_repr_ = latent_repr.clone()
+        if loss_mask is not None:
+            latent_repr_[loss_mask == 0] = 0
+        mean_latent_repr = latent_repr_.sum(dim=1) / loss_mask.sum(dim=1).unsqueeze(-1)
+        
+        # Room classification logits
+        room_logits = self.room_head(mean_latent_repr)  # (bs, 2)
+
+        return class_logits, room_logits, latent_repr

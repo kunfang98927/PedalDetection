@@ -5,6 +5,60 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 
 
+def load_data(data_path):
+    """
+    Load the processed data from the given path.
+
+    Args:
+        data_path (str): Path to the processed data file.
+
+    Returns:
+        features (numpy.ndarray): Spectrogram features of shape (num_samples, seq_len, feature_dim).
+        labels (numpy.ndarray): Ground truth labels of shape (num_samples, seq_len).
+        metadata (dict): Metadata dictionary.
+    """
+    data = np.load(data_path, allow_pickle=True)
+    features = data["features"]
+    labels = data["labels"]
+    metadata = data["metadata"]
+    return features, labels, metadata
+
+
+def split_data(features, labels, metadata, val_size=0.1, test_size=0.1, random_state=42):
+    """
+    Split the data into training and validation sets according to piece ids.
+    """
+    piece_ids = metadata[:, 1]
+    unique_piece_ids = np.unique(piece_ids)
+
+    np.random.seed(random_state)
+    val_piece_ids = np.random.choice(unique_piece_ids, size=int(val_size * len(unique_piece_ids)), replace=False)
+    test_piece_ids = np.random.choice(
+        np.setdiff1d(unique_piece_ids, val_piece_ids), size=int(test_size * len(unique_piece_ids)), replace=False
+    )
+    train_piece_ids = np.setdiff1d(unique_piece_ids, np.concatenate([val_piece_ids, test_piece_ids]))
+    print(f"Train Piece IDs: {train_piece_ids}", f"Val Piece IDs: {val_piece_ids}", f"Test Piece IDs: {test_piece_ids}")
+
+    train_indices = np.where(np.isin(piece_ids, train_piece_ids))[0]
+    val_indices = np.where(np.isin(piece_ids, val_piece_ids))[0]
+    test_indices = np.where(np.isin(piece_ids, test_piece_ids))[0]
+
+    train_features = features[train_indices]
+    val_features = features[val_indices]
+    test_features = features[test_indices]
+
+    train_labels = labels[train_indices]
+    val_labels = labels[val_indices]
+    test_labels = labels[test_indices]
+
+    train_metadata = metadata[train_indices]
+    val_metadata = metadata[val_indices]
+    test_metadata = metadata[test_indices]
+
+    return train_features, val_features, test_features, \
+        train_labels, val_labels, test_labels, train_metadata, val_metadata, test_metadata
+
+
 def visualize_clusters(latent_repr, predictions, annotations, save_path=None):
     """
     Visualize the latent representation with classification predictions and annotations.
@@ -94,44 +148,3 @@ def visualize_attention(model, num_layers, num_heads, save_path=None):
         print("Saved attention plot to attention_plot.png")
 
         plt.close()
-
-
-def prepare_data(
-    seq_len=1000,
-    feature_dim=64,
-    data_samples=64,
-    max_acoustic_setting_value=5,
-    acoustic_setting_dim=3,
-):
-    # Sample data (replace with actual data loading logic)
-    spectrograms = [np.random.rand(seq_len, feature_dim) for _ in range(data_samples)]
-    acoustic_settings = [
-        np.random.randint(0, max_acoustic_setting_value, size=acoustic_setting_dim)
-        for _ in range(data_samples)
-    ]  # Shape: [acoustic_setting_dim]
-
-    labels = []
-    for spectrogram in spectrograms:
-        label = np.zeros(seq_len)
-        for i in range(seq_len):
-            start_id = max(0, i - 2)
-            end_id = min(seq_len, i + 2)
-            mean_frame = np.mean(spectrogram[start_id:end_id])
-            right_eps = 0.020
-            left_eps = 0.002
-            if mean_frame > 0.5 + right_eps:
-                label[i] = 2
-            elif mean_frame < 0.5 - left_eps:
-                label[i] = 0
-            else:
-                label[i] = 1
-        labels.append(label)
-
-    # count the number of each class
-    class_counts = {0: 0, 1: 0, 2: 0}
-    for label in labels:
-        for i in range(seq_len):
-            class_counts[label[i]] += 1
-    print(class_counts)
-
-    return spectrograms, labels, acoustic_settings
