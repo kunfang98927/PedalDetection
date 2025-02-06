@@ -5,10 +5,10 @@ from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import f1_score
 
 
-def contrastive_loss(latent_repr, labels, temperature=0.07):
+def pedal_contrastive_loss(latent_repr, room_labels, temperature=0.07):
     _, hidden_dim = latent_repr.shape
     latent_repr = latent_repr.view(-1, hidden_dim)  # Flatten for pairwise computation
-    labels = labels.view(-1)
+    room_labels = room_labels.view(-1)
 
     similarity = (
         torch.matmul(latent_repr, latent_repr.T) / temperature
@@ -17,9 +17,9 @@ def contrastive_loss(latent_repr, labels, temperature=0.07):
         similarity - torch.eye(similarity.size(0), device=latent_repr.device) * 1e9
     )  # Mask self-similarity
 
-    labels = labels.unsqueeze(1) == labels.unsqueeze(0)  # Positive mask
-    positive_similarity = similarity[labels]
-    negative_similarity = similarity[~labels]
+    room_labels = room_labels.unsqueeze(1) == room_labels.unsqueeze(0)  # Positive mask
+    positive_similarity = similarity[room_labels]
+    negative_similarity = similarity[~room_labels]
 
     loss = -torch.log(
         torch.exp(positive_similarity).sum()
@@ -75,12 +75,12 @@ class PedalTrainer:
             shuffle=False,
         )
 
-    def train(self, alpha=0.5, beta=0.5):
+    def train(self, pedal_ratio=0.7, room_ratio=0.1, contrastive_ratio=0.2):
         best_val_losses = [float("inf")]
         for epoch in range(self.num_train_epochs):
             print(f"Starting Epoch {epoch + 1}/{self.num_train_epochs}")
-            train_loss = self.train_one_epoch(epoch, alpha=alpha, beta=beta)
-            val_loss, val_pedal_f1, val_env_f1 = self.validate(epoch, alpha=alpha, beta=beta)
+            train_loss = self.train_one_epoch(epoch, pedal_ratio, room_ratio, contrastive_ratio)
+            val_loss, val_pedal_f1, val_env_f1 = self.validate(epoch, pedal_ratio, room_ratio, contrastive_ratio)
             print(
                 f"Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Pedal F1: {val_pedal_f1:.4f}, Val Room F1: {val_env_f1:.4f}"
             )
@@ -101,7 +101,7 @@ class PedalTrainer:
 
                     best_val_losses.append(val_loss)
 
-    def train_one_epoch(self, epoch, alpha=0.5, beta=0.5):
+    def train_one_epoch(self, epoch, pedal_ratio=0.7, room_ratio=0.1, contrastive_ratio=0.2):
         self.model.train()
         total_loss = 0
 
@@ -123,10 +123,10 @@ class PedalTrainer:
             room_loss = self.criterion(room_logits, room_labels)
 
             # Contrastive loss
-            contrastive_loss_value = contrastive_loss(latent_repr, labels)
+            contrastive_loss_value = pedal_contrastive_loss(latent_repr, labels)
 
             # Total loss
-            loss = alpha * (classification_loss + room_loss) + beta * contrastive_loss_value
+            loss = pedal_ratio * classification_loss + room_ratio * room_loss + contrastive_ratio * contrastive_loss_value
 
             self.optimizer.zero_grad()
             loss.backward()
@@ -134,9 +134,10 @@ class PedalTrainer:
 
             total_loss += loss.item()
 
-            print(
-                f"Epoch {epoch + 1}, Batch {batch_idx + 1}/{len(self.train_dataloader)}, Classification Loss: {classification_loss.item():.4f}, Room Loss: {room_loss.item():.4f},  Total Loss: {loss.item():.4f}"
-            )
+            if batch_idx % self.logging_steps == 0:
+                print(
+                    f"Epoch {epoch + 1}, Batch {batch_idx + 1}/{len(self.train_dataloader)}, Classification Loss: {classification_loss.item():.4f}, Room Loss: {room_loss.item():.4f}, Contrastive Loss: {contrastive_loss_value.item():.4f}, Total Loss: {loss.item():.4f}"
+                )
 
             # Log to TensorBoard every logging_steps
             global_step = epoch * len(self.train_dataloader) + batch_idx
@@ -154,7 +155,7 @@ class PedalTrainer:
 
         return total_loss / len(self.train_dataloader)
 
-    def validate(self, epoch, alpha=0.5, beta=0.5):
+    def validate(self, epoch, pedal_ratio=0.7, room_ratio=0.1, contrastive_ratio=0.2):
         self.model.eval()
         val_loss = 0.0
         total_classification_loss = 0.0
@@ -180,10 +181,10 @@ class PedalTrainer:
                 room_loss = self.criterion(room_logits, room_labels)
 
                 # Contrastive loss
-                contrastive_loss_value = contrastive_loss(latent_repr, labels)
+                contrastive_loss_value = pedal_contrastive_loss(latent_repr, labels)
 
                 # Total loss
-                loss = alpha * (classification_loss + room_loss) + beta * contrastive_loss_value
+                loss = pedal_ratio * classification_loss + room_ratio * room_loss + contrastive_ratio * contrastive_loss_value
 
                 val_loss += loss.item()
                 total_classification_loss += classification_loss.item()

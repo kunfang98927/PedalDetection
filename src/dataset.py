@@ -11,7 +11,7 @@ class PedalDataset(Dataset):
         metadata,
         num_samples_per_clip=10,
         max_frame=500, # about 86.13 fps
-        label_ratio=0.5,
+        label_ratio=0.6,
     ):
         self.features = features
         self.labels = labels
@@ -25,9 +25,16 @@ class PedalDataset(Dataset):
 
     def __getitem__(self, idx):
         feat_idx = idx // self.num_samples_per_clip # Index of the feature
+        seg_idx = idx % self.num_samples_per_clip # Index of the segment
+
         feature = self.features[feat_idx]  # Shape: [feature_dim, seq_len]
         label = self.labels[feat_idx]  # Shape: [seq_len]
         metadata = self.metadata[feat_idx] # Shape: [num_metadata]
+
+        label = np.where(label <= 10, 0, label)
+        label = np.where(label >= 100, 2, label)
+        label = np.where((label > 10) & (label < 100), 1, label)
+
         synth_setting = metadata[0] - 1.0 # 1: dry room no reverb; 2: clean studio moderate reverb; 3: large concert hall max reverb
         piece_id = metadata[1] # piece id
         midi_id = metadata[2] # midi id

@@ -9,10 +9,10 @@ def main():
 
     # Feature dimension
     feature_dim = 141 # 128 (spectrogram) + 13 (mfcc)
-    max_frame = 1000
+    max_frame = 500
 
     # Data path
-    data_path = "data/processed_data.npz"
+    data_path = "data/processed_data1.npz"
 
     # Load data
     features, labels, metadata = load_data(data_path)
@@ -27,6 +27,7 @@ def main():
         metadata=train_metadata,
         num_samples_per_clip=10,
         max_frame=max_frame,
+        label_ratio=1.0,
     )
     val_dataset = PedalDataset(
         features=val_features,
@@ -34,6 +35,7 @@ def main():
         metadata=val_metadata,
         num_samples_per_clip=10,
         max_frame=max_frame,
+        label_ratio=1.0,
     )
     print("Train dataset size:", len(train_dataset))
     print("Val dataset size:", len(val_dataset))
@@ -42,10 +44,10 @@ def main():
     model = PedalDetectionModel(
         input_dim=feature_dim,
         hidden_dim=256,
-        num_heads=2,
+        num_heads=8,
         ff_dim=256,
         num_layers=4,
-        num_classes=128,
+        num_classes=3,
     )
 
     # Optimizer and Scheduler
@@ -68,13 +70,13 @@ def main():
         eval_epochs=10,
         save_total_limit=5,
         num_train_epochs=500,
-        train_batch_size=64,
-        val_batch_size=64,
-        save_dir="checkpoints-0",
+        train_batch_size=32,
+        val_batch_size=32,
+        save_dir="checkpoints-3class-debug",
     )
 
     # Train the model
-    trainer.train(alpha=1.0, beta=0.0)
+    trainer.train(pedal_ratio=0.7, room_ratio=0.1, contrastive_ratio=0.2)
 
 
 if __name__ == "__main__":

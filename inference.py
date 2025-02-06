@@ -41,14 +41,14 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "checkpoints-0/model_epoch_20_val_loss_4.7377_val_pedal_f1_0.2642.pt"
+    checkpoint_path = "checkpoints-3classification-8head/model_epoch_150_val_loss_0.4430_val_pedal_f1_0.7695.pt"
     feature_dim = 141
-    max_frame = 1000
+    max_frame = 500
     hidden_dim = 256
-    num_heads = 2
+    num_heads = 8
     ff_dim = 256
     num_layers = 4
-    num_classes = 128
+    num_classes = 3
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Load model
@@ -73,7 +73,7 @@ def main():
     )
 
     # Perform inference
-    label_ratio = 0.5
+    label_ratio = 1.0
     pedal_accs = []
     room_accs = []
     latent_reprs = []
@@ -81,6 +81,13 @@ def main():
     room_predictions = []
     label_regions = []
     for feature, label, metadata in zip(test_features, test_labels, test_metadata):
+        # label = np.where(label <= 25, 25, label)
+        # label = np.where(label >= 100, 100, label)
+        # label = label - 25
+        label = np.where(label <= 25, 0, label)
+        label = np.where(label >= 100, 2, label)
+        label = np.where((label > 25) & (label < 100), 1, label)
+
         # Segment by max_frame
         start_frame = np.random.randint(0, feature.shape[1] - max_frame)
         selected_feature = feature[:, start_frame : start_frame + max_frame].T
@@ -146,13 +153,13 @@ def main():
     
     plt.figure(figsize=(10, 5))
     plt.subplot(1, 2, 1)
-    sns.heatmap(pedal_cm, annot=True, fmt="d", cmap="Blues")
+    sns.heatmap(pedal_cm, annot=True, fmt="d", cmap="Blues", square=True)
     plt.title("Pedal Classification Confusion Matrix")
     plt.xlabel("Predicted")
     plt.ylabel("True")
 
     plt.subplot(1, 2, 2)
-    sns.heatmap(room_cm, annot=True, fmt="d", cmap="Blues")
+    sns.heatmap(room_cm, annot=True, fmt="d", cmap="Blues", square=True)
     plt.title("Room Classification Confusion Matrix")
     plt.xlabel("Predicted")
     plt.ylabel("True")
