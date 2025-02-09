@@ -46,7 +46,6 @@ def load_data(data_path):
             for k in range(len(label_bin_edges) - 1):
                 if label_bin_edges[k] <= j < label_bin_edges[k + 1]:
                     class_count[k] += c
-            class_count[j] += c
     # calculate the percentage of each class
     class_count = class_count / np.sum(class_count)
     print("Class count:", class_count)
