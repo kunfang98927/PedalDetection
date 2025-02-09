@@ -12,7 +12,7 @@ def main():
     max_frame = 500
 
     # Data path
-    data_path = "data/processed_data1.npz"
+    data_path = "data/processed_data2.npz"
 
     # Load data
     features, labels, metadata = load_data(data_path)
@@ -47,7 +47,7 @@ def main():
         num_heads=8,
         ff_dim=256,
         num_layers=4,
-        num_classes=3,
+        num_classes=4,
     )
 
     # Optimizer and Scheduler
@@ -72,7 +72,7 @@ def main():
         num_train_epochs=500,
         train_batch_size=32,
         val_batch_size=32,
-        save_dir="checkpoints-3class-debug",
+        save_dir="checkpoints-4class-data2-debug",
     )
 
     # Train the model

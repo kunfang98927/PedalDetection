@@ -41,7 +41,7 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "checkpoints-3classification-8head/model_epoch_150_val_loss_0.4430_val_pedal_f1_0.7695.pt"
+    checkpoint_path = "checkpoints-3class-data2-debug/model_epoch_80_val_loss_0.6526_val_pedal_f1_0.6149.pt"
     feature_dim = 141
     max_frame = 500
     hidden_dim = 256
@@ -64,7 +64,7 @@ def main():
     )
 
     # Data path
-    data_path = "data/processed_data.npz"
+    data_path = "data/processed_data2.npz"
 
     # Load data
     features, labels, metadata = load_data(data_path)
@@ -81,12 +81,9 @@ def main():
     room_predictions = []
     label_regions = []
     for feature, label, metadata in zip(test_features, test_labels, test_metadata):
-        # label = np.where(label <= 25, 25, label)
-        # label = np.where(label >= 100, 100, label)
-        # label = label - 25
-        label = np.where(label <= 25, 0, label)
+        label = np.where(label <= 10, 0, label)
         label = np.where(label >= 100, 2, label)
-        label = np.where((label > 25) & (label < 100), 1, label)
+        label = np.where((label > 10) & (label < 100), 1, label)
 
         # Segment by max_frame
         start_frame = np.random.randint(0, feature.shape[1] - max_frame)
@@ -123,7 +120,7 @@ def main():
         model,
         num_layers,
         num_heads,
-        save_path="inference_results/attention_plot.png",
+        save_path="inference_results-data2/attention_plot.png",
     )
 
     # visualize clusters
@@ -134,7 +131,7 @@ def main():
         latent_reprs,
         pedal_predictions,
         label_regions,
-        save_path="inference_results/clusters.png",
+        save_path="inference_results-data2/clusters.png",
     )
 
     # Pedal classification report
@@ -164,7 +161,7 @@ def main():
     plt.xlabel("Predicted")
     plt.ylabel("True")
 
-    plt.savefig("inference_results/confusion_matrix.png")
+    plt.savefig("inference_results-data2/confusion_matrix.png")
 
 if __name__ == "__main__":
     main()

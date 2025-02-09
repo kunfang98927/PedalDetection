@@ -21,7 +21,37 @@ def load_data(data_path):
     features = data["features"]
     labels = data["labels"]
     metadata = data["metadata"]
-    return features, labels, metadata
+
+    # pedal_labels: shape: (num_samples, ); pedal_labels[0].shape: (seq_len, )
+    pedal_labels = np.ndarray((len(labels),), dtype=object)
+    for i, label in enumerate(labels):
+        pedal_labels[i] = label[0]
+
+    # only keep the data with metadata[2] in [-1, 0.5, 1.]
+    mask = np.isin(metadata[:, 2], [-1, 0.5, 1.])
+    features = features[mask]
+    pedal_labels = pedal_labels[mask]
+    metadata = metadata[mask]
+
+    print("Features shape:", features.shape)
+    print("pedal_labels shape:", pedal_labels.shape, pedal_labels[0].shape)
+    print("Metadata shape:", metadata.shape)
+
+    # calculate the number of samples for each class
+    label_bin_edges = [0, 10, 60, 100, 128]
+    class_count = np.zeros(len(label_bin_edges) - 1)
+    for i, label in enumerate(pedal_labels):
+        unique, counts = np.unique(label, return_counts=True)
+        for j, c in zip(unique, counts):
+            for k in range(len(label_bin_edges) - 1):
+                if label_bin_edges[k] <= j < label_bin_edges[k + 1]:
+                    class_count[k] += c
+            class_count[j] += c
+    # calculate the percentage of each class
+    class_count = class_count / np.sum(class_count)
+    print("Class count:", class_count)
+
+    return features, pedal_labels, metadata
 
 
 def split_data(features, labels, metadata, val_size=0.1, test_size=0.1, random_state=42):

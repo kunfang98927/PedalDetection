@@ -31,9 +31,8 @@ class PedalDataset(Dataset):
         label = self.labels[feat_idx]  # Shape: [seq_len]
         metadata = self.metadata[feat_idx] # Shape: [num_metadata]
 
-        label = np.where(label <= 10, 0, label)
-        label = np.where(label >= 100, 2, label)
-        label = np.where((label > 10) & (label < 100), 1, label)
+        label_bin_edges = [0, 10, 60, 100, 128]
+        quantized_label = np.digitize(label, label_bin_edges) - 1
 
         synth_setting = metadata[0] - 1.0 # 1: dry room no reverb; 2: clean studio moderate reverb; 3: large concert hall max reverb
         piece_id = metadata[1] # piece id
@@ -42,7 +41,7 @@ class PedalDataset(Dataset):
         # Randomly select self.max_frame frames from the sequence
         start_frame = np.random.randint(0, feature.shape[1] - self.max_frame)
         selected_feature = feature[:, start_frame:start_frame + self.max_frame].T
-        selected_label = label[start_frame:start_frame + self.max_frame]
+        selected_label = quantized_label[start_frame:start_frame + self.max_frame]
 
         # Mask beginning and end of the sequence, and keep the middle part for training
         label_start = int((1 - self.label_ratio) / 2 * self.max_frame)
