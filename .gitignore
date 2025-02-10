@@ -1,4 +1,5 @@
 checkpoints*
 runs/
-inference_results/
+inference_results*
+*.npz
 __pycache__/

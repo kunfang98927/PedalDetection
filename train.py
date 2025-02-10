@@ -91,7 +91,7 @@ def main():
         num_train_epochs=500,
         train_batch_size=batch_size,
         val_batch_size=batch_size,
-        save_dir="checkpoints-4class-data2-debug",
+        save_dir=f"checkpoints-{num_classes}class-data{data_version}-{max_frame}frame_p{pedal_ratio}-r{room_ratio}-c{contrastive_ratio}_10-95_bs{batch_size}_factor1.0",
     )
 
     # Train the model
