@@ -36,12 +36,12 @@ def infer(model, feature, loss_mask, device="cpu"):
         pedal_outputs, room_outputs, latent_repr = model(feature, loss_mask=loss_mask)
         pedal_predictions = torch.argmax(torch.softmax(pedal_outputs, dim=-1), dim=-1)
         room_predictions = torch.argmax(torch.softmax(room_outputs, dim=-1), dim=-1)
-    return pedal_predictions.squeeze(0).cpu().numpy(), room_predictions.squeeze(0).cpu().numpy(), latent_repr
+    return pedal_predictions.squeeze(0).cpu().numpy(), room_predictions.squeeze(0).cpu().numpy(), latent_repr.cpu().numpy()
 
 
 def main():
     # Parameters
-    checkpoint_path = "checkpoints-3class-data2-debug/model_epoch_80_val_loss_0.6526_val_pedal_f1_0.6149.pt"
+    checkpoint_path = "checkpoints-3class-data2-500frame_p0.5-r0.1-c0.4_11-95_bs32_factor0.5&1/model_epoch_300_val_loss_0.4197_val_pedal_f1_0.6745.pt"
     feature_dim = 141
     max_frame = 500
     hidden_dim = 256
@@ -49,6 +49,14 @@ def main():
     ff_dim = 256
     num_layers = 4
     num_classes = 3
+    pedal_factor = [0.5, 1.0]
+    label_bin_edges = []
+    if num_classes == 3:
+        label_bin_edges = [0, 10, 95, 128]
+    elif num_classes == 4:
+        label_bin_edges = [0, 10, 60, 100, 128]
+    elif num_classes == 2:
+        label_bin_edges = [0, 10, 128]
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Load model
@@ -67,7 +75,7 @@ def main():
     data_path = "data/processed_data2.npz"
 
     # Load data
-    features, labels, metadata = load_data(data_path)
+    features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor)
     _, _, test_features, _, _, test_labels, _, _, test_metadata = split_data(
         features, labels, metadata, val_size=0.1, test_size=0.1, random_state=42
     )
@@ -81,14 +89,12 @@ def main():
     room_predictions = []
     label_regions = []
     for feature, label, metadata in zip(test_features, test_labels, test_metadata):
-        label = np.where(label <= 10, 0, label)
-        label = np.where(label >= 100, 2, label)
-        label = np.where((label > 10) & (label < 100), 1, label)
+        quantized_label = np.digitize(label, label_bin_edges) - 1
 
         # Segment by max_frame
         start_frame = np.random.randint(0, feature.shape[1] - max_frame)
         selected_feature = feature[:, start_frame : start_frame + max_frame].T
-        selected_label = label[start_frame : start_frame + max_frame]
+        selected_label = quantized_label[start_frame : start_frame + max_frame]
 
         selected_feature = torch.tensor(selected_feature, dtype=torch.float32).unsqueeze(0)
 
@@ -99,7 +105,7 @@ def main():
         selected_label = selected_label[label_start:label_end]
         label_masked[label_start:label_end] = selected_label
         loss_mask = label_masked != -1
-        loss_mask = torch.tensor(loss_mask, dtype=torch.bool).unsqueeze(0)
+        loss_mask = torch.tensor(loss_mask, dtype=torch.bool).unsqueeze(0).to(device)
 
         pedal_prediction, room_prediction, latent_repr = infer(model, selected_feature, loss_mask, device=device)
 
@@ -115,23 +121,27 @@ def main():
         room_predictions.append(room_prediction)
         label_regions.append(selected_label)
 
-    # visualize attention weights
-    visualize_attention(
-        model,
-        num_layers,
-        num_heads,
-        save_path="inference_results-data2/attention_plot.png",
-    )
+    # # visualize attention weights
+    # visualize_attention(
+    #     model,
+    #     num_layers,
+    #     num_heads,
+    #     save_path="inference_results-data2-0210/attention_plot.png",
+    # )
 
     # visualize clusters
-    latent_reprs = torch.cat(latent_reprs, dim=1).squeeze(0)
+    print(len(latent_reprs), latent_reprs[0].shape)
+    latent_reprs = np.concatenate(np.array(latent_reprs), axis=0)
+    print(latent_reprs.shape)
+    latent_reprs = latent_reprs.reshape(-1, latent_reprs.shape[-1])
     pedal_predictions = np.concatenate(np.array(pedal_predictions), axis=0)
     label_regions = np.concatenate(np.array(label_regions), axis=0)
+    print(latent_reprs.shape, pedal_predictions.shape, label_regions.shape)
     visualize_clusters(
         latent_reprs,
         pedal_predictions,
         label_regions,
-        save_path="inference_results-data2/clusters.png",
+        save_path="inference_results-data2-0210/clusters.png",
     )
 
     # Pedal classification report
@@ -161,7 +171,7 @@ def main():
     plt.xlabel("Predicted")
     plt.ylabel("True")
 
-    plt.savefig("inference_results-data2/confusion_matrix.png")
+    plt.savefig("inference_results-data2-0210/confusion_matrix1.png")
 
 if __name__ == "__main__":
     main()

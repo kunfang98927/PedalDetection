@@ -5,7 +5,7 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 
 
-def load_data(data_path):
+def load_data(data_path, label_bin_edges, pedal_factor):
     """
     Load the processed data from the given path.
 
@@ -28,7 +28,7 @@ def load_data(data_path):
         pedal_labels[i] = label[0]
 
     # only keep the data with metadata[2] in [-1, 0.5, 1.]
-    mask = np.isin(metadata[:, 2], [-1, 0.5, 1.])
+    mask = np.isin(metadata[:, 2], pedal_factor)
     features = features[mask]
     pedal_labels = pedal_labels[mask]
     metadata = metadata[mask]
@@ -38,7 +38,6 @@ def load_data(data_path):
     print("Metadata shape:", metadata.shape)
 
     # calculate the number of samples for each class
-    label_bin_edges = [0, 10, 60, 100, 128]
     class_count = np.zeros(len(label_bin_edges) - 1)
     for i, label in enumerate(pedal_labels):
         unique, counts = np.unique(label, return_counts=True)
