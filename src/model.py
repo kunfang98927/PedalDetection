@@ -36,9 +36,17 @@ class PedalDetectionModel(nn.Module):
             ]
         )
         # Classification output layer
-        self.classification_output_layer = nn.Linear(
+        self.pedal_value_output_layer = nn.Linear(
             hidden_dim, num_classes
         )
+        # binary classification for pedal onset and offset
+        self.pedal_onset_output_layer = nn.Linear(
+            hidden_dim, 1
+        )
+        self.pedal_offset_output_layer = nn.Linear(
+            hidden_dim, 1
+        )
+
         # Room classification head
         self.room_head = nn.Sequential(
             nn.Linear(hidden_dim, hidden_dim // 2),
@@ -46,15 +54,24 @@ class PedalDetectionModel(nn.Module):
             nn.Linear(hidden_dim // 2, 3)  # Output logits for 0 or 1
         )
 
+
     def forward(self, x, loss_mask=None, src_mask=None):
         x = self.input_proj(x)  # Project input to hidden dimension
         x = self.positional_encoding(x)  # Add positional encoding
         for layer in self.layers:
             x = layer(x, mask=src_mask)
         latent_repr = F.normalize(x, p=2, dim=-1)  # Latent representations, (bs, seq_len, hidden_dim)
-        class_logits = self.classification_output_layer(
+        
+        # Classification using latent reps, (bs, seq_len, num_classes)
+        p_v_logits = self.pedal_value_output_layer(
             latent_repr
-        )  # Classification using latent reps, (bs, seq_len, num_classes)
+        )
+        p_on_logits = self.pedal_onset_output_layer(
+            latent_repr
+        )
+        p_off_logits = self.pedal_offset_output_layer(
+            latent_repr
+        )
 
         # calculate mean of latent repr, for all non-masked frames
         latent_repr_ = latent_repr.clone()
@@ -65,4 +82,4 @@ class PedalDetectionModel(nn.Module):
         # Room classification logits
         room_logits = self.room_head(mean_latent_repr)  # (bs, 2)
 
-        return class_logits, room_logits, latent_repr
+        return p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr

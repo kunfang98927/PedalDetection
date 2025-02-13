@@ -5,6 +5,16 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 
 
+def get_label_bin_edges(num_classes):
+    label_bins = {
+        3: [0, 11, 95, 128],
+        4: [0, 11, 60, 95, 128],
+        2: [0, 64, 128],
+        128: list(range(129))
+    }
+    return label_bins.get(num_classes, None)
+
+
 def load_data(data_path, label_bin_edges, pedal_factor, room_acoustics):
     """
     Load the processed data from the given path.

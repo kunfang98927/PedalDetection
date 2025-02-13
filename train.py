@@ -4,7 +4,8 @@ import shutil
 from src.model import PedalDetectionModel
 from src.dataset import PedalDataset
 from src.trainer import PedalTrainer
-from src.utils import load_data, split_data
+from src.utils import load_data, split_data, get_label_bin_edges
+
 
 
 def main():
@@ -12,30 +13,28 @@ def main():
     data_version = "2"
 
     # Feature dimension
-    batch_size = 64
+    batch_size = 32
     feature_dim = 141  # 128 (spectrogram) + 13 (mfcc)
-    max_frame = 50
-    num_classes = 128
-    pedal_ratio = 0.6
+    max_frame = 500
+    num_samples_per_clip = 100
+    num_classes = 2
+
+    pedal_value_ratio = 0.2
+    pedal_onset_ratio = 0.2
+    pedal_offset_ratio = 0.2
     room_ratio = 0.0
-    contrastive_ratio = 0.4
+    contrastive_ratio = 0.2
+
     pedal_factor = [1.0]
     room_acoustics = [1.0]
 
-    label_bin_edges = []
-    if num_classes == 3:
-        label_bin_edges = [0, 11, 95, 128]
-    elif num_classes == 4:
-        label_bin_edges = [0, 11, 60, 95, 128]
-    elif num_classes == 2:
-        label_bin_edges = [0, 11, 128]
-    elif num_classes == 128:
-        label_bin_edges = range(129)
+    label_bin_edges = get_label_bin_edges(num_classes)
 
     # Checkpoint save path
     label_bin_edge_str = str(label_bin_edges[1]) + "-" + str(label_bin_edges[-2])
     factor_str = "&".join([str(f) for f in pedal_factor])
-    save_dir = f"room1_ckpt_1000per-clip-{num_classes}cls-data{data_version}-{max_frame}frm_p{pedal_ratio}-r{room_ratio}-c{contrastive_ratio}_{label_bin_edge_str}_bs{batch_size}_fctr{factor_str}"
+    save_dir = "ckpt"
+    # save_dir = f"ckpt_{num_samples_per_clip}per-clip-{num_classes}cls-data{data_version}-{max_frame}frm_p{pedal_value_ratio}-r{room_ratio}-c{contrastive_ratio}_{label_bin_edge_str}_bs{batch_size}_fctr{factor_str}"
 
     # Copy this file to save_dir
     os.makedirs(save_dir, exist_ok=True)
@@ -65,7 +64,7 @@ def main():
         features=train_features,
         labels=train_labels,
         metadata=train_metadata,
-        num_samples_per_clip=1000,
+        num_samples_per_clip=num_samples_per_clip,
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
@@ -76,7 +75,7 @@ def main():
         features=val_features,
         labels=val_labels,
         metadata=val_metadata,
-        num_samples_per_clip=100,
+        num_samples_per_clip=num_samples_per_clip,
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
@@ -97,7 +96,7 @@ def main():
     )
 
     # Optimizer and Scheduler
-    optimizer = torch.optim.AdamW(model.parameters(), lr=2e-4)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.9)
 
     # Loss
@@ -123,7 +122,9 @@ def main():
 
     # Train the model
     trainer.train(
-        pedal_ratio=pedal_ratio,
+        pedal_value_ratio=pedal_value_ratio,
+        pedal_onset_ratio=pedal_onset_ratio,
+        pedal_offset_ratio=pedal_offset_ratio,
         room_ratio=room_ratio,
         contrastive_ratio=contrastive_ratio,
     )
