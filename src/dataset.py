@@ -40,9 +40,9 @@ class PedalDataset(Dataset):
 
         quantized_label = np.digitize(label, self.label_bin_edges) - 1
 
-        synth_setting = metadata[0] - 1.0 # 1: dry room no reverb; 2: clean studio moderate reverb; 3: large concert hall max reverb
-        piece_id = metadata[1] # piece id
-        midi_id = metadata[2] # midi id
+        room_acoustics = metadata[0] - 1.0 # 1: dry room no reverb; 2: clean studio moderate reverb; 3: large concert hall max reverb
+        midi_id = metadata[1] # midi id
+        pedal_factor = metadata[2] # midi id
 
         # Randomly select self.max_frame frames from the sequence
         if self.split == "train":
@@ -74,4 +74,5 @@ class PedalDataset(Dataset):
 
         # print(selected_feature.shape, label_masked.shape, synth_setting.shape)
 
-        return selected_feature, label_masked, synth_setting #, piece_id, midi_id
+        return selected_feature, label_masked, room_acoustics #, midi_id, pedal_factor
+
