@@ -5,7 +5,7 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 
 
-def load_data(data_path, label_bin_edges, pedal_factor):
+def load_data(data_path, label_bin_edges, pedal_factor, room_acoustics):
     """
     Load the processed data from the given path.
 
@@ -28,10 +28,16 @@ def load_data(data_path, label_bin_edges, pedal_factor):
         pedal_labels[i] = label[0]
 
     # only keep the data with metadata[2] in [-1, 0.5, 1.]
-    mask = np.isin(metadata[:, 2], pedal_factor)
-    features = features[mask]
-    pedal_labels = pedal_labels[mask]
-    metadata = metadata[mask]
+    pedal_factor_mask = np.isin(metadata[:, 2], pedal_factor)
+    features = features[pedal_factor_mask]
+    pedal_labels = pedal_labels[pedal_factor_mask]
+    metadata = metadata[pedal_factor_mask]
+
+    # only keep the data with metadata[0] in [1., 2., 3.] (room acoustics)
+    room_acoustics_mask = np.isin(metadata[:, 0], room_acoustics)
+    features = features[room_acoustics_mask]
+    pedal_labels = pedal_labels[room_acoustics_mask]
+    metadata = metadata[room_acoustics_mask]
 
     print("Features shape:", features.shape)
     print("pedal_labels shape:", pedal_labels.shape, pedal_labels[0].shape)
@@ -159,7 +165,7 @@ def visualize_attention(model, num_layers, num_heads, save_path=None):
     Visualize the attention weights as a heatmap.
     """
 
-    fig, axs = plt.subplots(num_heads, num_layers, figsize=(20, 10))
+    fig, axs = plt.subplots(num_heads, num_layers, figsize=(20, 20))
     for layer in range(num_layers):
         for h in range(num_heads):
             draw(model.layers[layer].self_attn.attn[0, h].data, ax=axs[h, layer])
