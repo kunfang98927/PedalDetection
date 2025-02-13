@@ -47,6 +47,13 @@ class PedalDetectionModel(nn.Module):
             hidden_dim, 1
         )
 
+        # Pedal classification head
+        self.low_res_pedal_value_head = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.ReLU(),
+            nn.Linear(hidden_dim // 2, num_classes)  # Output logits for 0 or 1
+        )
+
         # Room classification head
         self.room_head = nn.Sequential(
             nn.Linear(hidden_dim, hidden_dim // 2),
@@ -82,4 +89,7 @@ class PedalDetectionModel(nn.Module):
         # Room classification logits
         room_logits = self.room_head(mean_latent_repr)  # (bs, 2)
 
-        return p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr
+        # Pedal classification logits (global)
+        low_res_p_v_logits = self.low_res_pedal_value_head(mean_latent_repr)
+
+        return low_res_p_v_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr

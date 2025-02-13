@@ -50,14 +50,14 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "room1_ckpt_100per-clip-128cls-data2-100frm_p0.6-r0.0-c0.4_1-127_bs32_fctr1.0/model_epoch_190_val_loss_2.6313_val_pedal_f1_0.2405.pt"
+    checkpoint_path = "ckpt-on-thres11/model_epoch_100_val_loss_0.1368_val_pedal_f1_0.0812.pt"
     feature_dim = 141
-    max_frame = 100
+    max_frame = 500
     hidden_dim = 256
     num_heads = 8
     ff_dim = 256
     num_layers = 8
-    num_classes = 128
+    num_classes = 2
     num_sample_per_clip = 10
     pedal_factor = [1.0]
     room_acoustics = [1.0]
@@ -106,9 +106,6 @@ def main():
     pedal_onset_maes = []
     pedal_offset_maes = []
 
-    p_on_preds = []
-    p_off_preds = []
-
     img_count = 0
     for inputs, p_v_labels, p_on_labels, p_off_labels, room_labels, midi_ids, pedal_factors in test_dataloader:
         inputs, p_v_labels, p_on_labels, p_off_labels = inputs.to(device), p_v_labels.to(device), p_on_labels.to(device), p_off_labels.to(device)
@@ -117,9 +114,14 @@ def main():
         loss_mask = p_v_labels != -1
         p_v_preds, p_on_preds, p_off_preds, room_preds = infer(model, inputs, loss_mask, device=device)
 
-        # Measure pedal onset prediction
         p_on_labels = p_on_labels.cpu().numpy()
-        p_on_preds = p_on_preds.cpu().numpy()
+        p_off_labels = p_off_labels.cpu().numpy()
+        p_on_labels = p_on_labels.squeeze()
+        p_off_labels = p_off_labels.squeeze()
+        p_on_preds = p_on_preds.squeeze()
+        p_off_preds = p_off_preds.squeeze()
+
+        # Measure pedal onset prediction
         pedal_onset_mae = mean_absolute_error(p_on_labels, p_on_preds)
         p_on_threshold = 0.5
         p_on_preds[p_on_preds >= p_on_threshold] = 1
@@ -129,8 +131,6 @@ def main():
         pedal_onset_maes.append(pedal_onset_mae)
 
         # Measure pedal offset prediction
-        p_off_labels = p_off_labels.cpu().numpy()
-        p_off_preds = p_off_preds.cpu().numpy()
         pedal_offset_mae = mean_absolute_error(p_off_labels, p_off_preds)
         p_off_threshold = 0.5
         p_off_preds[p_off_preds >= p_off_threshold] = 1
@@ -139,33 +139,30 @@ def main():
         p_off_labels[p_off_labels < p_off_threshold] = 0
         pedal_offset_maes.append(pedal_offset_mae)
 
+        # Plot pedal onset and offset, prediction vs. soft labels
+        plt.figure(figsize=(12, 6))
+        plt.subplot(2, 1, 1)
+        plt.plot(p_on_labels, label="Pedal Onset Labels")
+        plt.plot(p_on_preds, label="Pedal Onset Predictions")
+        plt.xlabel("Frame Index")
+        plt.ylabel("Pedal Onset")
+        plt.legend()
+        plt.subplot(2, 1, 2)
+        plt.plot(p_off_labels, label="Pedal Offset Labels")
+        plt.plot(p_off_preds, label="Pedal Offset Predictions")
+        plt.xlabel("Frame Index")
+        plt.ylabel("Pedal Offset")
+        plt.legend()
+        plt.tight_layout()
+        # save the plot
+        plt.savefig(f"pedal_pred_{img_count}.png")
+        plt.close()
+        img_count += 1
+
     # Pedal value
+    print("Total Frames:", len(pedal_onset_maes))
     print("Average Pedal Onset MAE:", sum(pedal_onset_maes) / len(pedal_onset_maes))
     print("Average Pedal Offset MAE:", sum(pedal_offset_maes) / len(pedal_offset_maes))
-
-    # Plot pedal onset and offset, prediction vs. soft labels
-    p_on_labels = p_on_labels.squeeze(0).cpu().numpy()
-    p_off_labels = p_off_labels.squeeze(0).cpu().numpy()
-    p_on_preds = p_on_preds.squeeze(0)
-    p_off_preds = p_off_preds.squeeze(0)
-
-    plt.figure(figsize=(12, 6))
-    plt.subplot(2, 1, 1)
-    plt.plot(p_on_labels, label="Pedal Onset Labels")
-    plt.plot(p_on_preds, label="Pedal Onset Predictions")
-    plt.xlabel("Frame Index")
-    plt.ylabel("Pedal Onset")
-    plt.legend()
-    plt.subplot(2, 1, 2)
-    plt.plot(p_off_labels, label="Pedal Offset Labels")
-    plt.plot(p_off_preds, label="Pedal Offset Predictions")
-    plt.xlabel("Frame Index")
-    plt.ylabel("Pedal Offset")
-    plt.legend()
-    plt.tight_layout()
-    # save the plot
-    plt.savefig("pedal_onset_offset.png")
-    plt.close()
 
 
 if __name__ == "__main__":
