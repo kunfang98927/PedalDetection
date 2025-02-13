@@ -5,6 +5,48 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 
 
+def calculate_pedal_onset_offset(quantized_pedal_value):
+    """
+    Calculate the pedal onset and offset from the pedal value.
+
+    Args:
+        pedal_value (numpy.ndarray): Pedal value of shape (seq_len, ).
+
+    Returns:
+        pedal_onset (numpy.ndarray): Pedal onset of shape (seq_len, ).
+            pedal_onset[i] = 1 if pedal_value[i] > pedal_value[i-1] and pedal_value[i-1] == 0
+        pedal_offset (numpy.ndarray): Pedal offset of shape (seq_len, ).
+            pedal_offset[i] = 1 if pedal_value[i] < pedal_value[i-1] and pedal_value[i] == 0
+    """
+    pedal_onset = np.zeros_like(quantized_pedal_value)
+    pedal_offset = np.zeros_like(quantized_pedal_value)
+    for i in range(1, len(quantized_pedal_value)):
+        if quantized_pedal_value[i] > quantized_pedal_value[i - 1] and quantized_pedal_value[i - 1] == 0:
+            pedal_onset[i] = 1
+        if quantized_pedal_value[i] < quantized_pedal_value[i - 1] and quantized_pedal_value[i] == 0:
+            pedal_offset[i] = 1
+    return pedal_onset, pedal_offset
+
+def calculate_soft_regresion_label(label, window=5):
+    """
+    Calculate the soft regression label from the pedal onset.
+    
+    Args:
+        label (numpy.ndarray): Label of shape (seq_len, ).
+        window (int): The window size for the soft regression label.
+
+    Returns:
+        soft_regression_label (numpy.ndarray): Soft regression label of shape (seq_len, ).
+    """
+    soft_regression_label = np.zeros_like(label, dtype=np.float32)
+    for i, l in enumerate(label):
+        if l == 1:
+            for j in range(-window, window + 1):
+                if 0 <= i + j < len(soft_regression_label):
+                    soft_regression_label[i + j] = 1 - abs(j) / window
+    return soft_regression_label
+
+
 def get_label_bin_edges(num_classes):
     label_bins = {
         3: [0, 11, 95, 128],
