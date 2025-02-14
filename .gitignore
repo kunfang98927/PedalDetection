@@ -9,3 +9,6 @@ inference_results*
 *.sh
 train
 __pycache__/
+
+# exclude the following files
+!ckpt-test-mse-aug-newdata/model_epoch_60_val_loss_0.0364_val_f1_0.8220.pt

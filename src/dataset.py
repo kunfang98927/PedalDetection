@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import Dataset
 import numpy as np
-from src.utils import calculate_pedal_onset_offset, calculate_soft_regresion_label
+from src.utils import calculate_pedal_onset_offset, calculate_soft_regresion_label, calculate_low_res_pedal_value
 
 
 class PedalDataset(Dataset):
@@ -29,7 +29,9 @@ class PedalDataset(Dataset):
         self.split = split
 
     def __len__(self):
-        return len(self.features) * self.num_samples_per_clip
+        if self.split == "test":
+            return len(self.features) * self.num_samples_per_clip 
+        return len(self.features) * self.num_samples_per_clip 
 
     def __getitem__(self, idx):
         feat_idx = idx // self.num_samples_per_clip # Index of the feature
@@ -44,10 +46,10 @@ class PedalDataset(Dataset):
         pedal_factor = metadata[2] # midi id
 
         # Randomly select self.max_frame frames from the sequence
-        if self.split == "train":
+        if self.split == "train" or self.split == "validation":
             start_frame = np.random.randint(0, feature.shape[1] - self.max_frame)
             end_frame = start_frame + self.max_frame
-        elif self.split == "validation" or self.split == "test":
+        elif self.split == "test":
             start_frame = int(seg_idx * (1 - self.overlap_ratio) * self.max_frame)
             end_frame = int(start_frame + self.max_frame)
             if end_frame - start_frame != self.max_frame or end_frame > len(pedal_value):
@@ -56,15 +58,19 @@ class PedalDataset(Dataset):
         # Select the feature and label within the selected frames
         selected_feature = feature[:, start_frame:end_frame].T
         selected_pedal_value = pedal_value[start_frame:end_frame]
-        quantized_pedal_value = np.digitize(selected_pedal_value, self.label_bin_edges) - 1
+
+        if len(self.label_bin_edges) == 2:
+            quantized_pedal_value = selected_pedal_value
+        else:
+            quantized_pedal_value = np.digitize(selected_pedal_value, self.label_bin_edges) - 1
         pedal_onset, pedal_offset = calculate_pedal_onset_offset(quantized_pedal_value)
         soft_pedal_onset = calculate_soft_regresion_label(pedal_onset)
         soft_pedal_offset = calculate_soft_regresion_label(pedal_offset)
 
-        # if "0" label is more than 30% of the sequence, skip this sample
-        if self.split == "train":
-            if np.sum(quantized_pedal_value == 0) > self.max_frame * 0.3 or np.sum(quantized_pedal_value == 127) > self.max_frame * 0.3:
-                return self.__getitem__((idx + 1) % len(self))
+        # # if "0" label is more than 30% of the sequence, skip this sample
+        # if self.split == "train":
+        #     if np.sum(quantized_pedal_value == 0) > self.max_frame * 0.3 or np.sum(quantized_pedal_value == 127) > self.max_frame * 0.3:
+        #         return self.__getitem__((idx + 1) % len(self))
 
         # Mask beginning and end of the sequence, and keep the middle part for training
         label_start = int((1 - self.label_ratio) / 2 * self.max_frame)
@@ -80,10 +86,16 @@ class PedalDataset(Dataset):
         #                      self.label_bin_edges)
         # print(stop_here)
 
+        low_res_label = calculate_low_res_pedal_value(selected_pedal_value, quantized_pedal_value,
+                                                      label_start, label_end, self.label_bin_edges)
+
         selected_feature = torch.tensor(selected_feature, dtype=torch.float32)
         quantized_pedal_value_masked = torch.tensor(quantized_pedal_value_masked, dtype=torch.long)
+        low_res_label = torch.tensor(low_res_label, dtype=torch.float32)
+        # low_res_soft_label = torch.tensor(low_res_soft_label, dtype=torch.float32)
 
-        return selected_feature, quantized_pedal_value_masked, soft_pedal_onset, soft_pedal_offset, \
+        return selected_feature, low_res_label, \
+            quantized_pedal_value_masked, soft_pedal_onset, soft_pedal_offset, \
             room_acoustics, midi_id, pedal_factor
 
     def plot_all_labels(self, pedal_value, quantized_pedal_value, 

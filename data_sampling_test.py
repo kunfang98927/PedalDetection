@@ -6,7 +6,7 @@ def check_data_sampling(dataset, label_bin_edges):
     for i in range(len(label_bin_edges) - 1):
         total_label_dist[i] = 0
     for data in dataset:
-        feature, label, room, midi_id, factor = data
+        feature, _, label, _, _, room, midi_id, factor = data
         # print("Features shape:", feature.shape)
         # print("Labels shape:", label.shape)
         # print("Metadata(Room):", metadata)
@@ -24,7 +24,7 @@ def check_data_sampling(dataset, label_bin_edges):
 
 def main():
 
-    data_version = "2"
+    data_version = "_4096_NormPerFeat"
 
     # Feature dimension
     max_frame = 100

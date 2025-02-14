@@ -46,12 +46,49 @@ def calculate_soft_regresion_label(label, window=5):
                     soft_regression_label[i + j] = 1 - abs(j) / window
     return soft_regression_label
 
+def calculate_low_res_pedal_value(selected_pedal_value, quantized_pedal_value, 
+                                  label_start, label_end, label_bin_edges):
+    """
+    Calculate the low resolution pedal value from the  pedal value.
+
+    Args:
+        selected_pedal_value (numpy.ndarray): Pedal value of shape (seq_len, ).
+        quantized_pedal_value (numpy.ndarray): Quantized pedal value of shape (seq_len, ).
+        label_start (int): The start index of the label region.
+        label_end (int): The end index of the label region.
+        label_bin_edges (list): The bin edges for quantizing the pedal value.
+
+    Returns:
+        low_res_pedal_value: Mean of the quantized pedal values from label_start to label_end.
+    """
+    low_res_pedal_value = np.mean(selected_pedal_value[label_start:label_end])
+    if len(label_bin_edges) == 2:
+        return low_res_pedal_value / 127.0
+
+    # quantize the pedal value
+    for i in range(len(label_bin_edges) - 1):
+        if label_bin_edges[i] <= low_res_pedal_value < label_bin_edges[i + 1]:
+            quantized_low_res_pedal_value = i
+            break
+
+    # statistics of quantized pedal values in each bin, for example, if bin_edges = [0, 11, 95, 128]
+    # the quantized pedal values in each bin are [0, 1, 2]
+    # then calculate the frequency of each quantized pedal value in each bin
+    # and return [0.7, 0.2, 0.1] as the low_res_soft_pedal_value
+    low_res_soft_pedal_value = np.zeros(len(label_bin_edges) - 1)
+    for i in range(len(label_bin_edges) - 1):
+        low_res_soft_pedal_value[i] = np.mean(quantized_pedal_value[label_start:label_end] == i)
+    # print("\n", low_res_soft_pedal_value)
+    # print(quantized_low_res_pedal_value, low_res_pedal_value, selected_pedal_value[label_start:label_end])
+
+    return quantized_low_res_pedal_value #, low_res_soft_pedal_value
 
 def get_label_bin_edges(num_classes):
     label_bins = {
+        1: [0, 128],
+        2: [0, 64, 128],
         3: [0, 11, 95, 128],
         4: [0, 11, 60, 95, 128],
-        2: [0, 64, 128],
         128: list(range(129))
     }
     return label_bins.get(num_classes, None)
@@ -70,14 +107,21 @@ def load_data(data_path, label_bin_edges, pedal_factor, room_acoustics):
         metadata (dict): Metadata dictionary.
     """
     data = np.load(data_path, allow_pickle=True)
+    print("Data keys:", data.files)
     features = data["features"]
-    labels = data["labels"]
+    average_labels = data["average_labels"]
+    instant_values = data["instant_values"]
     metadata = data["metadata"]
 
+    print("Features shape:", features.shape, features[0].shape)
+    print("Average labels shape:", average_labels.shape, average_labels[0].shape, average_labels[0][:, 0], average_labels[0][:, 1], average_labels[0][:, 2])
+    print("Instant values shape:", instant_values.shape, instant_values[0].shape, instant_values[0][:, 0], instant_values[0][:, 1], instant_values[0][:, 2])
+    print("Metadata shape:", metadata.shape, metadata[0])
+
     # pedal_labels: shape: (num_samples, ); pedal_labels[0].shape: (seq_len, )
-    pedal_labels = np.ndarray((len(labels),), dtype=object)
-    for i, label in enumerate(labels):
-        pedal_labels[i] = label[0]
+    pedal_labels = np.ndarray((len(instant_values)), dtype=object)
+    for i, label in enumerate(instant_values):
+        pedal_labels[i] = label[1]
 
     # only keep the data with metadata[2] in [-1, 0.5, 1.]
     pedal_factor_mask = np.isin(metadata[:, 2], pedal_factor)
