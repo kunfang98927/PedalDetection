@@ -52,7 +52,7 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "ckpt-test-mse-aug-newdata-3factor/model_epoch_30_val_loss_0.0640_val_f1_0.7256.pt"
+    checkpoint_path = "ckpt-test-mse-aug-newdata-2factor/model_epoch_120_val_loss_0.0378_val_f1_0.7176.pt"
     # checkpoint_path = "ckpt-test-mse-aug-newdata/model_epoch_60_val_loss_0.0364_val_f1_0.8220.pt"
     # checkpoint_path = "ckpt-test-mse-1/model_epoch_40_val_loss_0.0783_val_f1_0.5631.pt"
     # checkpoint_path = "ckpt-test-2/model_epoch_180_val_loss_0.0251_val_low-res-pedal_f1_0.7205.pt"
@@ -68,7 +68,7 @@ def main():
     room_acoustics = [1.0]
 
     label_bin_edges = get_label_bin_edges(num_classes)
-    inf_label_bin_edges = [0, 11, 128]
+    inf_label_bin_edges = [0, 11, 95, 128]
     # inf_label_bin_edges = [0, 16, 32, 48, 64, 80, 96, 112, 128]
 
     device = "cuda" if torch.cuda.is_available() else "cpu"

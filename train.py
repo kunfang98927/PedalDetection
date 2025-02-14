@@ -13,7 +13,7 @@ def main():
     data_version = "_4096_NormPerFeat"
 
     # Feature dimension
-    batch_size = 64
+    batch_size = 128
     feature_dim = 141  # 128 (spectrogram) + 13 (mfcc)
     max_frame = 20
     num_samples_per_clip = 200
@@ -26,7 +26,7 @@ def main():
     room_ratio = 0.0
     contrastive_ratio = 0.0
 
-    pedal_factor = [0.0, 0.5, 1.0]
+    pedal_factor = [0.0, 1.0]
     room_acoustics = [1.0]
 
     label_bin_edges = get_label_bin_edges(num_classes)
@@ -34,7 +34,7 @@ def main():
     # Checkpoint save path
     label_bin_edge_str = str(label_bin_edges[1]) + "-" + str(label_bin_edges[-2])
     factor_str = "&".join([str(f) for f in pedal_factor])
-    save_dir = "ckpt-test-mse-aug-newdata-3factor"
+    save_dir = "ckpt-test-mse-aug-newdata-2factor"
     # save_dir = f"ckpt_{num_samples_per_clip}per-clip-{num_classes}cls-data{data_version}-{max_frame}frm_p{pedal_value_ratio}-r{room_ratio}-c{contrastive_ratio}_{label_bin_edge_str}_bs{batch_size}_fctr{factor_str}"
 
     # Copy this file to save_dir
@@ -67,7 +67,7 @@ def main():
         metadata=train_metadata,
         num_samples_per_clip=num_samples_per_clip,
         max_frame=max_frame,
-        label_ratio=0.2,
+        label_ratio=0.1,
         label_bin_edges=label_bin_edges,
         overlap_ratio=0.25,
         split="train",
@@ -78,7 +78,7 @@ def main():
         metadata=val_metadata,
         num_samples_per_clip=num_samples_per_clip,
         max_frame=max_frame,
-        label_ratio=0.2,
+        label_ratio=0.1,
         label_bin_edges=label_bin_edges,
         overlap_ratio=0.25,
         split="validation",
