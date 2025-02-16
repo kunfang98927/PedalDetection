@@ -93,8 +93,8 @@ def main():
     )
 
     # Data path
-    # data_path = "data/processed_data_4096_NormPerFeat.npz"
-    data_path = "data/processed_data_real_audio_4096.npz"
+    data_path = "data/processed_data_4096_NormPerFeat.npz"
+    # data_path = "data/processed_data_real_audio_4096.npz"
 
     # Load data
     if "real" in data_path:
