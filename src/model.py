@@ -35,17 +35,6 @@ class PedalDetectionModel(nn.Module):
                 for _ in range(num_layers)
             ]
         )
-        # Classification output layer
-        self.pedal_value_output_layer = nn.Linear(
-            hidden_dim, num_classes
-        )
-        # binary classification for pedal onset and offset
-        self.pedal_onset_output_layer = nn.Linear(
-            hidden_dim, 1
-        )
-        self.pedal_offset_output_layer = nn.Linear(
-            hidden_dim, 1
-        )
 
         # Pedal classification head
         self.low_res_pedal_value_head = nn.Sequential(
@@ -60,7 +49,9 @@ class PedalDetectionModel(nn.Module):
             nn.ReLU(),
             nn.Linear(hidden_dim // 2, 3)  # Output logits for 0 or 1
         )
-
+        self.pedal_value_output_layer = nn.Linear(hidden_dim, num_classes)  # Output logits for pedal value
+        self.pedal_onset_output_layer = nn.Linear(hidden_dim, num_classes)
+        self.pedal_offset_output_layer = nn.Linear(hidden_dim, num_classes)
 
     def forward(self, x, loss_mask=None, src_mask=None):
         x = self.input_proj(x)  # Project input to hidden dimension
@@ -70,9 +61,6 @@ class PedalDetectionModel(nn.Module):
         latent_repr = F.normalize(x, p=2, dim=-1)  # Latent representations, (bs, seq_len, hidden_dim)
         
         # Classification using latent reps, (bs, seq_len, num_classes)
-        p_v_logits = self.pedal_value_output_layer(
-            latent_repr
-        )
         p_on_logits = self.pedal_onset_output_layer(
             latent_repr
         )
@@ -91,5 +79,7 @@ class PedalDetectionModel(nn.Module):
 
         # Pedal classification logits (global)
         low_res_p_v_logits = self.low_res_pedal_value_head(mean_latent_repr)
+
+        p_v_logits = self.pedal_value_output_layer(latent_repr)
 
         return low_res_p_v_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr

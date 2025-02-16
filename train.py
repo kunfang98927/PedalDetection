@@ -4,23 +4,23 @@ import shutil
 from src.model import PedalDetectionModel
 from src.dataset import PedalDataset
 from src.trainer import PedalTrainer
-from src.utils import load_data, split_data, get_label_bin_edges
+from src.utils import load_data, split_data, get_label_bin_edges, load_data_real_audio, split_data_real_audio
 
 
 
 def main():
 
-    data_version = "_4096_NormPerFeat"
+    data_version = "_real_audio_4096" # "_4096_NormPerFeat" # "_real_audio_4096"
 
     # Feature dimension
     batch_size = 128
     feature_dim = 141  # 128 (spectrogram) + 13 (mfcc)
-    max_frame = 20
-    num_samples_per_clip = 200
+    max_frame = 100
+    num_samples_per_clip = 100
     num_classes = 1
 
     low_res_pedal_ratio = 1.0
-    pedal_value_ratio = 0.0
+    pedal_value_ratio = 1.0
     pedal_onset_ratio = 0.0
     pedal_offset_ratio = 0.0
     room_ratio = 0.0
@@ -30,11 +30,12 @@ def main():
     room_acoustics = [1.0]
 
     label_bin_edges = get_label_bin_edges(num_classes)
+    val_label_bin_edges = get_label_bin_edges(3)
 
     # Checkpoint save path
     label_bin_edge_str = str(label_bin_edges[1]) + "-" + str(label_bin_edges[-2])
     factor_str = "&".join([str(f) for f in pedal_factor])
-    save_dir = "ckpt-test-mse-aug-newdata-2factor"
+    save_dir = f"ckpt-mse-2fac-100fr-cntxt-real"
     # save_dir = f"ckpt_{num_samples_per_clip}per-clip-{num_classes}cls-data{data_version}-{max_frame}frm_p{pedal_value_ratio}-r{room_ratio}-c{contrastive_ratio}_{label_bin_edge_str}_bs{batch_size}_fctr{factor_str}"
 
     # Copy this file to save_dir
@@ -45,20 +46,29 @@ def main():
     data_path = f"data/processed_data{data_version}.npz"
 
     # Load data
-    features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
-    (
-        train_features,
-        val_features,
-        _,
-        train_labels,
-        val_labels,
-        _,
-        train_metadata,
-        val_metadata,
-        _,
-    ) = split_data(
-        features, labels, metadata, val_size=0.15, test_size=0.15, random_state=100
-    )
+    if "real" in data_version:
+        features, labels, metadata = load_data_real_audio(data_path, label_bin_edges)
+        train_features, train_labels, train_metadata = split_data_real_audio(
+            features, labels, metadata, split="train"
+        )
+        val_features, val_labels, val_metadata = split_data_real_audio(
+            features, labels, metadata, split="val"
+        )
+    else:
+        features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
+        (
+            train_features,
+            val_features,
+            _,
+            train_labels,
+            val_labels,
+            _,
+            train_metadata,
+            val_metadata,
+            _,
+        ) = split_data(
+            features, labels, metadata, val_size=0.15, test_size=0.15, random_state=100
+        )
 
     # Dataset and DataLoader
     train_dataset = PedalDataset(
@@ -67,7 +77,7 @@ def main():
         metadata=train_metadata,
         num_samples_per_clip=num_samples_per_clip,
         max_frame=max_frame,
-        label_ratio=0.1,
+        label_ratio=0.6,
         label_bin_edges=label_bin_edges,
         overlap_ratio=0.25,
         split="train",
@@ -78,9 +88,9 @@ def main():
         metadata=val_metadata,
         num_samples_per_clip=num_samples_per_clip,
         max_frame=max_frame,
-        label_ratio=0.1,
+        label_ratio=0.6,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.25,
+        overlap_ratio=0.7,
         split="validation",
     )
     print("Train dataset size:", len(train_dataset))
@@ -118,6 +128,7 @@ def main():
         num_train_epochs=200,
         train_batch_size=batch_size,
         val_batch_size=batch_size,
+        val_label_bin_edges=val_label_bin_edges,
         save_dir=save_dir,
     )
 

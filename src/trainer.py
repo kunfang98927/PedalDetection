@@ -94,6 +94,7 @@ class PedalTrainer:
         num_train_epochs=100,
         train_batch_size=32,
         val_batch_size=32,
+        val_label_bin_edges=[0, 11, 95, 128],
     ):
         self.model = model.to(device)
         self.train_dataset = train_dataset
@@ -112,6 +113,7 @@ class PedalTrainer:
         self.num_train_epochs = num_train_epochs
         self.train_batch_size = train_batch_size
         self.val_batch_size = val_batch_size
+        self.val_label_bin_edges = val_label_bin_edges
         self.best_checkpoints = []  # To keep track of the best checkpoints
         os.makedirs(save_dir, exist_ok=True)
 
@@ -134,19 +136,18 @@ class PedalTrainer:
             train_loss = self.train_one_epoch(epoch, low_res_pedal_ratio, pedal_value_ratio, 
                                               pedal_onset_ratio, pedal_offset_ratio,
                                               room_ratio, contrastive_ratio)
-            val_loss, val_low_res_pedal_v_mae, val_low_res_pedal_v_mse, val_low_res_pedal_v_f1 = self.validate(
+            val_loss, val_low_res_pedal_v_mae, val_low_res_pedal_v_mse, val_low_res_pedal_v_f1, \
+                val_pedal_value_mae, val_pedal_value_mse, val_pedal_value_f1 = self.validate(
                 epoch, low_res_pedal_ratio, pedal_value_ratio, pedal_onset_ratio, pedal_offset_ratio, room_ratio, contrastive_ratio
             )
             print(
-                f"Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, "
-                # f"Val Pedal Value F1: {val_pedal_value_f1:.4f}, "
+                f"Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}; "
+                f"Val p_v MAE: {val_pedal_value_mae:.4f}, MSE: {val_pedal_value_mse:.4f}, F1: {val_pedal_value_f1:.4f}; "
                 # f"Val Low Res Pedal Value F1: {val_low_res_pedal_v_f1:.4f}, "
                 # f"Val Pedal Onset MSE: {val_pedal_on_mse:.4f}, Val Pedal Onset MAE: {val_pedal_on_mae:.4f}, Val Pedal Onset F1: {val_pedal_on_f1:.4f}, "
                 # f"Val Pedal Offset MSE: {val_pedal_off_mse:.4f}, Val Pedal Offset MAE: {val_pedal_off_mae:.4f}, Val Pedal Offset F1: {val_pedal_off_f1:.4f}, "
                 # f"Val Room F1: {val_room_f1:.4f}"
-                f"Val Low Res Pedal Value MAE: {val_low_res_pedal_v_mae:.4f}, "
-                f"Val Low Res Pedal Value MSE: {val_low_res_pedal_v_mse:.4f}, "
-                f"Val Low Res Pedal Value F1: {val_low_res_pedal_v_f1:.4f}"
+                f"Val global_p_v MAE: {val_low_res_pedal_v_mae:.4f}, MSE: {val_low_res_pedal_v_mse:.4f}, F1: {val_low_res_pedal_v_f1:.4f}"
             )
 
             if (epoch + 1) % self.eval_epochs == 0 and epoch != 0:
@@ -179,17 +180,17 @@ class PedalTrainer:
             low_res_p_v_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr = self.model(inputs, loss_mask=loss_mask)
 
             # Apply loss mask
-            # p_v_labels = p_v_labels[loss_mask]
+            p_v_labels = p_v_labels[loss_mask]
             # p_on_labels = p_on_labels[loss_mask]
             # p_off_labels = p_off_labels[loss_mask]
 
-            # p_v_logits = p_v_logits[loss_mask]
+            p_v_logits = p_v_logits[loss_mask]
             # p_on_logits = p_on_logits[loss_mask]
             # p_off_logits = p_off_logits[loss_mask]
             latent_repr = latent_repr[loss_mask]
 
-            # # Pedal classification loss
-            # p_v_loss = self.criterion(p_v_logits, p_v_labels)
+            # Pedal classification loss
+            p_v_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
             # p_on_loss = self.bce_criterion(p_on_logits.squeeze(1), p_on_labels)
             # p_off_loss = self.bce_criterion(p_off_logits.squeeze(1), p_off_labels)
 
@@ -209,7 +210,7 @@ class PedalTrainer:
             # Total loss
             loss = (
                 low_res_pedal_ratio * low_res_p_v_loss
-                # + pedal_value_ratio * p_v_loss
+                + pedal_value_ratio * p_v_loss
                 # + pedal_onset_ratio * p_on_loss
                 # + pedal_offset_ratio * p_off_loss
                 # + room_ratio * room_loss
@@ -226,8 +227,8 @@ class PedalTrainer:
             if batch_idx % self.logging_steps == 0:
                 print(
                     f"Epoch {epoch + 1}, Batch {batch_idx + 1}/{len(self.train_dataloader)}, "
-                    f"Row Res Pedal Loss: {low_res_p_v_loss.item():.4f}, "
-                    # f"Pedal Value Loss: {p_v_loss.item():.4f}, "
+                    f"global_p_v Loss: {low_res_p_v_loss.item():.4f}, "
+                    f"p_v Loss: {p_v_loss.item():.4f}, "
                     # f"Pedal Onset Loss: {p_on_loss.item():.4f}, "
                     # f"Pedal Offset Loss: {p_off_loss.item():.4f}, "
                     # f"Room Loss: {room_loss.item():.4f}, "
@@ -239,7 +240,7 @@ class PedalTrainer:
             # Log to TensorBoard
             global_step = epoch * len(self.train_dataloader) + batch_idx
             self.writer.add_scalar("Train/Low Res Pedal Loss", low_res_p_v_loss.item(), global_step)
-            # self.writer.add_scalar("Train/Pedal Value Loss", p_v_loss.item(), global_step)
+            self.writer.add_scalar("Train/Pedal Value Loss", p_v_loss.item(), global_step)
             # self.writer.add_scalar("Train/Pedal Onset Loss", p_on_loss.item(), global_step)
             # self.writer.add_scalar("Train/Pedal Offset Loss", p_off_loss.item(), global_step)
             # self.writer.add_scalar("Train/Room Loss", room_loss.item(), global_step)
@@ -266,6 +267,8 @@ class PedalTrainer:
         low_res_pedal_value_maes = []
         low_res_pedal_value_mses = []
         low_res_pedal_value_f1s = []
+        pedal_value_maes = []
+        pedal_value_mses = []
         pedal_value_f1s = []
         pedal_onset_mses = []
         pedal_onset_maes = []
@@ -284,17 +287,17 @@ class PedalTrainer:
                 low_res_p_v_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr = self.model(inputs, loss_mask=loss_mask)
 
                 # Apply loss mask
-                # p_v_labels = p_v_labels[loss_mask]
+                p_v_labels = p_v_labels[loss_mask]
                 # p_on_labels = p_on_labels[loss_mask]
                 # p_off_labels = p_off_labels[loss_mask]
 
-                # p_v_logits = p_v_logits[loss_mask]
+                p_v_logits = p_v_logits[loss_mask]
                 # p_on_logits = p_on_logits[loss_mask]
                 # p_off_logits = p_off_logits[loss_mask]
                 latent_repr = latent_repr[loss_mask]
 
-                # # Pedal classification loss
-                # pedal_value_loss = self.criterion(p_v_logits, p_v_labels)
+                # Pedal classification loss
+                pedal_value_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
                 # pedal_on_loss = self.bce_criterion(p_on_logits.squeeze(1), p_on_labels)
                 # pedal_off_loss = self.bce_criterion(p_off_logits.squeeze(1), p_off_labels)
 
@@ -312,7 +315,7 @@ class PedalTrainer:
                 # Total loss
                 loss = (
                     low_res_pedal_ratio * low_res_p_v_loss
-                    # + pedal_value_ratio * pedal_value_loss
+                    + pedal_value_ratio * pedal_value_loss
                     # + pedal_onset_ratio * pedal_on_loss
                     # + pedal_offset_ratio * pedal_off_loss
                     # + room_ratio * room_loss
@@ -322,14 +325,14 @@ class PedalTrainer:
 
                 val_loss += loss.item()
                 total_low_res_p_v_loss += low_res_p_v_loss.item()
-                # total_pedal_value_loss += pedal_value_loss.item()
+                total_pedal_value_loss += pedal_value_loss.item()
                 # total_pedal_on_loss += pedal_on_loss.item()
                 # total_pedal_off_loss += pedal_off_loss.item()
                 # total_room_loss += room_loss.item()
                 # total_contrastive_loss += contrastive_loss_value.item()
                 # total_room_contrastive_loss += room_contrastive_loss_value.item()
 
-                # # Measure pedal value prediction
+                # # Measure pedal value prediction: f1
                 # p_v_outputs = torch.softmax(p_v_logits, dim=-1)
                 # p_v_preds = torch.argmax(p_v_outputs, dim=-1)
                 # p_v_labels = p_v_labels.cpu().numpy()
@@ -377,6 +380,26 @@ class PedalTrainer:
                 # room_f1 = f1_score(room_labels, room_preds, average="weighted")
                 # room_f1s.append(room_f1)
 
+                # Measure pedal value prediction
+                p_v_preds = p_v_logits
+                p_v_labels = p_v_labels.cpu().numpy()
+                p_v_preds = p_v_preds.cpu().numpy()
+
+                pedal_value_mse = mean_squared_error(p_v_labels, p_v_preds)
+                pedal_value_mae = mean_absolute_error(p_v_labels, p_v_preds)
+                pedal_value_maes.append(pedal_value_mae)
+                pedal_value_mses.append(pedal_value_mse)
+
+                # for p_v_labels and p_v_preds, if < 11, then 0, if > 95, then 2, else 1
+                p_v_labels = p_v_labels * 127
+                p_v_preds = p_v_preds * 127
+                p_v_labels = np.digitize(p_v_labels, self.val_label_bin_edges)
+                p_v_preds = np.digitize(p_v_preds, self.val_label_bin_edges)
+
+                # f1
+                pedal_value_f1 = f1_score(p_v_labels, p_v_preds, average="weighted")
+                pedal_value_f1s.append(pedal_value_f1)
+
                 # Measure low res pedal value prediction
                 # low_res_p_v_outputs = torch.softmax(low_res_p_v_logits, dim=-1)
                 low_res_p_v_preds = low_res_p_v_logits
@@ -391,8 +414,8 @@ class PedalTrainer:
                 # for low_res_p_v_labels and low_res_p_v_preds, if < 11, then 0, if > 95, then 2, else 1
                 low_res_p_v_labels = low_res_p_v_labels * 127
                 low_res_p_v_preds = low_res_p_v_preds * 127
-                low_res_p_v_labels = np.digitize(low_res_p_v_labels, [0, 11, 95, 128])
-                low_res_p_v_preds = np.digitize(low_res_p_v_preds, [0, 11, 95, 128])
+                low_res_p_v_labels = np.digitize(low_res_p_v_labels, self.val_label_bin_edges)
+                low_res_p_v_preds = np.digitize(low_res_p_v_preds, self.val_label_bin_edges)
 
                 # f1
                 low_res_pedal_value_f1 = f1_score(low_res_p_v_labels, low_res_p_v_preds, average="weighted")
@@ -400,7 +423,7 @@ class PedalTrainer:
 
         # calculate avg f1
         avg_low_res_pedal_value_f1 = sum(low_res_pedal_value_f1s) / len(low_res_pedal_value_f1s)
-        # avg_pedal_value_f1 = sum(pedal_value_f1s) / len(pedal_value_f1s)
+        avg_pedal_value_f1 = sum(pedal_value_f1s) / len(pedal_value_f1s)
         # avg_pedal_onset_mse = sum(pedal_onset_mses) / len(pedal_onset_mses)
         # avg_pedal_onset_mae = sum(pedal_onset_maes) / len(pedal_onset_maes)
         # avg_pedal_onset_f1 = sum(pedal_f1s) / len(pedal_f1s)
@@ -410,6 +433,8 @@ class PedalTrainer:
         # avg_room_f1 = sum(room_f1s) / len(room_f1s)
         avg_low_res_pedal_value_mae = sum(low_res_pedal_value_maes) / len(low_res_pedal_value_maes)
         avg_low_res_pedal_value_mse = sum(low_res_pedal_value_mses) / len(low_res_pedal_value_mses)
+        avg_pedal_value_mae = sum(pedal_value_maes) / len(pedal_value_maes)
+        avg_pedal_value_mse = sum(pedal_value_mses) / len(pedal_value_mses)
 
         # Log to TensorBoard
         self.writer.add_scalar(
@@ -420,11 +445,11 @@ class PedalTrainer:
             total_low_res_p_v_loss / len(self.val_dataloader),
             epoch,
         )
-        # self.writer.add_scalar(
-        #     "Validation/Pedal Value Loss",
-        #     total_pedal_value_loss / len(self.val_dataloader),
-        #     epoch,
-        # )
+        self.writer.add_scalar(
+            "Validation/Pedal Value Loss",
+            total_pedal_value_loss / len(self.val_dataloader),
+            epoch,
+        )
         # self.writer.add_scalar(
         #     "Validation/Pedal Onset Loss",
         #     total_pedal_on_loss / len(self.val_dataloader),
@@ -451,7 +476,7 @@ class PedalTrainer:
         #     epoch,
         # )
         self.writer.add_scalar("Validation/Low Res Pedal Value F1", avg_low_res_pedal_value_f1, epoch)
-        # self.writer.add_scalar("Validation/Pedal Value F1", avg_pedal_value_f1, epoch)
+        self.writer.add_scalar("Validation/Pedal Value F1", avg_pedal_value_f1, epoch)
         # self.writer.add_scalar("Validation/Pedal Onset MSE", avg_pedal_onset_mse, epoch)
         # self.writer.add_scalar("Validation/Pedal Onset MAE", avg_pedal_onset_mae, epoch)
         # self.writer.add_scalar("Validation/Pedal Onset F1", avg_pedal_onset_f1, epoch)
@@ -461,8 +486,11 @@ class PedalTrainer:
         # self.writer.add_scalar("Validation/Room F1", avg_room_f1, epoch)
         self.writer.add_scalar("Validation/Low Res Pedal Value MAE", avg_low_res_pedal_value_mae, epoch)
         self.writer.add_scalar("Validation/Low Res Pedal Value MSE", avg_low_res_pedal_value_mse, epoch)
+        self.writer.add_scalar("Validation/Pedal Value MAE", avg_pedal_value_mae, epoch)
+        self.writer.add_scalar("Validation/Pedal Value MSE", avg_pedal_value_mse, epoch)
 
-        return val_loss / len(self.val_dataloader), avg_low_res_pedal_value_mae, avg_low_res_pedal_value_mse, avg_low_res_pedal_value_f1
+        return val_loss / len(self.val_dataloader), avg_low_res_pedal_value_mae, avg_low_res_pedal_value_mse, avg_low_res_pedal_value_f1, \
+            avg_pedal_value_mae, avg_pedal_value_mse, avg_pedal_value_f1
 
     def save_best_model(self, val_loss, val_low_res_pedal_v_f1, epoch):
         best_checkpoint_path = os.path.join(

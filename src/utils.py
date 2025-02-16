@@ -5,6 +5,24 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 
 
+def plot_pedal_pred(labels, preds, title, img_num_frames=100, img_num_plots=6):
+
+    # plot the ground truth and prediction: all_low_res_p_labels, all_low_res_p_preds, in the same plot
+    plt.figure(figsize=(20, 9))
+
+    for i in range(img_num_plots):
+        plt.subplot(img_num_plots, 1, i+1)
+        plt.plot(labels[i*img_num_frames:(i+1)*img_num_frames], label="Ground Truth", alpha=0.8, linestyle='dashed')
+        plt.plot(preds[i*img_num_frames:(i+1)*img_num_frames], label="Predictions", alpha=0.8)
+        plt.xlabel("Frame Index")
+        plt.ylabel("Pedal Value")
+        plt.legend()
+    plt.tight_layout()
+    # save the plot
+    plt.savefig(f"pedal_pred-{title}.png")
+    plt.close()
+
+
 def calculate_pedal_onset_offset(quantized_pedal_value):
     """
     Calculate the pedal onset and offset from the pedal value.
@@ -154,6 +172,54 @@ def load_data(data_path, label_bin_edges, pedal_factor, room_acoustics):
     return features, pedal_labels, metadata
 
 
+def load_data_real_audio(data_path, label_bin_edges):
+    """
+    Load the processed data from the given path.
+
+    Args:
+        data_path (str): Path to the processed data file.
+
+    Returns:
+        features (numpy.ndarray): Spectrogram features of shape (num_samples, seq_len, feature_dim).
+        labels (numpy.ndarray): Ground truth labels of shape (num_samples, seq_len).
+        metadata (dict): Metadata dictionary.
+    """
+    data = np.load(data_path, allow_pickle=True)
+    print("Data keys:", data.files)
+    features = data["features"]
+    average_labels = data["average_labels"]
+    instant_values = data["instant_values"]
+    metadata = data["metadata"]
+
+    print("Features shape:", features.shape, features[0].shape)
+    print("Average labels shape:", average_labels.shape, average_labels[0].shape, average_labels[0][:, 0], average_labels[0][:, 1], average_labels[0][:, 2])
+    print("Instant values shape:", instant_values.shape, instant_values[0].shape, instant_values[0][:, 0], instant_values[0][:, 1], instant_values[0][:, 2])
+    print("Metadata shape:", metadata.shape, metadata[0])
+
+    # pedal_labels: shape: (num_samples, ); pedal_labels[0].shape: (seq_len, )
+    pedal_labels = np.ndarray((len(instant_values)), dtype=object)
+    for i, label in enumerate(instant_values):
+        pedal_labels[i] = label[1]
+
+    print("Features shape:", features.shape)
+    print("pedal_labels shape:", pedal_labels.shape, pedal_labels[0].shape)
+    print("Metadata shape:", metadata.shape)
+
+    # calculate the number of samples for each class
+    class_count = np.zeros(len(label_bin_edges) - 1)
+    for i, label in enumerate(pedal_labels):
+        unique, counts = np.unique(label, return_counts=True)
+        for j, c in zip(unique, counts):
+            for k in range(len(label_bin_edges) - 1):
+                if label_bin_edges[k] <= j < label_bin_edges[k + 1]:
+                    class_count[k] += c
+    # calculate the percentage of each class
+    class_count = class_count / np.sum(class_count)
+    print("Class count:", class_count)
+
+    return features, pedal_labels, metadata
+
+
 def split_data(features, labels, metadata, val_size=0.1, test_size=0.1, random_state=42):
     """
     Split the data into training and validation sets according to piece ids.
@@ -187,6 +253,27 @@ def split_data(features, labels, metadata, val_size=0.1, test_size=0.1, random_s
 
     return train_features, val_features, test_features, \
         train_labels, val_labels, test_labels, train_metadata, val_metadata, test_metadata
+
+def split_data_real_audio(features, labels, metadata, split="test", max_num_samples=None):
+    """
+    Split the data into training and validation sets according to piece ids.
+    """
+    split2id = {"train": 0, "val": 1, "test": 2}
+    split_id = metadata[:, 1] # train: 0, val: 1, test: 2
+    # filter the data according to the split
+    split_mask = split_id == split2id[split]
+    split_features = features[split_mask]
+    split_labels = labels[split_mask]
+    split_metadata = metadata[split_mask]
+
+    # randomly select max_num_samples samples
+    if max_num_samples is not None and max_num_samples < len(split_features):
+        indices = np.random.choice(len(split_features), max_num_samples, replace=False)
+        split_features = split_features[indices]
+        split_labels = split_labels[indices]
+        split_metadata = split_metadata[indices]
+
+    return split_features, split_labels, split_metadata
 
 
 def visualize_clusters(latent_repr, predictions, annotations, save_path=None):

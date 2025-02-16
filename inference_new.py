@@ -3,10 +3,10 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
-from sklearn.metrics import mean_absolute_error, classification_report, confusion_matrix, f1_score
+from sklearn.metrics import mean_absolute_error, classification_report, confusion_matrix, f1_score, mean_squared_error
 from src.model import PedalDetectionModel
 from src.dataset import PedalDataset
-from src.utils import load_data, split_data, get_label_bin_edges
+from src.utils import load_data, split_data, get_label_bin_edges, load_data_real_audio, split_data_real_audio, plot_pedal_pred
 
 
 def load_model(
@@ -36,8 +36,11 @@ def infer(model, feature, loss_mask, device="cpu"):
     feature = feature.to(device)
     with torch.no_grad():
         low_res_p_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr = model(feature, loss_mask=loss_mask)
-        low_res_p_v_preds = low_res_p_logits# torch.argmax(torch.softmax(low_res_p_logits, dim=-1), dim=-1)
-        p_v_preds = torch.argmax(torch.softmax(p_v_logits, dim=-1), dim=-1)
+        p_v_logits = p_v_logits[loss_mask]
+        p_on_logits = p_on_logits[loss_mask]
+        p_off_logits = p_off_logits[loss_mask]
+        low_res_p_v_preds = low_res_p_logits # torch.argmax(torch.softmax(low_res_p_logits, dim=-1), dim=-1)
+        p_v_preds = p_v_logits # torch.argmax(torch.softmax(p_v_logits, dim=-1), dim=-1)
         p_on_preds = torch.sigmoid(p_on_logits)
         p_off_preds = torch.sigmoid(p_off_logits)
         room_preds = torch.argmax(torch.softmax(room_logits, dim=-1), dim=-1)
@@ -52,23 +55,27 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "ckpt-test-mse-aug-newdata-2factor/model_epoch_120_val_loss_0.0378_val_f1_0.7176.pt"
+    checkpoint_path = "ckpt-mse-2fac-100fr-cntxt/model_epoch_160_val_loss_0.0519_val_f1_0.8261.pt"
+    # checkpoint_path = "ckpt-real/model_epoch_50_val_loss_0.0733_val_f1_0.5906.pt" # best model (real audio)
+    # checkpoint_path = "ckpt-test-mse-aug-newdata-2factor-labelratio1-mf100/model_epoch_60_val_loss_0.0191_val_f1_0.8895.pt" # best model
+    # checkpoint_path = "ckpt-test-mse-aug-newdata-2factor-labelratio1/model_epoch_80_val_loss_0.0328_val_f1_0.7634.pt" # best model
+    # checkpoint_path = "ckpt-test-mse-aug-newdata-2factor/model_epoch_120_val_loss_0.0378_val_f1_0.7176.pt" # best model
     # checkpoint_path = "ckpt-test-mse-aug-newdata/model_epoch_60_val_loss_0.0364_val_f1_0.8220.pt"
     # checkpoint_path = "ckpt-test-mse-1/model_epoch_40_val_loss_0.0783_val_f1_0.5631.pt"
     # checkpoint_path = "ckpt-test-2/model_epoch_180_val_loss_0.0251_val_low-res-pedal_f1_0.7205.pt"
     feature_dim = 141
-    max_frame = 20
+    max_frame = 100
     hidden_dim = 256
     num_heads = 8
     ff_dim = 256
     num_layers = 8
-    num_classes = 1
-    num_sample_per_clip = 7500
+    num_classes = 1 # 1 stands for MSE loss
+    num_sample_per_clip = None
     pedal_factor = [1.0]
     room_acoustics = [1.0]
 
     label_bin_edges = get_label_bin_edges(num_classes)
-    inf_label_bin_edges = [0, 11, 95, 128]
+    inf_label_bin_edges = [0, 11, 128]
     # inf_label_bin_edges = [0, 16, 32, 48, 64, 80, 96, 112, 128]
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -86,26 +93,33 @@ def main():
     )
 
     # Data path
-    data_path = "data/processed_data_4096_NormPerFeat.npz"
+    # data_path = "data/processed_data_4096_NormPerFeat.npz"
+    data_path = "data/processed_data_real_audio_4096.npz"
 
     # Load data
-    features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
-    _, _, test_features, _, _, test_labels, _, _, test_metadata = split_data(
-        features, labels, metadata, val_size=0.15, test_size=0.15, random_state=100
-    )
+    if "real" in data_path:
+        features, labels, metadata = load_data_real_audio(data_path, label_bin_edges)
+        features, labels, metadata = split_data_real_audio(features, labels, metadata, split="test", max_num_samples=None)
+        print("Split(Test) dataset size:", len(features), len(labels), len(metadata))
+    else:
+        features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
+        _, _, features, _, _, labels, _, _, metadata = split_data(
+            features, labels, metadata, val_size=0.15, test_size=0.15, random_state=100
+        )
 
     # Dataset and DataLoader
     test_dataset = PedalDataset(
-        features=test_features,
-        labels=test_labels,
-        metadata=test_metadata,
+        features=features,
+        labels=labels,
+        metadata=metadata,
         num_samples_per_clip=num_sample_per_clip,
         max_frame=max_frame,
-        label_ratio=0.2,
+        label_ratio=0.6,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.9,
+        overlap_ratio=0.7,
         split="test",
     )
+    print("Test dataset size:", len(test_dataset))
 
     test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
@@ -113,8 +127,15 @@ def main():
     pedal_onset_maes = []
     pedal_offset_maes = []
 
+    quantized_all_low_res_p_labels = []
+    quantized_all_low_res_p_preds = []
     all_low_res_p_labels = []
     all_low_res_p_preds = []
+
+    quantized_all_p_v_labels = []
+    quantized_all_p_v_preds = []
+    all_p_v_labels = []
+    all_p_v_preds = []
     for inputs, low_res_p_labels, p_v_labels, p_on_labels, p_off_labels, room_labels, midi_ids, pedal_factors in test_dataloader:
         inputs, low_res_p_labels, p_v_labels, p_on_labels, p_off_labels = inputs.to(device), low_res_p_labels.to(device), p_v_labels.to(device), p_on_labels.to(device), p_off_labels.to(device)
         room_labels, midi_ids, pedal_factors = room_labels.to(device), midi_ids.to(device), pedal_factors.to(device)
@@ -122,20 +143,40 @@ def main():
         loss_mask = p_v_labels != -1
         low_res_p_preds, p_v_preds, p_on_preds, p_off_preds, room_preds = infer(model, inputs, loss_mask, device=device)
 
+        # apply loss_mask
+        p_v_labels = p_v_labels[loss_mask]
+        p_on_labels = p_on_labels[loss_mask]
+        p_off_labels = p_off_labels[loss_mask]
+
+        # Low resolution pedal value prediction
         low_res_p_labels = low_res_p_labels.cpu().numpy().squeeze()
         low_res_p_preds = low_res_p_preds.squeeze()
-        # measure low res pedal value predictionm, f1 score
-        # low_res_p_labels = int(low_res_p_labels)
-        # low_res_p_preds = int(low_res_p_preds)
-        # clip the values to 0 and 1
         low_res_p_preds[low_res_p_preds < 0] = 0
         low_res_p_preds[low_res_p_preds > 1] = 1
+
+        all_low_res_p_labels.append(low_res_p_labels)
+        all_low_res_p_preds.append(low_res_p_preds)
 
         quantized_low_res_p_labels = np.digitize(low_res_p_labels * 127, inf_label_bin_edges) - 1
         quantized_low_res_p_preds = np.digitize(low_res_p_preds * 127, inf_label_bin_edges) - 1
 
-        all_low_res_p_labels.append(quantized_low_res_p_labels)
-        all_low_res_p_preds.append(quantized_low_res_p_preds)
+        quantized_all_low_res_p_labels.append(quantized_low_res_p_labels)
+        quantized_all_low_res_p_preds.append(quantized_low_res_p_preds)
+
+        # Pedal value prediction
+        p_v_labels = p_v_labels.cpu().numpy().squeeze()
+        p_v_preds = p_v_preds.squeeze()
+        p_v_preds[p_v_preds < 0] = 0
+        p_v_preds[p_v_preds > 1] = 1
+
+        all_p_v_labels.append(p_v_labels)
+        all_p_v_preds.append(p_v_preds)
+
+        quantized_p_v_labels = np.digitize(p_v_labels * 127, inf_label_bin_edges) - 1
+        quantized_p_v_preds = np.digitize(p_v_preds * 127, inf_label_bin_edges) - 1
+
+        quantized_all_p_v_labels.append(quantized_p_v_labels)
+        quantized_all_p_v_preds.append(quantized_p_v_preds)
 
         # p_on_labels = p_on_labels.cpu().numpy()
         # p_off_labels = p_off_labels.cpu().numpy()
@@ -182,17 +223,34 @@ def main():
         # plt.close()
         # img_count += 1
 
-    # print(all_low_res_p_labels)
-    # print(all_low_res_p_preds)
+    print(len(all_p_v_labels), len(all_p_v_preds))
+    all_p_v_labels = np.concatenate(all_p_v_labels)
+    all_p_v_preds = np.concatenate(all_p_v_preds)
+    print(all_p_v_labels.shape, all_p_v_preds.shape)
 
-    low_res_p_f1 = f1_score(all_low_res_p_labels, all_low_res_p_preds, average="weighted")
+    # store the results
+    np.save("all_low_res_p_labels-mixres.npy", all_low_res_p_labels)
+    np.save("all_low_res_p_preds-mixres.npy", all_low_res_p_preds)
+    np.save("all_p_v_labels-mixres.npy", all_p_v_labels)
+    np.save("all_p_v_preds-mixres.npy", all_p_v_preds)
+
+    # Measure pedal value prediction: MAE (all_low_res_p_labels, all_low_res_p_preds)
+    low_res_p_mae = mean_absolute_error(all_low_res_p_labels, all_low_res_p_preds)
+    print("Low Res Pedal Value MAE:", low_res_p_mae)
+
+    # Measure pedal value prediction: MSE (all_low_res_p_labels, all_low_res_p_preds)
+    low_res_p_mse = mean_squared_error(all_low_res_p_labels, all_low_res_p_preds)
+    print("Low Res Pedal Value MSE:", low_res_p_mse)
+
+    # Measure pedal value prediction: f1 score
+    low_res_p_f1 = f1_score(quantized_all_low_res_p_labels, quantized_all_low_res_p_preds, average="weighted")
     print("Low Res Pedal Value F1 Score:", low_res_p_f1)
 
     # classification report
     print("Classification Report:")
-    print(classification_report(all_low_res_p_labels, all_low_res_p_preds))
+    print(classification_report(quantized_all_low_res_p_labels, quantized_all_low_res_p_preds))
     # confusion matrix
-    cm = confusion_matrix(all_low_res_p_labels, all_low_res_p_preds)
+    cm = confusion_matrix(quantized_all_low_res_p_labels, quantized_all_low_res_p_preds)
     plt.figure(figsize=(6, 6))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", square=True)
     plt.xlabel("Predicted Label")
@@ -207,6 +265,9 @@ def main():
     # print("Total Frames:", len(pedal_onset_maes))
     # print("Average Pedal Onset MAE:", sum(pedal_onset_maes) / len(pedal_onset_maes))
     # print("Average Pedal Offset MAE:", sum(pedal_offset_maes) / len(pedal_offset_maes))
+
+    plot_pedal_pred(all_low_res_p_labels, all_low_res_p_preds, "low_res")
+    plot_pedal_pred(all_p_v_labels, all_p_v_preds, "p_v", img_num_frames=500)
 
 
 if __name__ == "__main__":
