@@ -55,7 +55,10 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "ckpt-mse-2fac-100fr-cntxt/model_epoch_160_val_loss_0.0519_val_f1_0.8261.pt"
+    checkpoint_path = "ckpt-mse-2fac-200fr-cntxt-fullroom1-big-mixres-1/model_epoch_60_val_loss_0.0458_val_f1_0.7385.pt"
+    # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt-fullroom1/model_epoch_70_val_loss_0.0461_val_f1_0.8458.pt"
+    # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt-real/model_epoch_160_val_loss_0.1238_val_f1_0.6838.pt" # best model (real audio)
+    # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt/model_epoch_160_val_loss_0.0519_val_f1_0.8261.pt" # best model
     # checkpoint_path = "ckpt-real/model_epoch_50_val_loss_0.0733_val_f1_0.5906.pt" # best model (real audio)
     # checkpoint_path = "ckpt-test-mse-aug-newdata-2factor-labelratio1-mf100/model_epoch_60_val_loss_0.0191_val_f1_0.8895.pt" # best model
     # checkpoint_path = "ckpt-test-mse-aug-newdata-2factor-labelratio1/model_epoch_80_val_loss_0.0328_val_f1_0.7634.pt" # best model
@@ -64,11 +67,11 @@ def main():
     # checkpoint_path = "ckpt-test-mse-1/model_epoch_40_val_loss_0.0783_val_f1_0.5631.pt"
     # checkpoint_path = "ckpt-test-2/model_epoch_180_val_loss_0.0251_val_low-res-pedal_f1_0.7205.pt"
     feature_dim = 141
-    max_frame = 100
-    hidden_dim = 256
+    max_frame = 200
+    hidden_dim = 1024 #256
     num_heads = 8
-    ff_dim = 256
-    num_layers = 8
+    ff_dim = 1024 #256
+    num_layers = 12 #8
     num_classes = 1 # 1 stands for MSE loss
     num_sample_per_clip = None
     pedal_factor = [1.0]
@@ -93,14 +96,18 @@ def main():
     )
 
     # Data path
-    data_path = "data/processed_data_4096_NormPerFeat.npz"
+    # data_path = "data/processed_data_4096_NormPerFeat.npz"
     # data_path = "data/processed_data_real_audio_4096.npz"
+    data_path = "data/processed_data_4096_full_room1.npz"
 
     # Load data
     if "real" in data_path:
         features, labels, metadata = load_data_real_audio(data_path, label_bin_edges)
         features, labels, metadata = split_data_real_audio(features, labels, metadata, split="test", max_num_samples=None)
         print("Split(Test) dataset size:", len(features), len(labels), len(metadata))
+    elif "full" in data_path:
+        features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
+        features, labels, metadata = split_data_real_audio(features, labels, metadata, split="test", max_num_samples=None)
     else:
         features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
         _, _, features, _, _, labels, _, _, metadata = split_data(
@@ -116,7 +123,7 @@ def main():
         max_frame=max_frame,
         label_ratio=0.6,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.7,
+        overlap_ratio=0.4,
         split="test",
     )
     print("Test dataset size:", len(test_dataset))
@@ -224,15 +231,15 @@ def main():
         # img_count += 1
 
     print(len(all_p_v_labels), len(all_p_v_preds))
+    np.save("p_v_labels_test_set_synth.npy", all_p_v_labels)
+    np.save("p_v_preds_test_set_synth.npy", all_p_v_preds)
     all_p_v_labels = np.concatenate(all_p_v_labels)
     all_p_v_preds = np.concatenate(all_p_v_preds)
     print(all_p_v_labels.shape, all_p_v_preds.shape)
 
     # store the results
-    np.save("all_low_res_p_labels-mixres.npy", all_low_res_p_labels)
-    np.save("all_low_res_p_preds-mixres.npy", all_low_res_p_preds)
-    np.save("all_p_v_labels-mixres.npy", all_p_v_labels)
-    np.save("all_p_v_preds-mixres.npy", all_p_v_preds)
+    np.save("global_p_labels_test_set_synth.npy", all_low_res_p_labels)
+    np.save("global_p_preds_test_set_synth.npy", all_low_res_p_preds)
 
     # Measure pedal value prediction: MAE (all_low_res_p_labels, all_low_res_p_preds)
     low_res_p_mae = mean_absolute_error(all_low_res_p_labels, all_low_res_p_preds)

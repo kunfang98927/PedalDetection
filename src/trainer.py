@@ -156,7 +156,7 @@ class PedalTrainer:
                     val_loss < max(best_val_losses)
                     or len(self.best_checkpoints) < self.save_total_limit
                 ):
-                    self.save_best_model(val_loss, val_low_res_pedal_v_f1, epoch)
+                    self.save_best_model(val_loss, val_pedal_value_f1, epoch)
 
                     if len(best_val_losses) > self.save_total_limit:
                         remove_idx = best_val_losses.index(max(best_val_losses))
@@ -492,10 +492,10 @@ class PedalTrainer:
         return val_loss / len(self.val_dataloader), avg_low_res_pedal_value_mae, avg_low_res_pedal_value_mse, avg_low_res_pedal_value_f1, \
             avg_pedal_value_mae, avg_pedal_value_mse, avg_pedal_value_f1
 
-    def save_best_model(self, val_loss, val_low_res_pedal_v_f1, epoch):
+    def save_best_model(self, val_loss, val_pedal_v_f1, epoch):
         best_checkpoint_path = os.path.join(
             self.save_dir,
-            f"model_epoch_{epoch + 1}_val_loss_{val_loss:.4f}_val_f1_{val_low_res_pedal_v_f1:.4f}.pt",
+            f"model_epoch_{epoch + 1}_val_loss_{val_loss:.4f}_val_f1_{val_pedal_v_f1:.4f}.pt",
         )
         torch.save(self.model.state_dict(), best_checkpoint_path)
         self.best_checkpoints.append(best_checkpoint_path)

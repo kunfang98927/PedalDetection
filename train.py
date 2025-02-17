@@ -10,17 +10,17 @@ from src.utils import load_data, split_data, get_label_bin_edges, load_data_real
 
 def main():
 
-    data_version = "_real_audio_4096" # "_4096_NormPerFeat" # "_real_audio_4096"
+    data_version = "_4096_full_room1" # "_4096_NormPerFeat" # "_real_audio_4096"
 
     # Feature dimension
-    batch_size = 128
+    batch_size = 32
     feature_dim = 141  # 128 (spectrogram) + 13 (mfcc)
-    max_frame = 100
-    num_samples_per_clip = 100
+    max_frame = 500
+    num_samples_per_clip = 10
     num_classes = 1
 
-    low_res_pedal_ratio = 1.0
-    pedal_value_ratio = 1.0
+    low_res_pedal_ratio = 0.5
+    pedal_value_ratio = 0.5
     pedal_onset_ratio = 0.0
     pedal_offset_ratio = 0.0
     room_ratio = 0.0
@@ -35,7 +35,7 @@ def main():
     # Checkpoint save path
     label_bin_edge_str = str(label_bin_edges[1]) + "-" + str(label_bin_edges[-2])
     factor_str = "&".join([str(f) for f in pedal_factor])
-    save_dir = f"ckpt-mse-2fac-100fr-cntxt-real"
+    save_dir = f"ckpt-mse-2fac-500fr-cntxt-fullroom1-big-mixres-labelr08-overlap02"
     # save_dir = f"ckpt_{num_samples_per_clip}per-clip-{num_classes}cls-data{data_version}-{max_frame}frm_p{pedal_value_ratio}-r{room_ratio}-c{contrastive_ratio}_{label_bin_edge_str}_bs{batch_size}_fctr{factor_str}"
 
     # Copy this file to save_dir
@@ -48,6 +48,14 @@ def main():
     # Load data
     if "real" in data_version:
         features, labels, metadata = load_data_real_audio(data_path, label_bin_edges)
+        train_features, train_labels, train_metadata = split_data_real_audio(
+            features, labels, metadata, split="train"
+        )
+        val_features, val_labels, val_metadata = split_data_real_audio(
+            features, labels, metadata, split="val"
+        )
+    elif "full" in data_version:
+        features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
         train_features, train_labels, train_metadata = split_data_real_audio(
             features, labels, metadata, split="train"
         )
@@ -90,7 +98,7 @@ def main():
         max_frame=max_frame,
         label_ratio=0.6,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.7,
+        overlap_ratio=0.4,
         split="validation",
     )
     print("Train dataset size:", len(train_dataset))
@@ -99,10 +107,10 @@ def main():
     # Model
     model = PedalDetectionModel(
         input_dim=feature_dim,
-        hidden_dim=256,
+        hidden_dim=1024, # 256,
         num_heads=8,
-        ff_dim=256,
-        num_layers=8,
+        ff_dim=1024, # 256,
+        num_layers=12,
         num_classes=num_classes,
     )
 

@@ -12,8 +12,11 @@ def plot_pedal_pred(labels, preds, title, img_num_frames=100, img_num_plots=6):
 
     for i in range(img_num_plots):
         plt.subplot(img_num_plots, 1, i+1)
-        plt.plot(labels[i*img_num_frames:(i+1)*img_num_frames], label="Ground Truth", alpha=0.8, linestyle='dashed')
-        plt.plot(preds[i*img_num_frames:(i+1)*img_num_frames], label="Predictions", alpha=0.8)
+        # randomly select a start frame
+        start_frame = np.random.randint(0, len(labels) - img_num_frames)
+        end_frame = start_frame + img_num_frames
+        plt.plot(labels[start_frame:end_frame], label="Ground Truth", alpha=0.8, linestyle='dashed')
+        plt.plot(preds[start_frame:end_frame], label="Predictions", alpha=0.8)
         plt.xlabel("Frame Index")
         plt.ylabel("Pedal Value")
         plt.legend()
@@ -259,7 +262,7 @@ def split_data_real_audio(features, labels, metadata, split="test", max_num_samp
     Split the data into training and validation sets according to piece ids.
     """
     split2id = {"train": 0, "val": 1, "test": 2}
-    split_id = metadata[:, 1] # train: 0, val: 1, test: 2
+    split_id = metadata[:, -1] # train: 0, val: 1, test: 2
     # filter the data according to the split
     split_mask = split_id == split2id[split]
     split_features = features[split_mask]
