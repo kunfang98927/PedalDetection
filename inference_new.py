@@ -57,7 +57,7 @@ def main():
     # Parameters
     checkpoint_path = "ckpt-mse-2fac-200fr-cntxt-fullroom1-big-mixres-1/model_epoch_60_val_loss_0.0458_val_f1_0.7385.pt"
     # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt-fullroom1/model_epoch_70_val_loss_0.0461_val_f1_0.8458.pt"
-    # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt-real/model_epoch_160_val_loss_0.1238_val_f1_0.6838.pt" # best model (real audio)
+    # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt-real/model_epoch_160_val_loss_0.1238_val_f1_0.6838.pt" # best model on real audio, but still not good
     # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt/model_epoch_160_val_loss_0.0519_val_f1_0.8261.pt" # best model
     # checkpoint_path = "ckpt-real/model_epoch_50_val_loss_0.0733_val_f1_0.5906.pt" # best model (real audio)
     # checkpoint_path = "ckpt-test-mse-aug-newdata-2factor-labelratio1-mf100/model_epoch_60_val_loss_0.0191_val_f1_0.8895.pt" # best model
