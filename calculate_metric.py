@@ -28,8 +28,11 @@ def calculate_classification_metrics(label_bin_edges, all_labels, all_preds):
 
 def main():
 
-    all_labels = np.load("p_v_labels_val_set_real.npy")
-    all_preds = np.load("p_v_preds_val_set_real.npy")
+    all_labels = np.load("p_v_labels_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch.npy")
+    all_preds = np.load("p_v_preds_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch.npy")
+
+    all_labels = all_labels.flatten()
+    all_preds = all_preds.flatten()
 
     print("MAE:", mean_absolute_error(all_labels, all_preds))
     print("MSE:", mean_squared_error(all_labels, all_preds))
