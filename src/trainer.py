@@ -137,15 +137,17 @@ class PedalTrainer:
                                               pedal_onset_ratio, pedal_offset_ratio,
                                               room_ratio, contrastive_ratio)
             val_loss, val_low_res_pedal_v_mae, val_low_res_pedal_v_mse, val_low_res_pedal_v_f1, \
-                val_pedal_value_mae, val_pedal_value_mse, val_pedal_value_f1 = self.validate(
+                val_pedal_value_mae, val_pedal_value_mse, val_pedal_value_f1, \
+                val_pedal_on_mae, val_pedal_on_mse, \
+                val_pedal_off_mae, val_pedal_off_mse = self.validate(
                 epoch, low_res_pedal_ratio, pedal_value_ratio, pedal_onset_ratio, pedal_offset_ratio, room_ratio, contrastive_ratio
             )
             print(
                 f"Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}; "
                 f"Val p_v MAE: {val_pedal_value_mae:.4f}, MSE: {val_pedal_value_mse:.4f}, F1: {val_pedal_value_f1:.4f}; "
                 # f"Val Low Res Pedal Value F1: {val_low_res_pedal_v_f1:.4f}, "
-                # f"Val Pedal Onset MSE: {val_pedal_on_mse:.4f}, Val Pedal Onset MAE: {val_pedal_on_mae:.4f}, Val Pedal Onset F1: {val_pedal_on_f1:.4f}, "
-                # f"Val Pedal Offset MSE: {val_pedal_off_mse:.4f}, Val Pedal Offset MAE: {val_pedal_off_mae:.4f}, Val Pedal Offset F1: {val_pedal_off_f1:.4f}, "
+                # f"Val Pedal Onset MSE: {val_pedal_on_mse:.4f}, Val Pedal Onset MAE: {val_pedal_on_mae:.4f}, "
+                # f"Val Pedal Offset MSE: {val_pedal_off_mse:.4f}, Val Pedal Offset MAE: {val_pedal_off_mae:.4f}, "
                 # f"Val Room F1: {val_room_f1:.4f}"
                 f"Val global_p_v MAE: {val_low_res_pedal_v_mae:.4f}, MSE: {val_low_res_pedal_v_mse:.4f}, F1: {val_low_res_pedal_v_f1:.4f}"
             )
@@ -181,18 +183,18 @@ class PedalTrainer:
 
             # Apply loss mask
             p_v_labels = p_v_labels[loss_mask]
-            # p_on_labels = p_on_labels[loss_mask]
-            # p_off_labels = p_off_labels[loss_mask]
+            p_on_labels = p_on_labels[loss_mask]
+            p_off_labels = p_off_labels[loss_mask]
 
             p_v_logits = p_v_logits[loss_mask]
-            # p_on_logits = p_on_logits[loss_mask]
-            # p_off_logits = p_off_logits[loss_mask]
+            p_on_logits = p_on_logits[loss_mask]
+            p_off_logits = p_off_logits[loss_mask]
             latent_repr = latent_repr[loss_mask]
 
             # Pedal classification loss
             p_v_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
-            # p_on_loss = self.bce_criterion(p_on_logits.squeeze(1), p_on_labels)
-            # p_off_loss = self.bce_criterion(p_off_logits.squeeze(1), p_off_labels)
+            p_on_loss = self.mse_criterion(p_on_logits.squeeze(), p_on_labels)
+            p_off_loss = self.mse_criterion(p_off_logits.squeeze(), p_off_labels)
 
             # # Room classification loss
             # room_labels = room_labels.long()
@@ -201,8 +203,8 @@ class PedalTrainer:
             # Low res pedal mse loss
             low_res_p_v_loss = self.mse_criterion(low_res_p_v_logits.squeeze(), low_res_p_v_labels)
 
-            # # Original contrastive loss (pedal-based)
-            # contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
+            # Original contrastive loss (pedal-based)
+            contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
 
             # # New contrastive loss (room-invariant learning)
             # room_contrastive_loss_value = room_invariant_contrastive_loss(latent_repr, p_v_labels, room_labels)
@@ -214,7 +216,7 @@ class PedalTrainer:
                 # + pedal_onset_ratio * p_on_loss
                 # + pedal_offset_ratio * p_off_loss
                 # + room_ratio * room_loss
-                # + contrastive_ratio * contrastive_loss_value
+                + contrastive_ratio * contrastive_loss_value
                 # + room_contrastive_ratio * room_contrastive_loss_value
             )
 
@@ -232,7 +234,7 @@ class PedalTrainer:
                     # f"Pedal Onset Loss: {p_on_loss.item():.4f}, "
                     # f"Pedal Offset Loss: {p_off_loss.item():.4f}, "
                     # f"Room Loss: {room_loss.item():.4f}, "
-                    # f"Contrastive Loss: {contrastive_loss_value.item():.4f}, "
+                    f"Contrastive Loss: {contrastive_loss_value.item():.4f}, "
                     # f"Room Contrastive Loss: {room_contrastive_loss_value.item():.4f}, "
                     f"Total Loss: {loss.item():.4f}"
                 )
@@ -244,7 +246,7 @@ class PedalTrainer:
             # self.writer.add_scalar("Train/Pedal Onset Loss", p_on_loss.item(), global_step)
             # self.writer.add_scalar("Train/Pedal Offset Loss", p_off_loss.item(), global_step)
             # self.writer.add_scalar("Train/Room Loss", room_loss.item(), global_step)
-            # self.writer.add_scalar("Train/Contrastive Loss", contrastive_loss_value.item(), global_step)
+            self.writer.add_scalar("Train/Contrastive Loss", contrastive_loss_value.item(), global_step)
             # self.writer.add_scalar("Train/Room Contrastive Loss", room_contrastive_loss_value.item(), global_step)
             self.writer.add_scalar("Train/Total Loss", loss.item(), global_step)
 
@@ -272,7 +274,7 @@ class PedalTrainer:
         pedal_value_f1s = []
         pedal_onset_mses = []
         pedal_onset_maes = []
-        pedal_f1s = []
+        pedal_onset_f1s = []
         pedal_offset_mses = []
         pedal_offset_maes = []
         pedal_offset_f1s = []
@@ -288,18 +290,18 @@ class PedalTrainer:
 
                 # Apply loss mask
                 p_v_labels = p_v_labels[loss_mask]
-                # p_on_labels = p_on_labels[loss_mask]
-                # p_off_labels = p_off_labels[loss_mask]
+                p_on_labels = p_on_labels[loss_mask]
+                p_off_labels = p_off_labels[loss_mask]
 
                 p_v_logits = p_v_logits[loss_mask]
-                # p_on_logits = p_on_logits[loss_mask]
-                # p_off_logits = p_off_logits[loss_mask]
+                p_on_logits = p_on_logits[loss_mask]
+                p_off_logits = p_off_logits[loss_mask]
                 latent_repr = latent_repr[loss_mask]
 
                 # Pedal classification loss
                 pedal_value_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
-                # pedal_on_loss = self.bce_criterion(p_on_logits.squeeze(1), p_on_labels)
-                # pedal_off_loss = self.bce_criterion(p_off_logits.squeeze(1), p_off_labels)
+                pedal_on_loss = self.mse_criterion(p_on_logits.squeeze(), p_on_labels)
+                pedal_off_loss = self.mse_criterion(p_off_logits.squeeze(), p_off_labels)
 
                 # # Room classification loss
                 # room_labels = room_labels.long()
@@ -308,8 +310,8 @@ class PedalTrainer:
                 # Low res pedal mse loss
                 low_res_p_v_loss = self.mse_criterion(low_res_p_v_logits.squeeze(), low_res_p_v_labels)
 
-                # # Contrastive losses
-                # contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
+                # Contrastive losses
+                contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
                 # # room_contrastive_loss_value = room_invariant_contrastive_loss(latent_repr, midi_ids, pedal_factors, room_labels)
 
                 # Total loss
@@ -319,58 +321,18 @@ class PedalTrainer:
                     # + pedal_onset_ratio * pedal_on_loss
                     # + pedal_offset_ratio * pedal_off_loss
                     # + room_ratio * room_loss
-                    # + contrastive_ratio * contrastive_loss_value
+                    + contrastive_ratio * contrastive_loss_value
                     # + room_contrastive_ratio * room_contrastive_loss_value
                 )
 
                 val_loss += loss.item()
                 total_low_res_p_v_loss += low_res_p_v_loss.item()
                 total_pedal_value_loss += pedal_value_loss.item()
-                # total_pedal_on_loss += pedal_on_loss.item()
-                # total_pedal_off_loss += pedal_off_loss.item()
+                total_pedal_on_loss += pedal_on_loss.item()
+                total_pedal_off_loss += pedal_off_loss.item()
                 # total_room_loss += room_loss.item()
                 # total_contrastive_loss += contrastive_loss_value.item()
                 # total_room_contrastive_loss += room_contrastive_loss_value.item()
-
-                # # Measure pedal value prediction: f1
-                # p_v_outputs = torch.softmax(p_v_logits, dim=-1)
-                # p_v_preds = torch.argmax(p_v_outputs, dim=-1)
-                # p_v_labels = p_v_labels.cpu().numpy()
-                # p_v_preds = p_v_preds.cpu().numpy()
-                # pedal_value_f1 = f1_score(p_v_labels, p_v_preds, average="weighted")
-                # pedal_value_f1s.append(pedal_value_f1)
-
-                # # Measure pedal onset prediction
-                # p_on_preds = torch.sigmoid(p_on_logits)
-                # p_on_labels = p_on_labels.cpu().numpy()
-                # p_on_preds = p_on_preds.cpu().numpy()
-                # pedal_onset_mse = mean_squared_error(p_on_labels, p_on_preds)
-                # pedal_onset_mae = mean_absolute_error(p_on_labels, p_on_preds)
-                # p_on_threshold = 0.5
-                # p_on_preds[p_on_preds >= p_on_threshold] = 1
-                # p_on_preds[p_on_preds < p_on_threshold] = 0
-                # p_on_labels[p_on_labels >= p_on_threshold] = 1
-                # p_on_labels[p_on_labels < p_on_threshold] = 0
-                # pedal_onset_f1 = f1_score(p_on_labels, p_on_preds)
-                # pedal_onset_mses.append(pedal_onset_mse)
-                # pedal_onset_maes.append(pedal_onset_mae)
-                # pedal_f1s.append(pedal_onset_f1)
-
-                # # Measure pedal offset prediction
-                # p_off_preds = torch.sigmoid(p_off_logits)
-                # p_off_labels = p_off_labels.cpu().numpy()
-                # p_off_preds = p_off_preds.cpu().numpy()
-                # pedal_offset_mse = mean_squared_error(p_off_labels, p_off_preds)
-                # pedal_offset_mae = mean_absolute_error(p_off_labels, p_off_preds)
-                # p_off_threshold = 0.5
-                # p_off_preds[p_off_preds >= p_off_threshold] = 1
-                # p_off_preds[p_off_preds < p_off_threshold] = 0
-                # p_off_labels[p_off_labels >= p_off_threshold] = 1
-                # p_off_labels[p_off_labels < p_off_threshold] = 0
-                # pedal_offset_f1 = f1_score(p_off_labels, p_off_preds)
-                # pedal_offset_mses.append(pedal_offset_mse)
-                # pedal_offset_maes.append(pedal_offset_mae)
-                # pedal_offset_f1s.append(pedal_offset_f1)
 
                 # # Measure room prediction
                 # room_outputs = torch.softmax(room_logits, dim=-1)
@@ -400,6 +362,26 @@ class PedalTrainer:
                 pedal_value_f1 = f1_score(p_v_labels, p_v_preds, average="weighted")
                 pedal_value_f1s.append(pedal_value_f1)
 
+                # Measure pedal onset prediction
+                p_on_preds = p_on_logits
+                p_on_labels = p_on_labels.cpu().numpy()
+                p_on_preds = p_on_preds.cpu().numpy()
+
+                pedal_on_mse = mean_squared_error(p_on_labels, p_on_preds)
+                pedal_on_mae = mean_absolute_error(p_on_labels, p_on_preds)
+                pedal_onset_maes.append(pedal_on_mae)
+                pedal_onset_mses.append(pedal_on_mse)
+
+                # Measure pedal offset prediction
+                p_off_preds = p_off_logits
+                p_off_labels = p_off_labels.cpu().numpy()
+                p_off_preds = p_off_preds.cpu().numpy()
+
+                pedal_off_mse = mean_squared_error(p_off_labels, p_off_preds)
+                pedal_off_mae = mean_absolute_error(p_off_labels, p_off_preds)
+                pedal_offset_maes.append(pedal_off_mae)
+                pedal_offset_mses.append(pedal_off_mse)
+
                 # Measure low res pedal value prediction
                 # low_res_p_v_outputs = torch.softmax(low_res_p_v_logits, dim=-1)
                 low_res_p_v_preds = low_res_p_v_logits
@@ -424,11 +406,11 @@ class PedalTrainer:
         # calculate avg f1
         avg_low_res_pedal_value_f1 = sum(low_res_pedal_value_f1s) / len(low_res_pedal_value_f1s)
         avg_pedal_value_f1 = sum(pedal_value_f1s) / len(pedal_value_f1s)
-        # avg_pedal_onset_mse = sum(pedal_onset_mses) / len(pedal_onset_mses)
-        # avg_pedal_onset_mae = sum(pedal_onset_maes) / len(pedal_onset_maes)
-        # avg_pedal_onset_f1 = sum(pedal_f1s) / len(pedal_f1s)
-        # avg_pedal_offset_mse = sum(pedal_offset_mses) / len(pedal_offset_mses)
-        # avg_pedal_offset_mae = sum(pedal_offset_maes) / len(pedal_offset_maes)
+        avg_pedal_onset_mse = sum(pedal_onset_mses) / len(pedal_onset_mses)
+        avg_pedal_onset_mae = sum(pedal_onset_maes) / len(pedal_onset_maes)
+        # avg_pedal_onset_f1 = sum(pedal_onset_f1s) / len(pedal_onset_f1s)
+        avg_pedal_offset_mse = sum(pedal_offset_mses) / len(pedal_offset_mses)
+        avg_pedal_offset_mae = sum(pedal_offset_maes) / len(pedal_offset_maes)
         # avg_pedal_offset_f1 = sum(pedal_offset_f1s) / len(pedal_offset_f1s)
         # avg_room_f1 = sum(room_f1s) / len(room_f1s)
         avg_low_res_pedal_value_mae = sum(low_res_pedal_value_maes) / len(low_res_pedal_value_maes)
@@ -490,7 +472,9 @@ class PedalTrainer:
         self.writer.add_scalar("Validation/Pedal Value MSE", avg_pedal_value_mse, epoch)
 
         return val_loss / len(self.val_dataloader), avg_low_res_pedal_value_mae, avg_low_res_pedal_value_mse, avg_low_res_pedal_value_f1, \
-            avg_pedal_value_mae, avg_pedal_value_mse, avg_pedal_value_f1
+            avg_pedal_value_mae, avg_pedal_value_mse, avg_pedal_value_f1, \
+            avg_pedal_onset_mae, avg_pedal_onset_mse, \
+            avg_pedal_offset_mae, avg_pedal_offset_mse
 
     def save_best_model(self, val_loss, val_pedal_v_f1, epoch):
         best_checkpoint_path = os.path.join(

@@ -1,7 +1,13 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.metrics import mean_absolute_error, classification_report, confusion_matrix, f1_score, mean_squared_error
+from sklearn.metrics import (
+    mean_absolute_error,
+    classification_report,
+    confusion_matrix,
+    f1_score,
+    mean_squared_error,
+)
 from src.utils import plot_pedal_pred
 
 
@@ -12,7 +18,12 @@ def calculate_classification_metrics(label_bin_edges, all_labels, all_preds):
     quantized_low_res_p_labels = np.digitize(all_labels * 127, label_bin_edges) - 1
     quantized_low_res_p_preds = np.digitize(all_preds * 127, label_bin_edges) - 1
 
-    print("F1:", f1_score(quantized_low_res_p_labels, quantized_low_res_p_preds, average="weighted"))
+    print(
+        "F1:",
+        f1_score(
+            quantized_low_res_p_labels, quantized_low_res_p_preds, average="weighted"
+        ),
+    )
     print(classification_report(quantized_low_res_p_labels, quantized_low_res_p_preds))
 
     cm = confusion_matrix(quantized_low_res_p_labels, quantized_low_res_p_preds)
@@ -26,10 +37,15 @@ def calculate_classification_metrics(label_bin_edges, all_labels, all_preds):
     plt.savefig(f"low_res_{len(label_bin_edges)-1}.png")
     plt.close()
 
+
 def main():
 
-    all_labels = np.load("p_v_labels_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch.npy")
-    all_preds = np.load("p_v_preds_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch.npy")
+    all_labels = np.load(
+        "p_v_labels_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch-room3-kongfeat.npy"
+    )
+    all_preds = np.load(
+        "p_v_preds_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch-room3-kongfeat.npy"
+    )
 
     all_labels = all_labels.flatten()
     all_preds = all_preds.flatten()
@@ -50,8 +66,6 @@ def main():
 
     plot_pedal_pred(all_labels, all_preds, "p_v", img_num_frames=800)
 
+
 if __name__ == "__main__":
     main()
-
-
-

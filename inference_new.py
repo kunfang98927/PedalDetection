@@ -3,10 +3,23 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
-from sklearn.metrics import mean_absolute_error, classification_report, confusion_matrix, f1_score, mean_squared_error
+from sklearn.metrics import (
+    mean_absolute_error,
+    classification_report,
+    confusion_matrix,
+    f1_score,
+    mean_squared_error,
+)
 from src.model import PedalDetectionModel
 from src.dataset import PedalDataset
-from src.utils import load_data, split_data, get_label_bin_edges, load_data_real_audio, split_data_real_audio, plot_pedal_pred
+from src.utils import (
+    load_data,
+    split_data,
+    get_label_bin_edges,
+    load_data_real_audio,
+    split_data_real_audio,
+    plot_pedal_pred,
+)
 
 
 def load_model(
@@ -35,12 +48,21 @@ def load_model(
 def infer(model, feature, loss_mask, device="cpu"):
     feature = feature.to(device)
     with torch.no_grad():
-        low_res_p_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr = model(feature, loss_mask=loss_mask)
+        (
+            low_res_p_logits,
+            p_v_logits,
+            p_on_logits,
+            p_off_logits,
+            room_logits,
+            latent_repr,
+        ) = model(feature, loss_mask=loss_mask)
         p_v_logits = p_v_logits[loss_mask]
         p_on_logits = p_on_logits[loss_mask]
         p_off_logits = p_off_logits[loss_mask]
-        low_res_p_v_preds = low_res_p_logits # torch.argmax(torch.softmax(low_res_p_logits, dim=-1), dim=-1)
-        p_v_preds = p_v_logits # torch.argmax(torch.softmax(p_v_logits, dim=-1), dim=-1)
+        low_res_p_v_preds = low_res_p_logits  # torch.argmax(torch.softmax(low_res_p_logits, dim=-1), dim=-1)
+        p_v_preds = (
+            p_v_logits  # torch.argmax(torch.softmax(p_v_logits, dim=-1), dim=-1)
+        )
         p_on_preds = torch.sigmoid(p_on_logits)
         p_off_preds = torch.sigmoid(p_off_logits)
         room_preds = torch.argmax(torch.softmax(room_logits, dim=-1), dim=-1)
@@ -49,14 +71,22 @@ def infer(model, feature, loss_mask, device="cpu"):
         p_v_preds.squeeze(0).cpu().numpy(),
         p_on_preds.squeeze(0).cpu().numpy(),
         p_off_preds.squeeze(0).cpu().numpy(),
-        room_preds.squeeze(0).cpu().numpy()
+        room_preds.squeeze(0).cpu().numpy(),
     )
 
 
 def main():
     # Parameters
-    checkpoint_path = "ckpt-mse-2fac-200fr-cntxt-fullroom1-big-mixres-1/model_epoch_60_val_loss_0.0458_val_f1_0.7385.pt"
+    checkpoint_path = "ckpt-mse-0221-mixdata-cntrstloss-mf100-sbatch-room3-kongfeat/model_epoch_360_val_loss_0.2641_val_f1_0.4064.pt"
+    # checkpoint_path = "ckpt-mse-0220-mixdata-cntrstloss-mf100-sbatch/model_epoch_360_val_loss_0.2523_val_f1_0.4423.pt"
+    # checkpoint_path = "ckpt-mse-0219-mixdata-cntrstloss-mf100/model_epoch_180_val_loss_0.2676_val_f1_0.5123.pt"
+    # checkpoint_path = "ckpt-mse-0219-mixdata-cntrstloss-sbatch/model_epoch_300_val_loss_0.2770_val_f1_0.5070.pt"
+    # checkpoint_path = "ckpt-mse-0219-mixdata/model_epoch_220_val_loss_0.0329_val_f1_0.7098.pt"
+    # checkpoint_path = "ckpt-mse-2fac-200fr-cntxt-fullroom1-deep-4losses/model_epoch_380_val_loss_0.0129_val_f1_0.8410.pt"
+    # checkpoint_path = "ckpt-mse-2fac-200fr-cntxt-fullroom1-deep-4losses/model_epoch_110_val_loss_0.0166_val_f1_0.8269.pt"
+    # checkpoint_path = "ckpt-mse-2fac-200fr-cntxt-fullroom1-big-mixres-1/model_epoch_60_val_loss_0.0458_val_f1_0.7385.pt"
     # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt-fullroom1/model_epoch_70_val_loss_0.0461_val_f1_0.8458.pt"
+
     # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt-real/model_epoch_160_val_loss_0.1238_val_f1_0.6838.pt" # best model on real audio, but still not good
     # checkpoint_path = "ckpt-mse-2fac-100fr-cntxt/model_epoch_160_val_loss_0.0519_val_f1_0.8261.pt" # best model
     # checkpoint_path = "ckpt-real/model_epoch_50_val_loss_0.0733_val_f1_0.5906.pt" # best model (real audio)
@@ -66,13 +96,13 @@ def main():
     # checkpoint_path = "ckpt-test-mse-aug-newdata/model_epoch_60_val_loss_0.0364_val_f1_0.8220.pt"
     # checkpoint_path = "ckpt-test-mse-1/model_epoch_40_val_loss_0.0783_val_f1_0.5631.pt"
     # checkpoint_path = "ckpt-test-2/model_epoch_180_val_loss_0.0251_val_low-res-pedal_f1_0.7205.pt"
-    feature_dim = 141
-    max_frame = 200
-    hidden_dim = 1024 #256
+    feature_dim = 249
+    max_frame = 100
+    hidden_dim = 256  # 256
     num_heads = 8
-    ff_dim = 1024 #256
-    num_layers = 12 #8
-    num_classes = 1 # 1 stands for MSE loss
+    ff_dim = 256  # 256
+    num_layers = 8  # 8
+    num_classes = 1  # 1 stands for MSE loss
     num_sample_per_clip = None
     pedal_factor = [1.0]
     room_acoustics = [1.0]
@@ -97,19 +127,27 @@ def main():
 
     # Data path
     # data_path = "data/processed_data_4096_NormPerFeat.npz"
-    # data_path = "data/processed_data_real_audio_4096.npz"
-    data_path = "data/processed_data_4096_full_room1.npz"
+    data_path = "data/processed_data_kong508room1real20250217.npz"
+    # data_path = "data/processed_data_4096_full_room1.npz"
 
     # Load data
     if "real" in data_path:
         features, labels, metadata = load_data_real_audio(data_path, label_bin_edges)
-        features, labels, metadata = split_data_real_audio(features, labels, metadata, split="test", max_num_samples=None)
+        features, labels, metadata = split_data_real_audio(
+            features, labels, metadata, split="test", max_num_samples=None
+        )
         print("Split(Test) dataset size:", len(features), len(labels), len(metadata))
     elif "full" in data_path:
-        features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
-        features, labels, metadata = split_data_real_audio(features, labels, metadata, split="test", max_num_samples=None)
+        features, labels, metadata = load_data(
+            data_path, label_bin_edges, pedal_factor, room_acoustics
+        )
+        features, labels, metadata = split_data_real_audio(
+            features, labels, metadata, split="test", max_num_samples=None
+        )
     else:
-        features, labels, metadata = load_data(data_path, label_bin_edges, pedal_factor, room_acoustics)
+        features, labels, metadata = load_data(
+            data_path, label_bin_edges, pedal_factor, room_acoustics
+        )
         _, _, features, _, _, labels, _, _, metadata = split_data(
             features, labels, metadata, val_size=0.15, test_size=0.15, random_state=100
         )
@@ -143,12 +181,33 @@ def main():
     quantized_all_p_v_preds = []
     all_p_v_labels = []
     all_p_v_preds = []
-    for inputs, low_res_p_labels, p_v_labels, p_on_labels, p_off_labels, room_labels, midi_ids, pedal_factors in test_dataloader:
-        inputs, low_res_p_labels, p_v_labels, p_on_labels, p_off_labels = inputs.to(device), low_res_p_labels.to(device), p_v_labels.to(device), p_on_labels.to(device), p_off_labels.to(device)
-        room_labels, midi_ids, pedal_factors = room_labels.to(device), midi_ids.to(device), pedal_factors.to(device)
+    for (
+        inputs,
+        low_res_p_labels,
+        p_v_labels,
+        p_on_labels,
+        p_off_labels,
+        room_labels,
+        midi_ids,
+        pedal_factors,
+    ) in test_dataloader:
+        inputs, low_res_p_labels, p_v_labels, p_on_labels, p_off_labels = (
+            inputs.to(device),
+            low_res_p_labels.to(device),
+            p_v_labels.to(device),
+            p_on_labels.to(device),
+            p_off_labels.to(device),
+        )
+        room_labels, midi_ids, pedal_factors = (
+            room_labels.to(device),
+            midi_ids.to(device),
+            pedal_factors.to(device),
+        )
 
         loss_mask = p_v_labels != -1
-        low_res_p_preds, p_v_preds, p_on_preds, p_off_preds, room_preds = infer(model, inputs, loss_mask, device=device)
+        low_res_p_preds, p_v_preds, p_on_preds, p_off_preds, room_preds = infer(
+            model, inputs, loss_mask, device=device
+        )
 
         # apply loss_mask
         p_v_labels = p_v_labels[loss_mask]
@@ -164,8 +223,12 @@ def main():
         all_low_res_p_labels.append(low_res_p_labels)
         all_low_res_p_preds.append(low_res_p_preds)
 
-        quantized_low_res_p_labels = np.digitize(low_res_p_labels * 127, inf_label_bin_edges) - 1
-        quantized_low_res_p_preds = np.digitize(low_res_p_preds * 127, inf_label_bin_edges) - 1
+        quantized_low_res_p_labels = (
+            np.digitize(low_res_p_labels * 127, inf_label_bin_edges) - 1
+        )
+        quantized_low_res_p_preds = (
+            np.digitize(low_res_p_preds * 127, inf_label_bin_edges) - 1
+        )
 
         quantized_all_low_res_p_labels.append(quantized_low_res_p_labels)
         quantized_all_low_res_p_preds.append(quantized_low_res_p_preds)
@@ -231,15 +294,27 @@ def main():
         # img_count += 1
 
     print(len(all_p_v_labels), len(all_p_v_preds))
-    np.save("p_v_labels_test_set_synth.npy", all_p_v_labels)
-    np.save("p_v_preds_test_set_synth.npy", all_p_v_preds)
+    np.save(
+        "p_v_labels_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch-room3-kongfeat.npy",
+        all_p_v_labels,
+    )
+    np.save(
+        "p_v_preds_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch-room3-kongfeat.npy",
+        all_p_v_preds,
+    )
     all_p_v_labels = np.concatenate(all_p_v_labels)
     all_p_v_preds = np.concatenate(all_p_v_preds)
     print(all_p_v_labels.shape, all_p_v_preds.shape)
 
     # store the results
-    np.save("global_p_labels_test_set_synth.npy", all_low_res_p_labels)
-    np.save("global_p_preds_test_set_synth.npy", all_low_res_p_preds)
+    np.save(
+        "global_p_labels_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch-room3-kongfeat.npy",
+        all_low_res_p_labels,
+    )
+    np.save(
+        "global_p_preds_test_set_real-ckpt360-mixdata-cntrstloss-mf100-sbatch-room3-kongfeat.npy",
+        all_low_res_p_preds,
+    )
 
     # Measure pedal value prediction: MAE (all_low_res_p_labels, all_low_res_p_preds)
     low_res_p_mae = mean_absolute_error(all_low_res_p_labels, all_low_res_p_preds)
@@ -250,12 +325,20 @@ def main():
     print("Low Res Pedal Value MSE:", low_res_p_mse)
 
     # Measure pedal value prediction: f1 score
-    low_res_p_f1 = f1_score(quantized_all_low_res_p_labels, quantized_all_low_res_p_preds, average="weighted")
+    low_res_p_f1 = f1_score(
+        quantized_all_low_res_p_labels,
+        quantized_all_low_res_p_preds,
+        average="weighted",
+    )
     print("Low Res Pedal Value F1 Score:", low_res_p_f1)
 
     # classification report
     print("Classification Report:")
-    print(classification_report(quantized_all_low_res_p_labels, quantized_all_low_res_p_preds))
+    print(
+        classification_report(
+            quantized_all_low_res_p_labels, quantized_all_low_res_p_preds
+        )
+    )
     # confusion matrix
     cm = confusion_matrix(quantized_all_low_res_p_labels, quantized_all_low_res_p_preds)
     plt.figure(figsize=(6, 6))

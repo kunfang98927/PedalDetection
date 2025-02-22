@@ -71,10 +71,12 @@ class PedalDataset(Dataset):
         selected_pedal_value = pedal_value[start_frame:end_frame]
 
         if len(self.label_bin_edges) == 2:
+            pedal_onset, pedal_offset = calculate_pedal_onset_offset(selected_pedal_value, 11)
             quantized_pedal_value = selected_pedal_value / 127.0
         else:
             quantized_pedal_value = np.digitize(selected_pedal_value, self.label_bin_edges) - 1
-        pedal_onset, pedal_offset = calculate_pedal_onset_offset(quantized_pedal_value)
+            pedal_onset, pedal_offset = calculate_pedal_onset_offset(quantized_pedal_value, 
+                                                                     on_off_threshold=self.label_bin_edges[1])
         soft_pedal_onset = calculate_soft_regresion_label(pedal_onset)
         soft_pedal_offset = calculate_soft_regresion_label(pedal_offset)
 
@@ -88,13 +90,17 @@ class PedalDataset(Dataset):
         label_end = int((1 + self.label_ratio) / 2 * self.max_frame)
         quantized_pedal_value_masked = np.full(quantized_pedal_value.shape, -1, dtype=np.float32)
         quantized_pedal_value_masked[label_start:label_end] = quantized_pedal_value[label_start:label_end]
+        soft_pedal_onset_masked = np.full(soft_pedal_onset.shape, -1, dtype=np.float32)
+        soft_pedal_onset_masked[label_start:label_end] = soft_pedal_onset[label_start:label_end]
+        soft_pedal_offset_masked = np.full(soft_pedal_offset.shape, -1, dtype=np.float32)
+        soft_pedal_offset_masked[label_start:label_end] = soft_pedal_offset[label_start:label_end]
 
         # print("shape", selected_pedal_value.shape, quantized_pedal_value_masked.shape, pedal_onset.shape, pedal_offset.shape, soft_pedal_onset.shape, soft_pedal_offset.shape)
         # self.plot_all_labels(selected_pedal_value, 
-        #                      quantized_pedal_value_masked, 
-        #                      pedal_onset, pedal_offset, 
-        #                      soft_pedal_onset, soft_pedal_offset, 
-        #                      self.label_bin_edges)
+        #                     quantized_pedal_value_masked, 
+        #                     pedal_onset, pedal_offset, 
+        #                     soft_pedal_onset, soft_pedal_offset, 
+        #                     self.label_bin_edges, img_name=f"all_labels_{s}")
         # print(stop_here)
 
         low_res_label = calculate_low_res_pedal_value(selected_pedal_value, quantized_pedal_value,
@@ -103,16 +109,17 @@ class PedalDataset(Dataset):
         selected_feature = torch.tensor(selected_feature, dtype=torch.float32)
         quantized_pedal_value_masked = torch.tensor(quantized_pedal_value_masked, dtype=torch.float32)
         low_res_label = torch.tensor(low_res_label, dtype=torch.float32)
-        # low_res_soft_label = torch.tensor(low_res_soft_label, dtype=torch.float32)
+        soft_pedal_onset_masked = torch.tensor(soft_pedal_onset_masked, dtype=torch.float32)
+        soft_pedal_offset_masked = torch.tensor(soft_pedal_offset_masked, dtype=torch.float32)
 
         return selected_feature, low_res_label, \
-            quantized_pedal_value_masked, soft_pedal_onset, soft_pedal_offset, \
+            quantized_pedal_value_masked, soft_pedal_onset_masked, soft_pedal_offset_masked, \
             room_acoustics, midi_id, pedal_factor
 
     def plot_all_labels(self, pedal_value, quantized_pedal_value, 
                         pedal_onset, pedal_offset, 
                         soft_pedal_onset, soft_pedal_offset,
-                        label_bin_edges):
+                        label_bin_edges, img_name):
         import matplotlib.pyplot as plt
         plt.figure(figsize=(12, 8), dpi=100)
         plt.subplot(6, 1, 1)
@@ -155,5 +162,5 @@ class PedalDataset(Dataset):
         plt.ylabel("Soft pedal offset")
         plt.tight_layout()
         # save the plot
-        plt.savefig("all_labels.png")
+        plt.savefig(f"{img_name}.png")
         plt.close()

@@ -26,7 +26,7 @@ def plot_pedal_pred(labels, preds, title, img_num_frames=100, img_num_plots=6):
     plt.close()
 
 
-def calculate_pedal_onset_offset(quantized_pedal_value):
+def calculate_pedal_onset_offset(quantized_pedal_value, on_off_threshold=0.):
     """
     Calculate the pedal onset and offset from the pedal value.
 
@@ -42,9 +42,11 @@ def calculate_pedal_onset_offset(quantized_pedal_value):
     pedal_onset = np.zeros_like(quantized_pedal_value)
     pedal_offset = np.zeros_like(quantized_pedal_value)
     for i in range(1, len(quantized_pedal_value)):
-        if quantized_pedal_value[i] > quantized_pedal_value[i - 1] and quantized_pedal_value[i - 1] == 0:
+        if quantized_pedal_value[i] > quantized_pedal_value[i - 1] and quantized_pedal_value[i - 1] <= on_off_threshold \
+            and quantized_pedal_value[i] > on_off_threshold:
             pedal_onset[i] = 1
-        if quantized_pedal_value[i] < quantized_pedal_value[i - 1] and quantized_pedal_value[i] == 0:
+        if quantized_pedal_value[i] < quantized_pedal_value[i - 1] and quantized_pedal_value[i] <= on_off_threshold \
+            and quantized_pedal_value[i - 1] > on_off_threshold:
             pedal_offset[i] = 1
     return pedal_onset, pedal_offset
 
