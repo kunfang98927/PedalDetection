@@ -8,6 +8,57 @@ from .transformer import (
     EncoderLayer,
 )
 
+
+class CNNBlock(nn.Module):
+    def __init__(self, hidden_dim=256, dropout=0.15):
+        super(CNNBlock, self).__init__()
+
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(1, 32, kernel_size=(5, 3), stride=1, padding=(2, 1)),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=(1, 3), stride=(1, 3)),  # Freq 249 → 83
+            # nn.ReLU(),
+            nn.Dropout(dropout),
+        )
+
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(32, 64, kernel_size=(1, 12), stride=1, padding=(0, 0)),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=(1, 3), stride=(1, 3)),  # Freq 83 → 24
+            # nn.ReLU(),
+            nn.Dropout(dropout),
+        )
+
+        self.conv3 = nn.Sequential(
+            nn.Conv2d(64, hidden_dim, kernel_size=(3, 6), stride=1, padding=(1, 0)),
+            nn.BatchNorm2d(hidden_dim),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=(1, 3), stride=(1, 3)),  # Freq 24 → 6
+            # nn.ReLU(),
+            nn.Dropout(dropout),
+        )
+
+        self.global_pool = nn.AdaptiveAvgPool2d((None, 1))  # Collapse frequency
+
+    def forward(self, x):
+        batch_size, seq_len, freq_dim = x.shape
+        x = x.view(batch_size, 1, seq_len, freq_dim)  # [batch, 1, time, freq]
+
+        # CNN layers
+        x = self.conv1(x)  # [batch, 32, time, 83]
+        x = self.conv2(x)  # [batch, 64, time, 24]
+        x = self.conv3(x)  # [batch, 256, time, 6]
+
+        # Global pooling to collapse frequency
+        x = self.global_pool(x)  # [batch, 256, time, 1]
+
+        # Reshape for Transformer input
+        x = x.squeeze(-1).permute(0, 2, 1)  # [batch, time, hidden_dim]
+
+        return x
+
 class PedalDetectionModelwithCNN(nn.Module):
     def __init__(
         self,
@@ -22,28 +73,7 @@ class PedalDetectionModelwithCNN(nn.Module):
         super(PedalDetectionModelwithCNN, self).__init__()
 
         # 1. CNN Block: [batch_size, seq_len, freq_dim] -> [batch_size, seq_len, hidden_dim]
-        self.cnn = nn.Sequential(
-            # Conv1: Reduce frequency dimension while keeping time intact
-            nn.Conv2d(1, 64, kernel_size=(1, 5), stride=(1, 2), padding=(0, 2)),  
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-
-            # Conv2: Further frequency compression
-            nn.Conv2d(64, 128, kernel_size=(1, 3), stride=(1, 2), padding=(0, 1)),  
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-
-            # Conv3: Map to hidden_dim for Transformer
-            nn.Conv2d(128, hidden_dim, kernel_size=(1, 1), stride=1, padding=0),  
-            nn.BatchNorm2d(hidden_dim),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-
-            # Optional: Adaptive Pooling to ensure final freq_dim = 1
-            nn.AdaptiveAvgPool2d((None, 1))  # [batch_size, hidden_dim, seq_len, 1]
-        )
+        self.cnn = CNNBlock(hidden_dim=hidden_dim, dropout=dropout)
 
         # 2️. Transformer Encoder
         self.positional_encoding = PositionalEncoding(hidden_dim)
@@ -76,31 +106,25 @@ class PedalDetectionModelwithCNN(nn.Module):
         self.pedal_offset_output_layer = nn.Linear(hidden_dim, num_classes)
 
     def forward(self, x, loss_mask=None, src_mask=None):
-        # 1. CNN Input: Expected shape [batch_size, seq_len, freq_dim]
-        batch_size, seq_len, freq_dim = x.shape
-        x = x.view(batch_size, 1, seq_len, freq_dim)  # Add channel for Conv2D
 
-        # 2. Apply CNN layers
-        x = self.cnn(x)  # Shape: [batch_size, hidden_dim, time, freq]
+        # Apply CNN layers
+        x = self.cnn(x)  # [batch, seq_len, hidden_dim]
 
-        # 3. Flatten for Transformer input [64, 256, 100, 6] -> [64, 100, 256]
-        x = x.permute(0, 2, 1, 3).reshape(batch_size, seq_len, -1)
-
-        # 4. Transformer Encoder
+        # Transformer Encoder
         x = self.positional_encoding(x)
         for layer in self.layers:
             x = layer(x, mask=src_mask)
         latent_repr = F.normalize(x, p=2, dim=-1)
 
-        # 5. Heads for Pedal Detection
+        # Heads for Pedal Detection
         p_on_logits = self.pedal_onset_output_layer(latent_repr)
         p_off_logits = self.pedal_offset_output_layer(latent_repr)
         p_v_logits = self.pedal_value_output_layer(latent_repr)
 
-        # 6. Mean Latent Representation for Global Prediction
+        # Mean Latent Representation for Global Prediction
         mean_latent_repr = x.sum(dim=1) / x.shape[1]
 
-        # 7. Global Pedal & Room Predictions
+        # Global Pedal & Room Predictions
         room_logits = self.room_head(mean_latent_repr)
         low_res_p_v_logits = self.low_res_pedal_value_head(mean_latent_repr)
 

@@ -57,10 +57,10 @@ def main():
     data_version_real = "_kong508room1real20250217"  # "_real_audio_4096"
 
     # Feature dimension
-    batch_size = 256
+    batch_size = 16
     feature_dim = 249  # 128 (spectrogram) + 13 (mfcc)
-    max_frame = 100
-    num_samples_per_clip = 50
+    max_frame = 1000
+    num_samples_per_clip = 5
     num_classes = 1
 
     low_res_pedal_ratio = 0.5
@@ -79,12 +79,11 @@ def main():
     # Checkpoint save path
     label_bin_edge_str = str(label_bin_edges[1]) + "-" + str(label_bin_edges[-2])
     factor_str = "&".join([str(f) for f in pedal_factor])
-    save_dir = f"ckpt-mse-0222-mf100-room3-kongfeat-cnn"
-    # save_dir = f"ckpt_{num_samples_per_clip}per-clip-{num_classes}cls-data{data_version}-{max_frame}frm_p{pedal_value_ratio}-r{room_ratio}-c{contrastive_ratio}_{label_bin_edge_str}_bs{batch_size}_fctr{factor_str}"
+    save_dir = f"ckpt_0223_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-reluafter-batchnorm-lr5e-4"
 
     # Copy this file to save_dir
     os.makedirs(save_dir, exist_ok=True)
-    shutil.copy("train.py", os.path.join(save_dir, "train"))
+    shutil.copy("train1.py", os.path.join(save_dir, "train1"))
 
     # Data path
     data_path_synth = f"data/processed_data{data_version_synth}.npz"
@@ -174,7 +173,7 @@ def main():
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.2,
+        overlap_ratio=0.15,
         split="validation",
     )
     print("Train dataset size:", len(train_dataset))
@@ -189,9 +188,10 @@ def main():
         num_layers=8,
         num_classes=num_classes,
     )
+    print(model)
 
     # Optimizer and Scheduler
-    optimizer = torch.optim.AdamW(model.parameters(), lr=2e-4)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.9)
 
     # Loss
