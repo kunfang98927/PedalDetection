@@ -129,9 +129,10 @@ class PedalTrainer1:
         )
 
     def train(self, low_res_pedal_ratio=0.5, pedal_value_ratio=0.7, pedal_onset_ratio=0.1, pedal_offset_ratio=0.1,
-              room_ratio=0.1, contrastive_ratio=0.2):
+              room_ratio=0.1, contrastive_ratio=0.2, start_epoch=0):
         best_val_losses = [float("inf")]
-        for epoch in range(self.num_train_epochs):
+        # Start from `start_epoch` instead of 0
+        for epoch in range(start_epoch, self.num_train_epochs):
             print(f"Starting Epoch {epoch + 1}/{self.num_train_epochs}")
             train_loss = self.train_one_epoch(epoch, low_res_pedal_ratio, pedal_value_ratio, 
                                               pedal_onset_ratio, pedal_offset_ratio,
@@ -158,7 +159,8 @@ class PedalTrainer1:
                     val_loss < max(best_val_losses)
                     or len(self.best_checkpoints) < self.save_total_limit
                 ):
-                    self.save_best_model(val_loss, val_pedal_value_f1, epoch)
+                    self.save_best_model(val_loss, val_pedal_value_mae, val_pedal_value_f1, 
+                                         epoch, optimizer=self.optimizer, scheduler=self.scheduler)
 
                     if len(best_val_losses) > self.save_total_limit:
                         remove_idx = best_val_losses.index(max(best_val_losses))
@@ -464,12 +466,18 @@ class PedalTrainer1:
             avg_pedal_onset_mae, avg_pedal_onset_mse, \
             avg_pedal_offset_mae, avg_pedal_offset_mse
 
-    def save_best_model(self, val_loss, val_pedal_v_f1, epoch):
+    def save_best_model(self, val_loss, val_pedal_v_mae, val_pedal_v_f1, epoch, 
+                        optimizer=None, scheduler=None):
         best_checkpoint_path = os.path.join(
             self.save_dir,
-            f"model_epoch_{epoch + 1}_val_loss_{val_loss:.4f}_val_f1_{val_pedal_v_f1:.4f}.pt",
+            f"model_epoch_{epoch + 1}_val_loss_{val_loss:.4f}_f1_{val_pedal_v_f1:.4f}_mae_{val_pedal_v_mae:.4f}.pt",
         )
-        torch.save(self.model.state_dict(), best_checkpoint_path)
+        torch.save({
+            "model": self.model.state_dict(),
+            "optimizer": optimizer.state_dict(),
+            "scheduler": scheduler.state_dict(),
+            "epoch": epoch,
+        }, best_checkpoint_path)
         self.best_checkpoints.append(best_checkpoint_path)
 
         print(f"Best model saved at {best_checkpoint_path}")

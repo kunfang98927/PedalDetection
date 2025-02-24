@@ -12,6 +12,8 @@ from src.utils import (
     load_data_real_audio,
     split_data_real_audio,
 )
+import functools
+print = functools.partial(print, flush=True)
 
 
 def mix_dataset(
@@ -53,14 +55,16 @@ def mix_dataset(
 
 def main():
 
+    checkpoint_path = "ckpt_0223_10per-clip-500frm_bs32-relubefore-lr5e-4-sbatch/model_epoch_460_val_loss_0.2191_val_f1_0.5295.pt"
+
     data_version_synth = "_kong504room3synth0220"  # "_4096_full_room1" # "_4096_NormPerFeat" # "_real_audio_4096"
     data_version_real = "_kong508room1real20250217"  # "_real_audio_4096"
 
     # Feature dimension
-    batch_size = 16
+    batch_size = 32
     feature_dim = 249  # 128 (spectrogram) + 13 (mfcc)
-    max_frame = 1000
-    num_samples_per_clip = 5
+    max_frame = 500
+    num_samples_per_clip = 10
     num_classes = 1
 
     low_res_pedal_ratio = 0.5
@@ -74,12 +78,12 @@ def main():
     room_acoustics = [1.0]
 
     label_bin_edges = get_label_bin_edges(num_classes)
-    val_label_bin_edges = get_label_bin_edges(3)
+    val_label_bin_edges = get_label_bin_edges(2)
 
     # Checkpoint save path
     label_bin_edge_str = str(label_bin_edges[1]) + "-" + str(label_bin_edges[-2])
     factor_str = "&".join([str(f) for f in pedal_factor])
-    save_dir = f"ckpt_0223_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-reluafter-batchnorm-lr5e-4"
+    save_dir = f"ckpt_0224_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-resume"
 
     # Copy this file to save_dir
     os.makedirs(save_dir, exist_ok=True)
@@ -173,7 +177,7 @@ def main():
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.15,
+        overlap_ratio=0.05,
         split="validation",
     )
     print("Train dataset size:", len(train_dataset))
@@ -193,6 +197,24 @@ def main():
     # Optimizer and Scheduler
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.9)
+
+    # Load checkpoint
+    if checkpoint_path and os.path.exists(checkpoint_path):
+        print(f"Loading checkpoint from {checkpoint_path}...")
+        checkpoint = torch.load(checkpoint_path)
+        # model.load_state_dict(checkpoint['model'])
+        model.load_state_dict(checkpoint)
+        # optimizer.load_state_dict(checkpoint['optimizer'])
+        # scheduler.load_state_dict(checkpoint['scheduler'])
+        start_epoch = 460 # checkpoint['epoch'] + 1  # Resume from the next epoch
+        print(f"Resuming training from epoch {start_epoch}...")
+    else:
+        print("No checkpoint found. Starting from scratch.")
+        start_epoch = 0
+
+    # Manually step the scheduler based on the epoch number
+    for _ in range(start_epoch):
+        scheduler.step()
 
     # Loss
     criterion = torch.nn.CrossEntropyLoss()
@@ -224,6 +246,7 @@ def main():
         pedal_offset_ratio=pedal_offset_ratio,
         room_ratio=room_ratio,
         contrastive_ratio=contrastive_ratio,
+        start_epoch=start_epoch,
     )
 
 
