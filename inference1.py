@@ -78,10 +78,10 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "ckpt_0223_20per-clip-100frm_bs128-relubefore/model_epoch_390_val_loss_0.2727_val_f1_0.5456.pt"
+    checkpoint_path = "ckpt_0223_10per-clip-500frm_bs32-relubefore-lr5e-4/model_epoch_230_val_loss_0.2543_val_f1_0.5157.pt"
 
     feature_dim = 249
-    max_frame = 100
+    max_frame = 500
     hidden_dim = 256  # 256
     num_heads = 8
     ff_dim = 1024  # 256
@@ -111,8 +111,9 @@ def main():
 
     # Data path
     # data_path = "data/processed_data_4096_NormPerFeat.npz"
-    data_path = "data/processed_data_kong508room1real20250217.npz"
+    # data_path = "data/processed_data_kong508room1real20250217.npz"
     # data_path = "data/processed_data_4096_full_room1.npz"
+    data_path = "data/processed_data_kong1012room1_synth_20250217.npz"
 
     # Load data
     if "real" in data_path:
@@ -121,7 +122,7 @@ def main():
             features, labels, metadata, split="test", max_num_samples=None
         )
         print("Split(Test) dataset size:", len(features), len(labels), len(metadata))
-    elif "full" in data_path:
+    elif "full" in data_path or "room" in data_path:
         features, labels, metadata = load_data(
             data_path, label_bin_edges, pedal_factor, room_acoustics
         )
@@ -279,11 +280,11 @@ def main():
 
     print(len(all_p_v_labels), len(all_p_v_preds))
     np.save(
-        "p_v_labels_test_set_real-ckpt390-mf100-room3-kongfeat.npy",
+        "p_v_labels_test_set_synth-room3-ckpt230-mf500-room1-pf1-kongfeat-lr5e-4.npy",
         all_p_v_labels,
     )
     np.save(
-        "p_v_preds_test_set_real-ckpt390-mf100-room3-kongfeat.npy",
+        "p_v_preds_test_set_synth-room3-ckpt230-mf500-room1-pf1-kongfeat-lr5e-4.npy",
         all_p_v_preds,
     )
     all_p_v_labels = np.concatenate(all_p_v_labels)
@@ -292,11 +293,11 @@ def main():
 
     # store the results
     np.save(
-        "global_p_labels_test_set_real-ckpt390-mf100-room3-kongfeat.npy",
+        "global_p_labels_test_set_synth-room3-ckpt230-mf500-room1-pf1-kongfeat-lr5e-4.npy",
         all_low_res_p_labels,
     )
     np.save(
-        "global_p_preds_test_set_real-ckpt390-mf100-room3-kongfeat.npy",
+        "global_p_preds_test_set_synth-room3-ckpt230-mf500-room1-pf1-kongfeat-lr5e-4.npy",
         all_low_res_p_preds,
     )
 
