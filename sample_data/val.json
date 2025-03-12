@@ -1,0 +1,7674 @@
+[
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 8,
+    "num_frames": 40239,
+    "room_id": 1,
+    "midi_id": 5,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 9,
+    "num_frames": 40239,
+    "room_id": 1,
+    "midi_id": 5,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 10,
+    "num_frames": 40174,
+    "room_id": 1,
+    "midi_id": 6,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 11,
+    "num_frames": 40132,
+    "room_id": 1,
+    "midi_id": 6,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 18,
+    "num_frames": 16943,
+    "room_id": 1,
+    "midi_id": 10,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 19,
+    "num_frames": 16813,
+    "room_id": 1,
+    "midi_id": 10,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 30,
+    "num_frames": 14361,
+    "room_id": 1,
+    "midi_id": 16,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 31,
+    "num_frames": 14271,
+    "room_id": 1,
+    "midi_id": 16,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 48,
+    "num_frames": 44182,
+    "room_id": 1,
+    "midi_id": 25,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 49,
+    "num_frames": 44169,
+    "room_id": 1,
+    "midi_id": 25,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 72,
+    "num_frames": 36640,
+    "room_id": 1,
+    "midi_id": 37,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 73,
+    "num_frames": 36621,
+    "room_id": 1,
+    "midi_id": 37,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 74,
+    "num_frames": 32045,
+    "room_id": 1,
+    "midi_id": 38,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 75,
+    "num_frames": 32035,
+    "room_id": 1,
+    "midi_id": 38,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 178,
+    "num_frames": 118953,
+    "room_id": 1,
+    "midi_id": 90,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 179,
+    "num_frames": 118890,
+    "room_id": 1,
+    "midi_id": 90,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 180,
+    "num_frames": 105603,
+    "room_id": 1,
+    "midi_id": 91,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 181,
+    "num_frames": 105605,
+    "room_id": 1,
+    "midi_id": 91,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 182,
+    "num_frames": 102360,
+    "room_id": 1,
+    "midi_id": 92,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 183,
+    "num_frames": 102304,
+    "room_id": 1,
+    "midi_id": 92,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 256,
+    "num_frames": 7787,
+    "room_id": 1,
+    "midi_id": 129,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 257,
+    "num_frames": 7787,
+    "room_id": 1,
+    "midi_id": 129,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 262,
+    "num_frames": 36454,
+    "room_id": 1,
+    "midi_id": 132,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 263,
+    "num_frames": 36437,
+    "room_id": 1,
+    "midi_id": 132,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 264,
+    "num_frames": 36091,
+    "room_id": 1,
+    "midi_id": 133,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 265,
+    "num_frames": 36073,
+    "room_id": 1,
+    "midi_id": 133,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 378,
+    "num_frames": 69960,
+    "room_id": 1,
+    "midi_id": 190,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 379,
+    "num_frames": 69960,
+    "room_id": 1,
+    "midi_id": 190,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 380,
+    "num_frames": 63183,
+    "room_id": 1,
+    "midi_id": 191,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 381,
+    "num_frames": 63183,
+    "room_id": 1,
+    "midi_id": 191,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 396,
+    "num_frames": 61221,
+    "room_id": 1,
+    "midi_id": 199,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 397,
+    "num_frames": 61181,
+    "room_id": 1,
+    "midi_id": 199,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 402,
+    "num_frames": 56888,
+    "room_id": 1,
+    "midi_id": 202,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 403,
+    "num_frames": 56886,
+    "room_id": 1,
+    "midi_id": 202,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 404,
+    "num_frames": 42375,
+    "room_id": 1,
+    "midi_id": 203,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 405,
+    "num_frames": 42357,
+    "room_id": 1,
+    "midi_id": 203,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 406,
+    "num_frames": 51105,
+    "room_id": 1,
+    "midi_id": 204,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 407,
+    "num_frames": 51105,
+    "room_id": 1,
+    "midi_id": 204,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 408,
+    "num_frames": 31785,
+    "room_id": 1,
+    "midi_id": 205,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 409,
+    "num_frames": 31785,
+    "room_id": 1,
+    "midi_id": 205,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 410,
+    "num_frames": 54260,
+    "room_id": 1,
+    "midi_id": 206,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 411,
+    "num_frames": 54257,
+    "room_id": 1,
+    "midi_id": 206,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 420,
+    "num_frames": 57119,
+    "room_id": 1,
+    "midi_id": 211,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 421,
+    "num_frames": 57097,
+    "room_id": 1,
+    "midi_id": 211,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 494,
+    "num_frames": 41331,
+    "room_id": 1,
+    "midi_id": 248,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 495,
+    "num_frames": 41309,
+    "room_id": 1,
+    "midi_id": 248,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 508,
+    "num_frames": 63051,
+    "room_id": 1,
+    "midi_id": 255,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 509,
+    "num_frames": 62919,
+    "room_id": 1,
+    "midi_id": 255,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 510,
+    "num_frames": 5605,
+    "room_id": 1,
+    "midi_id": 256,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 511,
+    "num_frames": 5511,
+    "room_id": 1,
+    "midi_id": 256,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 512,
+    "num_frames": 4672,
+    "room_id": 1,
+    "midi_id": 257,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 513,
+    "num_frames": 4620,
+    "room_id": 1,
+    "midi_id": 257,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 522,
+    "num_frames": 27138,
+    "room_id": 1,
+    "midi_id": 262,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 523,
+    "num_frames": 27059,
+    "room_id": 1,
+    "midi_id": 262,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 524,
+    "num_frames": 25832,
+    "room_id": 1,
+    "midi_id": 263,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 525,
+    "num_frames": 25819,
+    "room_id": 1,
+    "midi_id": 263,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 550,
+    "num_frames": 51224,
+    "room_id": 1,
+    "midi_id": 276,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 551,
+    "num_frames": 51167,
+    "room_id": 1,
+    "midi_id": 276,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 560,
+    "num_frames": 34603,
+    "room_id": 1,
+    "midi_id": 281,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 561,
+    "num_frames": 34603,
+    "room_id": 1,
+    "midi_id": 281,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 574,
+    "num_frames": 27308,
+    "room_id": 1,
+    "midi_id": 288,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 575,
+    "num_frames": 27204,
+    "room_id": 1,
+    "midi_id": 288,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 584,
+    "num_frames": 31124,
+    "room_id": 1,
+    "midi_id": 293,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 585,
+    "num_frames": 31122,
+    "room_id": 1,
+    "midi_id": 293,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 586,
+    "num_frames": 53157,
+    "room_id": 1,
+    "midi_id": 294,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 587,
+    "num_frames": 53131,
+    "room_id": 1,
+    "midi_id": 294,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 588,
+    "num_frames": 33805,
+    "room_id": 1,
+    "midi_id": 295,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 589,
+    "num_frames": 33721,
+    "room_id": 1,
+    "midi_id": 295,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 706,
+    "num_frames": 35157,
+    "room_id": 1,
+    "midi_id": 354,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 707,
+    "num_frames": 35157,
+    "room_id": 1,
+    "midi_id": 354,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 712,
+    "num_frames": 10724,
+    "room_id": 1,
+    "midi_id": 357,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 713,
+    "num_frames": 10672,
+    "room_id": 1,
+    "midi_id": 357,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 850,
+    "num_frames": 31416,
+    "room_id": 1,
+    "midi_id": 426,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 851,
+    "num_frames": 31390,
+    "room_id": 1,
+    "midi_id": 426,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 960,
+    "num_frames": 30632,
+    "room_id": 1,
+    "midi_id": 481,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 961,
+    "num_frames": 30575,
+    "room_id": 1,
+    "midi_id": 481,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1074,
+    "num_frames": 26213,
+    "room_id": 1,
+    "midi_id": 538,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1075,
+    "num_frames": 26213,
+    "room_id": 1,
+    "midi_id": 538,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1076,
+    "num_frames": 26834,
+    "room_id": 1,
+    "midi_id": 539,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1077,
+    "num_frames": 26813,
+    "room_id": 1,
+    "midi_id": 539,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1078,
+    "num_frames": 25982,
+    "room_id": 1,
+    "midi_id": 540,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1079,
+    "num_frames": 25903,
+    "room_id": 1,
+    "midi_id": 540,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1080,
+    "num_frames": 27604,
+    "room_id": 1,
+    "midi_id": 541,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1081,
+    "num_frames": 27525,
+    "room_id": 1,
+    "midi_id": 541,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1082,
+    "num_frames": 29796,
+    "room_id": 1,
+    "midi_id": 542,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1083,
+    "num_frames": 29699,
+    "room_id": 1,
+    "midi_id": 542,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1140,
+    "num_frames": 9762,
+    "room_id": 1,
+    "midi_id": 571,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1141,
+    "num_frames": 9759,
+    "room_id": 1,
+    "midi_id": 571,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1142,
+    "num_frames": 9390,
+    "room_id": 1,
+    "midi_id": 572,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1143,
+    "num_frames": 9386,
+    "room_id": 1,
+    "midi_id": 572,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1144,
+    "num_frames": 10189,
+    "room_id": 1,
+    "midi_id": 573,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1145,
+    "num_frames": 10055,
+    "room_id": 1,
+    "midi_id": 573,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1216,
+    "num_frames": 71694,
+    "room_id": 1,
+    "midi_id": 609,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1217,
+    "num_frames": 71672,
+    "room_id": 1,
+    "midi_id": 609,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1218,
+    "num_frames": 76809,
+    "room_id": 1,
+    "midi_id": 610,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1219,
+    "num_frames": 76809,
+    "room_id": 1,
+    "midi_id": 610,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1222,
+    "num_frames": 14071,
+    "room_id": 1,
+    "midi_id": 612,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1223,
+    "num_frames": 13970,
+    "room_id": 1,
+    "midi_id": 612,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1226,
+    "num_frames": 12662,
+    "room_id": 1,
+    "midi_id": 614,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1227,
+    "num_frames": 12659,
+    "room_id": 1,
+    "midi_id": 614,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1228,
+    "num_frames": 12351,
+    "room_id": 1,
+    "midi_id": 615,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1229,
+    "num_frames": 12237,
+    "room_id": 1,
+    "midi_id": 615,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1230,
+    "num_frames": 9627,
+    "room_id": 1,
+    "midi_id": 616,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1231,
+    "num_frames": 9515,
+    "room_id": 1,
+    "midi_id": 616,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1232,
+    "num_frames": 77646,
+    "room_id": 1,
+    "midi_id": 617,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1233,
+    "num_frames": 77643,
+    "room_id": 1,
+    "midi_id": 617,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1238,
+    "num_frames": 35318,
+    "room_id": 1,
+    "midi_id": 620,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1239,
+    "num_frames": 35233,
+    "room_id": 1,
+    "midi_id": 620,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1240,
+    "num_frames": 34490,
+    "room_id": 1,
+    "midi_id": 621,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1241,
+    "num_frames": 34405,
+    "room_id": 1,
+    "midi_id": 621,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1242,
+    "num_frames": 26254,
+    "room_id": 1,
+    "midi_id": 622,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1243,
+    "num_frames": 26212,
+    "room_id": 1,
+    "midi_id": 622,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1244,
+    "num_frames": 30101,
+    "room_id": 1,
+    "midi_id": 623,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1245,
+    "num_frames": 30033,
+    "room_id": 1,
+    "midi_id": 623,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1246,
+    "num_frames": 28139,
+    "room_id": 1,
+    "midi_id": 624,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1247,
+    "num_frames": 28025,
+    "room_id": 1,
+    "midi_id": 624,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1248,
+    "num_frames": 41428,
+    "room_id": 1,
+    "midi_id": 625,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1249,
+    "num_frames": 41389,
+    "room_id": 1,
+    "midi_id": 625,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1250,
+    "num_frames": 37219,
+    "room_id": 1,
+    "midi_id": 626,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1251,
+    "num_frames": 37145,
+    "room_id": 1,
+    "midi_id": 626,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1252,
+    "num_frames": 22556,
+    "room_id": 1,
+    "midi_id": 627,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1253,
+    "num_frames": 22444,
+    "room_id": 1,
+    "midi_id": 627,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1258,
+    "num_frames": 29773,
+    "room_id": 1,
+    "midi_id": 630,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1259,
+    "num_frames": 29673,
+    "room_id": 1,
+    "midi_id": 630,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1264,
+    "num_frames": 42966,
+    "room_id": 1,
+    "midi_id": 633,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1265,
+    "num_frames": 42903,
+    "room_id": 1,
+    "midi_id": 633,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1266,
+    "num_frames": 36059,
+    "room_id": 1,
+    "midi_id": 634,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1267,
+    "num_frames": 36059,
+    "room_id": 1,
+    "midi_id": 634,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1268,
+    "num_frames": 28011,
+    "room_id": 1,
+    "midi_id": 635,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1269,
+    "num_frames": 27926,
+    "room_id": 1,
+    "midi_id": 635,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1296,
+    "num_frames": 50776,
+    "room_id": 1,
+    "midi_id": 649,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1297,
+    "num_frames": 50756,
+    "room_id": 1,
+    "midi_id": 649,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1298,
+    "num_frames": 52875,
+    "room_id": 1,
+    "midi_id": 650,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1299,
+    "num_frames": 52856,
+    "room_id": 1,
+    "midi_id": 650,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1300,
+    "num_frames": 55648,
+    "room_id": 1,
+    "midi_id": 651,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1301,
+    "num_frames": 55648,
+    "room_id": 1,
+    "midi_id": 651,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1384,
+    "num_frames": 142865,
+    "room_id": 1,
+    "midi_id": 693,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1385,
+    "num_frames": 142738,
+    "room_id": 1,
+    "midi_id": 693,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1509,
+    "num_frames": 19011,
+    "room_id": 1,
+    "midi_id": 757,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1510,
+    "num_frames": 18975,
+    "room_id": 1,
+    "midi_id": 757,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1545,
+    "num_frames": 32915,
+    "room_id": 1,
+    "midi_id": 776,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1546,
+    "num_frames": 32911,
+    "room_id": 1,
+    "midi_id": 776,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1559,
+    "num_frames": 45687,
+    "room_id": 1,
+    "midi_id": 783,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1560,
+    "num_frames": 45606,
+    "room_id": 1,
+    "midi_id": 783,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1561,
+    "num_frames": 32434,
+    "room_id": 1,
+    "midi_id": 784,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1562,
+    "num_frames": 32349,
+    "room_id": 1,
+    "midi_id": 784,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1563,
+    "num_frames": 44747,
+    "room_id": 1,
+    "midi_id": 785,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1564,
+    "num_frames": 44659,
+    "room_id": 1,
+    "midi_id": 785,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1581,
+    "num_frames": 20462,
+    "room_id": 1,
+    "midi_id": 794,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1582,
+    "num_frames": 20453,
+    "room_id": 1,
+    "midi_id": 794,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1585,
+    "num_frames": 23050,
+    "room_id": 1,
+    "midi_id": 796,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1586,
+    "num_frames": 22960,
+    "room_id": 1,
+    "midi_id": 796,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1587,
+    "num_frames": 21426,
+    "room_id": 1,
+    "midi_id": 797,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1588,
+    "num_frames": 21426,
+    "room_id": 1,
+    "midi_id": 797,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1589,
+    "num_frames": 20940,
+    "room_id": 1,
+    "midi_id": 798,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1590,
+    "num_frames": 20940,
+    "room_id": 1,
+    "midi_id": 798,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1648,
+    "num_frames": 43779,
+    "room_id": 1,
+    "midi_id": 829,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1649,
+    "num_frames": 43779,
+    "room_id": 1,
+    "midi_id": 829,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1650,
+    "num_frames": 34944,
+    "room_id": 1,
+    "midi_id": 830,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1651,
+    "num_frames": 34944,
+    "room_id": 1,
+    "midi_id": 830,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1652,
+    "num_frames": 40191,
+    "room_id": 1,
+    "midi_id": 831,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1653,
+    "num_frames": 40191,
+    "room_id": 1,
+    "midi_id": 831,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1654,
+    "num_frames": 38668,
+    "room_id": 1,
+    "midi_id": 832,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1655,
+    "num_frames": 38668,
+    "room_id": 1,
+    "midi_id": 832,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1656,
+    "num_frames": 45254,
+    "room_id": 1,
+    "midi_id": 833,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1657,
+    "num_frames": 45133,
+    "room_id": 1,
+    "midi_id": 833,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1732,
+    "num_frames": 106556,
+    "room_id": 1,
+    "midi_id": 873,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1733,
+    "num_frames": 106545,
+    "room_id": 1,
+    "midi_id": 873,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1742,
+    "num_frames": 83611,
+    "room_id": 1,
+    "midi_id": 878,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1743,
+    "num_frames": 83549,
+    "room_id": 1,
+    "midi_id": 878,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1750,
+    "num_frames": 55389,
+    "room_id": 1,
+    "midi_id": 882,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1751,
+    "num_frames": 55295,
+    "room_id": 1,
+    "midi_id": 882,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1756,
+    "num_frames": 167560,
+    "room_id": 1,
+    "midi_id": 885,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1757,
+    "num_frames": 167424,
+    "room_id": 1,
+    "midi_id": 885,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1758,
+    "num_frames": 157907,
+    "room_id": 1,
+    "midi_id": 886,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1759,
+    "num_frames": 157846,
+    "room_id": 1,
+    "midi_id": 886,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1784,
+    "num_frames": 55958,
+    "room_id": 1,
+    "midi_id": 899,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1785,
+    "num_frames": 55955,
+    "room_id": 1,
+    "midi_id": 899,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1790,
+    "num_frames": 83277,
+    "room_id": 1,
+    "midi_id": 902,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1791,
+    "num_frames": 83232,
+    "room_id": 1,
+    "midi_id": 902,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1806,
+    "num_frames": 13033,
+    "room_id": 1,
+    "midi_id": 910,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1807,
+    "num_frames": 13033,
+    "room_id": 1,
+    "midi_id": 910,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1838,
+    "num_frames": 20999,
+    "room_id": 1,
+    "midi_id": 926,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1839,
+    "num_frames": 20999,
+    "room_id": 1,
+    "midi_id": 926,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1872,
+    "num_frames": 140524,
+    "room_id": 1,
+    "midi_id": 943,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1873,
+    "num_frames": 140506,
+    "room_id": 1,
+    "midi_id": 943,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1874,
+    "num_frames": 52954,
+    "room_id": 1,
+    "midi_id": 944,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1875,
+    "num_frames": 52852,
+    "room_id": 1,
+    "midi_id": 944,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1882,
+    "num_frames": 131646,
+    "room_id": 1,
+    "midi_id": 948,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1883,
+    "num_frames": 131578,
+    "room_id": 1,
+    "midi_id": 948,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1896,
+    "num_frames": 33828,
+    "room_id": 1,
+    "midi_id": 955,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1897,
+    "num_frames": 33828,
+    "room_id": 1,
+    "midi_id": 955,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1898,
+    "num_frames": 32069,
+    "room_id": 1,
+    "midi_id": 956,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1899,
+    "num_frames": 32067,
+    "room_id": 1,
+    "midi_id": 956,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1900,
+    "num_frames": 132326,
+    "room_id": 1,
+    "midi_id": 957,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1901,
+    "num_frames": 132296,
+    "room_id": 1,
+    "midi_id": 957,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1902,
+    "num_frames": 32454,
+    "room_id": 1,
+    "midi_id": 958,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 1903,
+    "num_frames": 32428,
+    "room_id": 1,
+    "midi_id": 958,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2006,
+    "num_frames": 76117,
+    "room_id": 1,
+    "midi_id": 1010,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2007,
+    "num_frames": 76117,
+    "room_id": 1,
+    "midi_id": 1010,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2008,
+    "num_frames": 30940,
+    "room_id": 1,
+    "midi_id": 1011,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2009,
+    "num_frames": 30937,
+    "room_id": 1,
+    "midi_id": 1011,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2010,
+    "num_frames": 32097,
+    "room_id": 1,
+    "midi_id": 1012,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2011,
+    "num_frames": 31985,
+    "room_id": 1,
+    "midi_id": 1012,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2018,
+    "num_frames": 245956,
+    "room_id": 1,
+    "midi_id": 1016,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2019,
+    "num_frames": 245921,
+    "room_id": 1,
+    "midi_id": 1016,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2166,
+    "num_frames": 153269,
+    "room_id": 1,
+    "midi_id": 1090,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2167,
+    "num_frames": 153257,
+    "room_id": 1,
+    "midi_id": 1090,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2174,
+    "num_frames": 53355,
+    "room_id": 1,
+    "midi_id": 1094,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2175,
+    "num_frames": 53346,
+    "room_id": 1,
+    "midi_id": 1094,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2176,
+    "num_frames": 49455,
+    "room_id": 1,
+    "midi_id": 1095,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2177,
+    "num_frames": 49455,
+    "room_id": 1,
+    "midi_id": 1095,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2178,
+    "num_frames": 53799,
+    "room_id": 1,
+    "midi_id": 1096,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2179,
+    "num_frames": 53791,
+    "room_id": 1,
+    "midi_id": 1096,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2268,
+    "num_frames": 43816,
+    "room_id": 1,
+    "midi_id": 1141,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2269,
+    "num_frames": 43728,
+    "room_id": 1,
+    "midi_id": 1141,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2270,
+    "num_frames": 38872,
+    "room_id": 1,
+    "midi_id": 1142,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2271,
+    "num_frames": 38781,
+    "room_id": 1,
+    "midi_id": 1142,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2280,
+    "num_frames": 210318,
+    "room_id": 1,
+    "midi_id": 1147,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2281,
+    "num_frames": 210235,
+    "room_id": 1,
+    "midi_id": 1147,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2292,
+    "num_frames": 163590,
+    "room_id": 1,
+    "midi_id": 1153,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2293,
+    "num_frames": 163539,
+    "room_id": 1,
+    "midi_id": 1153,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2308,
+    "num_frames": 24843,
+    "room_id": 1,
+    "midi_id": 1161,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2309,
+    "num_frames": 24803,
+    "room_id": 1,
+    "midi_id": 1161,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2318,
+    "num_frames": 97870,
+    "room_id": 1,
+    "midi_id": 1166,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2319,
+    "num_frames": 97857,
+    "room_id": 1,
+    "midi_id": 1166,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2320,
+    "num_frames": 113038,
+    "room_id": 1,
+    "midi_id": 1167,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2321,
+    "num_frames": 112989,
+    "room_id": 1,
+    "midi_id": 1167,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2322,
+    "num_frames": 98303,
+    "room_id": 1,
+    "midi_id": 1168,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2323,
+    "num_frames": 98257,
+    "room_id": 1,
+    "midi_id": 1168,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2354,
+    "num_frames": 110767,
+    "room_id": 1,
+    "midi_id": 1184,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2355,
+    "num_frames": 110678,
+    "room_id": 1,
+    "midi_id": 1184,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2356,
+    "num_frames": 37952,
+    "room_id": 1,
+    "midi_id": 1185,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2357,
+    "num_frames": 37833,
+    "room_id": 1,
+    "midi_id": 1185,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2358,
+    "num_frames": 30337,
+    "room_id": 1,
+    "midi_id": 1186,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2359,
+    "num_frames": 30262,
+    "room_id": 1,
+    "midi_id": 1186,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2360,
+    "num_frames": 33153,
+    "room_id": 1,
+    "midi_id": 1187,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2361,
+    "num_frames": 33021,
+    "room_id": 1,
+    "midi_id": 1187,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2366,
+    "num_frames": 15623,
+    "room_id": 1,
+    "midi_id": 1190,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2367,
+    "num_frames": 15590,
+    "room_id": 1,
+    "midi_id": 1190,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2368,
+    "num_frames": 16416,
+    "room_id": 1,
+    "midi_id": 1191,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2369,
+    "num_frames": 16407,
+    "room_id": 1,
+    "midi_id": 1191,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2374,
+    "num_frames": 15741,
+    "room_id": 1,
+    "midi_id": 1194,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2375,
+    "num_frames": 15740,
+    "room_id": 1,
+    "midi_id": 1194,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2380,
+    "num_frames": 16122,
+    "room_id": 1,
+    "midi_id": 1197,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2381,
+    "num_frames": 16122,
+    "room_id": 1,
+    "midi_id": 1197,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2382,
+    "num_frames": 26861,
+    "room_id": 1,
+    "midi_id": 1198,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2383,
+    "num_frames": 26821,
+    "room_id": 1,
+    "midi_id": 1198,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2388,
+    "num_frames": 136003,
+    "room_id": 1,
+    "midi_id": 1201,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2389,
+    "num_frames": 135899,
+    "room_id": 1,
+    "midi_id": 1201,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2390,
+    "num_frames": 21979,
+    "room_id": 1,
+    "midi_id": 1202,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2391,
+    "num_frames": 21979,
+    "room_id": 1,
+    "midi_id": 1202,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2392,
+    "num_frames": 14012,
+    "room_id": 1,
+    "midi_id": 1203,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2393,
+    "num_frames": 13894,
+    "room_id": 1,
+    "midi_id": 1203,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2418,
+    "num_frames": 23899,
+    "room_id": 1,
+    "midi_id": 1216,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2419,
+    "num_frames": 23774,
+    "room_id": 1,
+    "midi_id": 1216,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2420,
+    "num_frames": 20392,
+    "room_id": 1,
+    "midi_id": 1217,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2421,
+    "num_frames": 20389,
+    "room_id": 1,
+    "midi_id": 1217,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2422,
+    "num_frames": 24714,
+    "room_id": 1,
+    "midi_id": 1218,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2423,
+    "num_frames": 24628,
+    "room_id": 1,
+    "midi_id": 1218,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2432,
+    "num_frames": 24485,
+    "room_id": 1,
+    "midi_id": 1223,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2433,
+    "num_frames": 24401,
+    "room_id": 1,
+    "midi_id": 1223,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2438,
+    "num_frames": 36959,
+    "room_id": 1,
+    "midi_id": 1226,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2439,
+    "num_frames": 36831,
+    "room_id": 1,
+    "midi_id": 1226,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2440,
+    "num_frames": 23293,
+    "room_id": 1,
+    "midi_id": 1227,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2441,
+    "num_frames": 23262,
+    "room_id": 1,
+    "midi_id": 1227,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2502,
+    "num_frames": 60084,
+    "room_id": 1,
+    "midi_id": 1258,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2503,
+    "num_frames": 60073,
+    "room_id": 1,
+    "midi_id": 1258,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2530,
+    "num_frames": 107667,
+    "room_id": 1,
+    "midi_id": 1272,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2531,
+    "num_frames": 107666,
+    "room_id": 1,
+    "midi_id": 1272,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2546,
+    "num_frames": 114033,
+    "room_id": 1,
+    "midi_id": 1280,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2547,
+    "num_frames": 114033,
+    "room_id": 1,
+    "midi_id": 1280,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2548,
+    "num_frames": 106989,
+    "room_id": 1,
+    "midi_id": 1281,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
+    "example_index": 2549,
+    "num_frames": 106988,
+    "room_id": 1,
+    "midi_id": 1281,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 8,
+    "num_frames": 40272,
+    "room_id": 2,
+    "midi_id": 5,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 9,
+    "num_frames": 40272,
+    "room_id": 2,
+    "midi_id": 5,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 10,
+    "num_frames": 40186,
+    "room_id": 2,
+    "midi_id": 6,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 11,
+    "num_frames": 40140,
+    "room_id": 2,
+    "midi_id": 6,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 18,
+    "num_frames": 16948,
+    "room_id": 2,
+    "midi_id": 10,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 19,
+    "num_frames": 16813,
+    "room_id": 2,
+    "midi_id": 10,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 30,
+    "num_frames": 14366,
+    "room_id": 2,
+    "midi_id": 16,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 31,
+    "num_frames": 14271,
+    "room_id": 2,
+    "midi_id": 16,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 48,
+    "num_frames": 44197,
+    "room_id": 2,
+    "midi_id": 25,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 49,
+    "num_frames": 44178,
+    "room_id": 2,
+    "midi_id": 25,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 72,
+    "num_frames": 36655,
+    "room_id": 2,
+    "midi_id": 37,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 73,
+    "num_frames": 36621,
+    "room_id": 2,
+    "midi_id": 37,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 74,
+    "num_frames": 32056,
+    "room_id": 2,
+    "midi_id": 38,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 75,
+    "num_frames": 32043,
+    "room_id": 2,
+    "midi_id": 38,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 178,
+    "num_frames": 118967,
+    "room_id": 2,
+    "midi_id": 90,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 179,
+    "num_frames": 118892,
+    "room_id": 2,
+    "midi_id": 90,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 180,
+    "num_frames": 105616,
+    "room_id": 2,
+    "midi_id": 91,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 181,
+    "num_frames": 105609,
+    "room_id": 2,
+    "midi_id": 91,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 182,
+    "num_frames": 102365,
+    "room_id": 2,
+    "midi_id": 92,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 183,
+    "num_frames": 102316,
+    "room_id": 2,
+    "midi_id": 92,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 256,
+    "num_frames": 7791,
+    "room_id": 2,
+    "midi_id": 129,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 257,
+    "num_frames": 7791,
+    "room_id": 2,
+    "midi_id": 129,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 262,
+    "num_frames": 36469,
+    "room_id": 2,
+    "midi_id": 132,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 263,
+    "num_frames": 36453,
+    "room_id": 2,
+    "midi_id": 132,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 264,
+    "num_frames": 36101,
+    "room_id": 2,
+    "midi_id": 133,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 265,
+    "num_frames": 36087,
+    "room_id": 2,
+    "midi_id": 133,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 378,
+    "num_frames": 69960,
+    "room_id": 2,
+    "midi_id": 190,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 379,
+    "num_frames": 69960,
+    "room_id": 2,
+    "midi_id": 190,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 380,
+    "num_frames": 63185,
+    "room_id": 2,
+    "midi_id": 191,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 381,
+    "num_frames": 63185,
+    "room_id": 2,
+    "midi_id": 191,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 396,
+    "num_frames": 61238,
+    "room_id": 2,
+    "midi_id": 199,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 397,
+    "num_frames": 61202,
+    "room_id": 2,
+    "midi_id": 199,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 402,
+    "num_frames": 56891,
+    "room_id": 2,
+    "midi_id": 202,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 403,
+    "num_frames": 56889,
+    "room_id": 2,
+    "midi_id": 202,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 404,
+    "num_frames": 42387,
+    "room_id": 2,
+    "midi_id": 203,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 405,
+    "num_frames": 42361,
+    "room_id": 2,
+    "midi_id": 203,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 406,
+    "num_frames": 51119,
+    "room_id": 2,
+    "midi_id": 204,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 407,
+    "num_frames": 51119,
+    "room_id": 2,
+    "midi_id": 204,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 408,
+    "num_frames": 31806,
+    "room_id": 2,
+    "midi_id": 205,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 409,
+    "num_frames": 31805,
+    "room_id": 2,
+    "midi_id": 205,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 410,
+    "num_frames": 54282,
+    "room_id": 2,
+    "midi_id": 206,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 411,
+    "num_frames": 54279,
+    "room_id": 2,
+    "midi_id": 206,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 420,
+    "num_frames": 57129,
+    "room_id": 2,
+    "midi_id": 211,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 421,
+    "num_frames": 57112,
+    "room_id": 2,
+    "midi_id": 211,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 494,
+    "num_frames": 41354,
+    "room_id": 2,
+    "midi_id": 248,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 495,
+    "num_frames": 41309,
+    "room_id": 2,
+    "midi_id": 248,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 508,
+    "num_frames": 63069,
+    "room_id": 2,
+    "midi_id": 255,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 509,
+    "num_frames": 62927,
+    "room_id": 2,
+    "midi_id": 255,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 510,
+    "num_frames": 5598,
+    "room_id": 2,
+    "midi_id": 256,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 511,
+    "num_frames": 5511,
+    "room_id": 2,
+    "midi_id": 256,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 512,
+    "num_frames": 4681,
+    "room_id": 2,
+    "midi_id": 257,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 513,
+    "num_frames": 4636,
+    "room_id": 2,
+    "midi_id": 257,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 522,
+    "num_frames": 27145,
+    "room_id": 2,
+    "midi_id": 262,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 523,
+    "num_frames": 27059,
+    "room_id": 2,
+    "midi_id": 262,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 524,
+    "num_frames": 25846,
+    "room_id": 2,
+    "midi_id": 263,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 525,
+    "num_frames": 25832,
+    "room_id": 2,
+    "midi_id": 263,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 550,
+    "num_frames": 51234,
+    "room_id": 2,
+    "midi_id": 276,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 551,
+    "num_frames": 51176,
+    "room_id": 2,
+    "midi_id": 276,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 560,
+    "num_frames": 34607,
+    "room_id": 2,
+    "midi_id": 281,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 561,
+    "num_frames": 34607,
+    "room_id": 2,
+    "midi_id": 281,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 574,
+    "num_frames": 27314,
+    "room_id": 2,
+    "midi_id": 288,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 575,
+    "num_frames": 27204,
+    "room_id": 2,
+    "midi_id": 288,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 584,
+    "num_frames": 31162,
+    "room_id": 2,
+    "midi_id": 293,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 585,
+    "num_frames": 31162,
+    "room_id": 2,
+    "midi_id": 293,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 586,
+    "num_frames": 53172,
+    "room_id": 2,
+    "midi_id": 294,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 587,
+    "num_frames": 53148,
+    "room_id": 2,
+    "midi_id": 294,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 588,
+    "num_frames": 33820,
+    "room_id": 2,
+    "midi_id": 295,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 589,
+    "num_frames": 33721,
+    "room_id": 2,
+    "midi_id": 295,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 706,
+    "num_frames": 35173,
+    "room_id": 2,
+    "midi_id": 354,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 707,
+    "num_frames": 35173,
+    "room_id": 2,
+    "midi_id": 354,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 712,
+    "num_frames": 10734,
+    "room_id": 2,
+    "midi_id": 357,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 713,
+    "num_frames": 10675,
+    "room_id": 2,
+    "midi_id": 357,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 850,
+    "num_frames": 31424,
+    "room_id": 2,
+    "midi_id": 426,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 851,
+    "num_frames": 31398,
+    "room_id": 2,
+    "midi_id": 426,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 960,
+    "num_frames": 30648,
+    "room_id": 2,
+    "midi_id": 481,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 961,
+    "num_frames": 30575,
+    "room_id": 2,
+    "midi_id": 481,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1074,
+    "num_frames": 26213,
+    "room_id": 2,
+    "midi_id": 538,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1075,
+    "num_frames": 26213,
+    "room_id": 2,
+    "midi_id": 538,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1076,
+    "num_frames": 26836,
+    "room_id": 2,
+    "midi_id": 539,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1077,
+    "num_frames": 26813,
+    "room_id": 2,
+    "midi_id": 539,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1078,
+    "num_frames": 25995,
+    "room_id": 2,
+    "midi_id": 540,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1079,
+    "num_frames": 25903,
+    "room_id": 2,
+    "midi_id": 540,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1080,
+    "num_frames": 27613,
+    "room_id": 2,
+    "midi_id": 541,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1081,
+    "num_frames": 27525,
+    "room_id": 2,
+    "midi_id": 541,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1082,
+    "num_frames": 29804,
+    "room_id": 2,
+    "midi_id": 542,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1083,
+    "num_frames": 29699,
+    "room_id": 2,
+    "midi_id": 542,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1140,
+    "num_frames": 9779,
+    "room_id": 2,
+    "midi_id": 571,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1141,
+    "num_frames": 9777,
+    "room_id": 2,
+    "midi_id": 571,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1142,
+    "num_frames": 9407,
+    "room_id": 2,
+    "midi_id": 572,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1143,
+    "num_frames": 9391,
+    "room_id": 2,
+    "midi_id": 572,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1144,
+    "num_frames": 10193,
+    "room_id": 2,
+    "midi_id": 573,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1145,
+    "num_frames": 10068,
+    "room_id": 2,
+    "midi_id": 573,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1216,
+    "num_frames": 71703,
+    "room_id": 2,
+    "midi_id": 609,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1217,
+    "num_frames": 71682,
+    "room_id": 2,
+    "midi_id": 609,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1218,
+    "num_frames": 76818,
+    "room_id": 2,
+    "midi_id": 610,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1219,
+    "num_frames": 76818,
+    "room_id": 2,
+    "midi_id": 610,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1222,
+    "num_frames": 14083,
+    "room_id": 2,
+    "midi_id": 612,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1223,
+    "num_frames": 13984,
+    "room_id": 2,
+    "midi_id": 612,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1226,
+    "num_frames": 12685,
+    "room_id": 2,
+    "midi_id": 614,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1227,
+    "num_frames": 12678,
+    "room_id": 2,
+    "midi_id": 614,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1228,
+    "num_frames": 12361,
+    "room_id": 2,
+    "midi_id": 615,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1229,
+    "num_frames": 12250,
+    "room_id": 2,
+    "midi_id": 615,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1230,
+    "num_frames": 9636,
+    "room_id": 2,
+    "midi_id": 616,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1231,
+    "num_frames": 9524,
+    "room_id": 2,
+    "midi_id": 616,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1232,
+    "num_frames": 77654,
+    "room_id": 2,
+    "midi_id": 617,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1233,
+    "num_frames": 77652,
+    "room_id": 2,
+    "midi_id": 617,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1238,
+    "num_frames": 35344,
+    "room_id": 2,
+    "midi_id": 620,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1239,
+    "num_frames": 35233,
+    "room_id": 2,
+    "midi_id": 620,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1240,
+    "num_frames": 34499,
+    "room_id": 2,
+    "midi_id": 621,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1241,
+    "num_frames": 34405,
+    "room_id": 2,
+    "midi_id": 621,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1242,
+    "num_frames": 26264,
+    "room_id": 2,
+    "midi_id": 622,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1243,
+    "num_frames": 26212,
+    "room_id": 2,
+    "midi_id": 622,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1244,
+    "num_frames": 30117,
+    "room_id": 2,
+    "midi_id": 623,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1245,
+    "num_frames": 30033,
+    "room_id": 2,
+    "midi_id": 623,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1246,
+    "num_frames": 28145,
+    "room_id": 2,
+    "midi_id": 624,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1247,
+    "num_frames": 28025,
+    "room_id": 2,
+    "midi_id": 624,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1248,
+    "num_frames": 41428,
+    "room_id": 2,
+    "midi_id": 625,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1249,
+    "num_frames": 41389,
+    "room_id": 2,
+    "midi_id": 625,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1250,
+    "num_frames": 37230,
+    "room_id": 2,
+    "midi_id": 626,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1251,
+    "num_frames": 37159,
+    "room_id": 2,
+    "midi_id": 626,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1252,
+    "num_frames": 22563,
+    "room_id": 2,
+    "midi_id": 627,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1253,
+    "num_frames": 22444,
+    "room_id": 2,
+    "midi_id": 627,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1258,
+    "num_frames": 29773,
+    "room_id": 2,
+    "midi_id": 630,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1259,
+    "num_frames": 29673,
+    "room_id": 2,
+    "midi_id": 630,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1264,
+    "num_frames": 42979,
+    "room_id": 2,
+    "midi_id": 633,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1265,
+    "num_frames": 42903,
+    "room_id": 2,
+    "midi_id": 633,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1266,
+    "num_frames": 36088,
+    "room_id": 2,
+    "midi_id": 634,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1267,
+    "num_frames": 36088,
+    "room_id": 2,
+    "midi_id": 634,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1268,
+    "num_frames": 28015,
+    "room_id": 2,
+    "midi_id": 635,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1269,
+    "num_frames": 27926,
+    "room_id": 2,
+    "midi_id": 635,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1296,
+    "num_frames": 50789,
+    "room_id": 2,
+    "midi_id": 649,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1297,
+    "num_frames": 50774,
+    "room_id": 2,
+    "midi_id": 649,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1298,
+    "num_frames": 52894,
+    "room_id": 2,
+    "midi_id": 650,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1299,
+    "num_frames": 52872,
+    "room_id": 2,
+    "midi_id": 650,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1300,
+    "num_frames": 55664,
+    "room_id": 2,
+    "midi_id": 651,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1301,
+    "num_frames": 55663,
+    "room_id": 2,
+    "midi_id": 651,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1384,
+    "num_frames": 142875,
+    "room_id": 2,
+    "midi_id": 693,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1385,
+    "num_frames": 142747,
+    "room_id": 2,
+    "midi_id": 693,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1509,
+    "num_frames": 19006,
+    "room_id": 2,
+    "midi_id": 757,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1510,
+    "num_frames": 18979,
+    "room_id": 2,
+    "midi_id": 757,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1545,
+    "num_frames": 32921,
+    "room_id": 2,
+    "midi_id": 776,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1546,
+    "num_frames": 32921,
+    "room_id": 2,
+    "midi_id": 776,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1559,
+    "num_frames": 45703,
+    "room_id": 2,
+    "midi_id": 783,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1560,
+    "num_frames": 45606,
+    "room_id": 2,
+    "midi_id": 783,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1561,
+    "num_frames": 32442,
+    "room_id": 2,
+    "midi_id": 784,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1562,
+    "num_frames": 32357,
+    "room_id": 2,
+    "midi_id": 784,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1563,
+    "num_frames": 44748,
+    "room_id": 2,
+    "midi_id": 785,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1564,
+    "num_frames": 44659,
+    "room_id": 2,
+    "midi_id": 785,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1581,
+    "num_frames": 20478,
+    "room_id": 2,
+    "midi_id": 794,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1582,
+    "num_frames": 20465,
+    "room_id": 2,
+    "midi_id": 794,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1585,
+    "num_frames": 23061,
+    "room_id": 2,
+    "midi_id": 796,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1586,
+    "num_frames": 22974,
+    "room_id": 2,
+    "midi_id": 796,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1587,
+    "num_frames": 21435,
+    "room_id": 2,
+    "midi_id": 797,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1588,
+    "num_frames": 21435,
+    "room_id": 2,
+    "midi_id": 797,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1589,
+    "num_frames": 20953,
+    "room_id": 2,
+    "midi_id": 798,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1590,
+    "num_frames": 20953,
+    "room_id": 2,
+    "midi_id": 798,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1648,
+    "num_frames": 43783,
+    "room_id": 2,
+    "midi_id": 829,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1649,
+    "num_frames": 43783,
+    "room_id": 2,
+    "midi_id": 829,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1650,
+    "num_frames": 34947,
+    "room_id": 2,
+    "midi_id": 830,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1651,
+    "num_frames": 34947,
+    "room_id": 2,
+    "midi_id": 830,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1652,
+    "num_frames": 40202,
+    "room_id": 2,
+    "midi_id": 831,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1653,
+    "num_frames": 40202,
+    "room_id": 2,
+    "midi_id": 831,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1654,
+    "num_frames": 38675,
+    "room_id": 2,
+    "midi_id": 832,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1655,
+    "num_frames": 38675,
+    "room_id": 2,
+    "midi_id": 832,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1656,
+    "num_frames": 45259,
+    "room_id": 2,
+    "midi_id": 833,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1657,
+    "num_frames": 45133,
+    "room_id": 2,
+    "midi_id": 833,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1732,
+    "num_frames": 106560,
+    "room_id": 2,
+    "midi_id": 873,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1733,
+    "num_frames": 106551,
+    "room_id": 2,
+    "midi_id": 873,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1742,
+    "num_frames": 83611,
+    "room_id": 2,
+    "midi_id": 878,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1743,
+    "num_frames": 83564,
+    "room_id": 2,
+    "midi_id": 878,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1750,
+    "num_frames": 55399,
+    "room_id": 2,
+    "midi_id": 882,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1751,
+    "num_frames": 55295,
+    "room_id": 2,
+    "midi_id": 882,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1756,
+    "num_frames": 167563,
+    "room_id": 2,
+    "midi_id": 885,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1757,
+    "num_frames": 167426,
+    "room_id": 2,
+    "midi_id": 885,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1758,
+    "num_frames": 157910,
+    "room_id": 2,
+    "midi_id": 886,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1759,
+    "num_frames": 157860,
+    "room_id": 2,
+    "midi_id": 886,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1784,
+    "num_frames": 55974,
+    "room_id": 2,
+    "midi_id": 899,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1785,
+    "num_frames": 55967,
+    "room_id": 2,
+    "midi_id": 899,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1790,
+    "num_frames": 83281,
+    "room_id": 2,
+    "midi_id": 902,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1791,
+    "num_frames": 83234,
+    "room_id": 2,
+    "midi_id": 902,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1806,
+    "num_frames": 13044,
+    "room_id": 2,
+    "midi_id": 910,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1807,
+    "num_frames": 13044,
+    "room_id": 2,
+    "midi_id": 910,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1838,
+    "num_frames": 21009,
+    "room_id": 2,
+    "midi_id": 926,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1839,
+    "num_frames": 21009,
+    "room_id": 2,
+    "midi_id": 926,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1872,
+    "num_frames": 140537,
+    "room_id": 2,
+    "midi_id": 943,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1873,
+    "num_frames": 140519,
+    "room_id": 2,
+    "midi_id": 943,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1874,
+    "num_frames": 52966,
+    "room_id": 2,
+    "midi_id": 944,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1875,
+    "num_frames": 52852,
+    "room_id": 2,
+    "midi_id": 944,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1882,
+    "num_frames": 131654,
+    "room_id": 2,
+    "midi_id": 948,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1883,
+    "num_frames": 131588,
+    "room_id": 2,
+    "midi_id": 948,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1896,
+    "num_frames": 33857,
+    "room_id": 2,
+    "midi_id": 955,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1897,
+    "num_frames": 33857,
+    "room_id": 2,
+    "midi_id": 955,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1898,
+    "num_frames": 32097,
+    "room_id": 2,
+    "midi_id": 956,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1899,
+    "num_frames": 32079,
+    "room_id": 2,
+    "midi_id": 956,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1900,
+    "num_frames": 132354,
+    "room_id": 2,
+    "midi_id": 957,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1901,
+    "num_frames": 132308,
+    "room_id": 2,
+    "midi_id": 957,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1902,
+    "num_frames": 32481,
+    "room_id": 2,
+    "midi_id": 958,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 1903,
+    "num_frames": 32445,
+    "room_id": 2,
+    "midi_id": 958,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2006,
+    "num_frames": 76134,
+    "room_id": 2,
+    "midi_id": 1010,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2007,
+    "num_frames": 76133,
+    "room_id": 2,
+    "midi_id": 1010,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2008,
+    "num_frames": 30940,
+    "room_id": 2,
+    "midi_id": 1011,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2009,
+    "num_frames": 30946,
+    "room_id": 2,
+    "midi_id": 1011,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2010,
+    "num_frames": 32111,
+    "room_id": 2,
+    "midi_id": 1012,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2011,
+    "num_frames": 31985,
+    "room_id": 2,
+    "midi_id": 1012,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2018,
+    "num_frames": 245961,
+    "room_id": 2,
+    "midi_id": 1016,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2019,
+    "num_frames": 245938,
+    "room_id": 2,
+    "midi_id": 1016,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2166,
+    "num_frames": 153281,
+    "room_id": 2,
+    "midi_id": 1090,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2167,
+    "num_frames": 153267,
+    "room_id": 2,
+    "midi_id": 1090,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2174,
+    "num_frames": 53359,
+    "room_id": 2,
+    "midi_id": 1094,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2175,
+    "num_frames": 53361,
+    "room_id": 2,
+    "midi_id": 1094,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2176,
+    "num_frames": 49465,
+    "room_id": 2,
+    "midi_id": 1095,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2177,
+    "num_frames": 49464,
+    "room_id": 2,
+    "midi_id": 1095,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2178,
+    "num_frames": 53848,
+    "room_id": 2,
+    "midi_id": 1096,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2179,
+    "num_frames": 53843,
+    "room_id": 2,
+    "midi_id": 1096,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2268,
+    "num_frames": 43826,
+    "room_id": 2,
+    "midi_id": 1141,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2269,
+    "num_frames": 43728,
+    "room_id": 2,
+    "midi_id": 1141,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2270,
+    "num_frames": 38872,
+    "room_id": 2,
+    "midi_id": 1142,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2271,
+    "num_frames": 38781,
+    "room_id": 2,
+    "midi_id": 1142,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2280,
+    "num_frames": 210318,
+    "room_id": 2,
+    "midi_id": 1147,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2281,
+    "num_frames": 210235,
+    "room_id": 2,
+    "midi_id": 1147,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2292,
+    "num_frames": 163597,
+    "room_id": 2,
+    "midi_id": 1153,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2293,
+    "num_frames": 163544,
+    "room_id": 2,
+    "midi_id": 1153,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2308,
+    "num_frames": 24856,
+    "room_id": 2,
+    "midi_id": 1161,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2309,
+    "num_frames": 24809,
+    "room_id": 2,
+    "midi_id": 1161,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2318,
+    "num_frames": 97874,
+    "room_id": 2,
+    "midi_id": 1166,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2319,
+    "num_frames": 97865,
+    "room_id": 2,
+    "midi_id": 1166,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2320,
+    "num_frames": 113038,
+    "room_id": 2,
+    "midi_id": 1167,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2321,
+    "num_frames": 112995,
+    "room_id": 2,
+    "midi_id": 1167,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2322,
+    "num_frames": 98307,
+    "room_id": 2,
+    "midi_id": 1168,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2323,
+    "num_frames": 98260,
+    "room_id": 2,
+    "midi_id": 1168,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2354,
+    "num_frames": 110767,
+    "room_id": 2,
+    "midi_id": 1184,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2355,
+    "num_frames": 110678,
+    "room_id": 2,
+    "midi_id": 1184,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2356,
+    "num_frames": 37968,
+    "room_id": 2,
+    "midi_id": 1185,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2357,
+    "num_frames": 37833,
+    "room_id": 2,
+    "midi_id": 1185,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2358,
+    "num_frames": 30345,
+    "room_id": 2,
+    "midi_id": 1186,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2359,
+    "num_frames": 30268,
+    "room_id": 2,
+    "midi_id": 1186,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2360,
+    "num_frames": 33137,
+    "room_id": 2,
+    "midi_id": 1187,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2361,
+    "num_frames": 33021,
+    "room_id": 2,
+    "midi_id": 1187,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2366,
+    "num_frames": 15637,
+    "room_id": 2,
+    "midi_id": 1190,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2367,
+    "num_frames": 15619,
+    "room_id": 2,
+    "midi_id": 1190,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2368,
+    "num_frames": 16426,
+    "room_id": 2,
+    "midi_id": 1191,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2369,
+    "num_frames": 16426,
+    "room_id": 2,
+    "midi_id": 1191,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2374,
+    "num_frames": 15776,
+    "room_id": 2,
+    "midi_id": 1194,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2375,
+    "num_frames": 15749,
+    "room_id": 2,
+    "midi_id": 1194,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2380,
+    "num_frames": 16142,
+    "room_id": 2,
+    "midi_id": 1197,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2381,
+    "num_frames": 16142,
+    "room_id": 2,
+    "midi_id": 1197,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2382,
+    "num_frames": 26866,
+    "room_id": 2,
+    "midi_id": 1198,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2383,
+    "num_frames": 26822,
+    "room_id": 2,
+    "midi_id": 1198,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2388,
+    "num_frames": 136011,
+    "room_id": 2,
+    "midi_id": 1201,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2389,
+    "num_frames": 135922,
+    "room_id": 2,
+    "midi_id": 1201,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2390,
+    "num_frames": 21982,
+    "room_id": 2,
+    "midi_id": 1202,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2391,
+    "num_frames": 21982,
+    "room_id": 2,
+    "midi_id": 1202,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2392,
+    "num_frames": 14021,
+    "room_id": 2,
+    "midi_id": 1203,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2393,
+    "num_frames": 13894,
+    "room_id": 2,
+    "midi_id": 1203,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2418,
+    "num_frames": 23915,
+    "room_id": 2,
+    "midi_id": 1216,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2419,
+    "num_frames": 23781,
+    "room_id": 2,
+    "midi_id": 1216,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2420,
+    "num_frames": 20405,
+    "room_id": 2,
+    "midi_id": 1217,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2421,
+    "num_frames": 20403,
+    "room_id": 2,
+    "midi_id": 1217,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2422,
+    "num_frames": 24728,
+    "room_id": 2,
+    "midi_id": 1218,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2423,
+    "num_frames": 24648,
+    "room_id": 2,
+    "midi_id": 1218,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2432,
+    "num_frames": 24499,
+    "room_id": 2,
+    "midi_id": 1223,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2433,
+    "num_frames": 24401,
+    "room_id": 2,
+    "midi_id": 1223,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2438,
+    "num_frames": 36965,
+    "room_id": 2,
+    "midi_id": 1226,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2439,
+    "num_frames": 36841,
+    "room_id": 2,
+    "midi_id": 1226,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2440,
+    "num_frames": 23309,
+    "room_id": 2,
+    "midi_id": 1227,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2441,
+    "num_frames": 23280,
+    "room_id": 2,
+    "midi_id": 1227,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2502,
+    "num_frames": 60089,
+    "room_id": 2,
+    "midi_id": 1258,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2503,
+    "num_frames": 60089,
+    "room_id": 2,
+    "midi_id": 1258,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2530,
+    "num_frames": 107675,
+    "room_id": 2,
+    "midi_id": 1272,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2531,
+    "num_frames": 107675,
+    "room_id": 2,
+    "midi_id": 1272,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2546,
+    "num_frames": 114045,
+    "room_id": 2,
+    "midi_id": 1280,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2547,
+    "num_frames": 114045,
+    "room_id": 2,
+    "midi_id": 1280,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2548,
+    "num_frames": 107005,
+    "room_id": 2,
+    "midi_id": 1281,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
+    "example_index": 2549,
+    "num_frames": 107005,
+    "room_id": 2,
+    "midi_id": 1281,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 8,
+    "num_frames": 40381,
+    "room_id": 3,
+    "midi_id": 5,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 9,
+    "num_frames": 40237,
+    "room_id": 3,
+    "midi_id": 5,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 10,
+    "num_frames": 40336,
+    "room_id": 3,
+    "midi_id": 6,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 11,
+    "num_frames": 40267,
+    "room_id": 3,
+    "midi_id": 6,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 18,
+    "num_frames": 17091,
+    "room_id": 3,
+    "midi_id": 10,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 19,
+    "num_frames": 16925,
+    "room_id": 3,
+    "midi_id": 10,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 30,
+    "num_frames": 14442,
+    "room_id": 3,
+    "midi_id": 16,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 31,
+    "num_frames": 14271,
+    "room_id": 3,
+    "midi_id": 16,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 48,
+    "num_frames": 44395,
+    "room_id": 3,
+    "midi_id": 25,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 49,
+    "num_frames": 44392,
+    "room_id": 3,
+    "midi_id": 25,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 72,
+    "num_frames": 36748,
+    "room_id": 3,
+    "midi_id": 37,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 73,
+    "num_frames": 36737,
+    "room_id": 3,
+    "midi_id": 37,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 74,
+    "num_frames": 32118,
+    "room_id": 3,
+    "midi_id": 38,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 75,
+    "num_frames": 32073,
+    "room_id": 3,
+    "midi_id": 38,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 178,
+    "num_frames": 119180,
+    "room_id": 3,
+    "midi_id": 90,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 179,
+    "num_frames": 118997,
+    "room_id": 3,
+    "midi_id": 90,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 180,
+    "num_frames": 105893,
+    "room_id": 3,
+    "midi_id": 91,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 181,
+    "num_frames": 105832,
+    "room_id": 3,
+    "midi_id": 91,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 182,
+    "num_frames": 102530,
+    "room_id": 3,
+    "midi_id": 92,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 183,
+    "num_frames": 102491,
+    "room_id": 3,
+    "midi_id": 92,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 256,
+    "num_frames": 7971,
+    "room_id": 3,
+    "midi_id": 129,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 257,
+    "num_frames": 7971,
+    "room_id": 3,
+    "midi_id": 129,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 262,
+    "num_frames": 36725,
+    "room_id": 3,
+    "midi_id": 132,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 263,
+    "num_frames": 36705,
+    "room_id": 3,
+    "midi_id": 132,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 264,
+    "num_frames": 36343,
+    "room_id": 3,
+    "midi_id": 133,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 265,
+    "num_frames": 36310,
+    "room_id": 3,
+    "midi_id": 133,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 378,
+    "num_frames": 70191,
+    "room_id": 3,
+    "midi_id": 190,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 379,
+    "num_frames": 70191,
+    "room_id": 3,
+    "midi_id": 190,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 380,
+    "num_frames": 63384,
+    "room_id": 3,
+    "midi_id": 191,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 381,
+    "num_frames": 63384,
+    "room_id": 3,
+    "midi_id": 191,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 396,
+    "num_frames": 61496,
+    "room_id": 3,
+    "midi_id": 199,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 397,
+    "num_frames": 61307,
+    "room_id": 3,
+    "midi_id": 199,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 402,
+    "num_frames": 57115,
+    "room_id": 3,
+    "midi_id": 202,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 403,
+    "num_frames": 57062,
+    "room_id": 3,
+    "midi_id": 202,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 404,
+    "num_frames": 42691,
+    "room_id": 3,
+    "midi_id": 203,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 405,
+    "num_frames": 42639,
+    "room_id": 3,
+    "midi_id": 203,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 406,
+    "num_frames": 51193,
+    "room_id": 3,
+    "midi_id": 204,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 407,
+    "num_frames": 51182,
+    "room_id": 3,
+    "midi_id": 204,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 408,
+    "num_frames": 31846,
+    "room_id": 3,
+    "midi_id": 205,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 409,
+    "num_frames": 31833,
+    "room_id": 3,
+    "midi_id": 205,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 410,
+    "num_frames": 54489,
+    "room_id": 3,
+    "midi_id": 206,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 411,
+    "num_frames": 54382,
+    "room_id": 3,
+    "midi_id": 206,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 420,
+    "num_frames": 57332,
+    "room_id": 3,
+    "midi_id": 211,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 421,
+    "num_frames": 57320,
+    "room_id": 3,
+    "midi_id": 211,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 494,
+    "num_frames": 41462,
+    "room_id": 3,
+    "midi_id": 248,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 495,
+    "num_frames": 41407,
+    "room_id": 3,
+    "midi_id": 248,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 508,
+    "num_frames": 63310,
+    "room_id": 3,
+    "midi_id": 255,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 509,
+    "num_frames": 63052,
+    "room_id": 3,
+    "midi_id": 255,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 510,
+    "num_frames": 5782,
+    "room_id": 3,
+    "midi_id": 256,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 511,
+    "num_frames": 5632,
+    "room_id": 3,
+    "midi_id": 256,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 512,
+    "num_frames": 4917,
+    "room_id": 3,
+    "midi_id": 257,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 513,
+    "num_frames": 4820,
+    "room_id": 3,
+    "midi_id": 257,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 522,
+    "num_frames": 27211,
+    "room_id": 3,
+    "midi_id": 262,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 523,
+    "num_frames": 27110,
+    "room_id": 3,
+    "midi_id": 262,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 524,
+    "num_frames": 25993,
+    "room_id": 3,
+    "midi_id": 263,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 525,
+    "num_frames": 25981,
+    "room_id": 3,
+    "midi_id": 263,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 550,
+    "num_frames": 51342,
+    "room_id": 3,
+    "midi_id": 276,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 551,
+    "num_frames": 51320,
+    "room_id": 3,
+    "midi_id": 276,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 560,
+    "num_frames": 34733,
+    "room_id": 3,
+    "midi_id": 281,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 561,
+    "num_frames": 34613,
+    "room_id": 3,
+    "midi_id": 281,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 574,
+    "num_frames": 27462,
+    "room_id": 3,
+    "midi_id": 288,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 575,
+    "num_frames": 27314,
+    "room_id": 3,
+    "midi_id": 288,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 584,
+    "num_frames": 31327,
+    "room_id": 3,
+    "midi_id": 293,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 585,
+    "num_frames": 31315,
+    "room_id": 3,
+    "midi_id": 293,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 586,
+    "num_frames": 53450,
+    "room_id": 3,
+    "midi_id": 294,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 587,
+    "num_frames": 53350,
+    "room_id": 3,
+    "midi_id": 294,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 588,
+    "num_frames": 33885,
+    "room_id": 3,
+    "midi_id": 295,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 589,
+    "num_frames": 33837,
+    "room_id": 3,
+    "midi_id": 295,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 706,
+    "num_frames": 35268,
+    "room_id": 3,
+    "midi_id": 354,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 707,
+    "num_frames": 35268,
+    "room_id": 3,
+    "midi_id": 354,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 712,
+    "num_frames": 10874,
+    "room_id": 3,
+    "midi_id": 357,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 713,
+    "num_frames": 10865,
+    "room_id": 3,
+    "midi_id": 357,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 850,
+    "num_frames": 31609,
+    "room_id": 3,
+    "midi_id": 426,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 851,
+    "num_frames": 31583,
+    "room_id": 3,
+    "midi_id": 426,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 960,
+    "num_frames": 30719,
+    "room_id": 3,
+    "midi_id": 481,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 961,
+    "num_frames": 30575,
+    "room_id": 3,
+    "midi_id": 481,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1074,
+    "num_frames": 26334,
+    "room_id": 3,
+    "midi_id": 538,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1075,
+    "num_frames": 26297,
+    "room_id": 3,
+    "midi_id": 538,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1076,
+    "num_frames": 26948,
+    "room_id": 3,
+    "midi_id": 539,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1077,
+    "num_frames": 26813,
+    "room_id": 3,
+    "midi_id": 539,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1078,
+    "num_frames": 26085,
+    "room_id": 3,
+    "midi_id": 540,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1079,
+    "num_frames": 25904,
+    "room_id": 3,
+    "midi_id": 540,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1080,
+    "num_frames": 27714,
+    "room_id": 3,
+    "midi_id": 541,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1081,
+    "num_frames": 27541,
+    "room_id": 3,
+    "midi_id": 541,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1082,
+    "num_frames": 29882,
+    "room_id": 3,
+    "midi_id": 542,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1083,
+    "num_frames": 29699,
+    "room_id": 3,
+    "midi_id": 542,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1140,
+    "num_frames": 9940,
+    "room_id": 3,
+    "midi_id": 571,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1141,
+    "num_frames": 9977,
+    "room_id": 3,
+    "midi_id": 571,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1142,
+    "num_frames": 9575,
+    "room_id": 3,
+    "midi_id": 572,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1143,
+    "num_frames": 9631,
+    "room_id": 3,
+    "midi_id": 572,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1144,
+    "num_frames": 10405,
+    "room_id": 3,
+    "midi_id": 573,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1145,
+    "num_frames": 10288,
+    "room_id": 3,
+    "midi_id": 573,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1216,
+    "num_frames": 71841,
+    "room_id": 3,
+    "midi_id": 609,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1217,
+    "num_frames": 71833,
+    "room_id": 3,
+    "midi_id": 609,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1218,
+    "num_frames": 76942,
+    "room_id": 3,
+    "midi_id": 610,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1219,
+    "num_frames": 76942,
+    "room_id": 3,
+    "midi_id": 610,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1222,
+    "num_frames": 14241,
+    "room_id": 3,
+    "midi_id": 612,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1223,
+    "num_frames": 14112,
+    "room_id": 3,
+    "midi_id": 612,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1226,
+    "num_frames": 12755,
+    "room_id": 3,
+    "midi_id": 614,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1227,
+    "num_frames": 12663,
+    "room_id": 3,
+    "midi_id": 614,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1228,
+    "num_frames": 12517,
+    "room_id": 3,
+    "midi_id": 615,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1229,
+    "num_frames": 12461,
+    "room_id": 3,
+    "midi_id": 615,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1230,
+    "num_frames": 9737,
+    "room_id": 3,
+    "midi_id": 616,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1231,
+    "num_frames": 9680,
+    "room_id": 3,
+    "midi_id": 616,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1232,
+    "num_frames": 77741,
+    "room_id": 3,
+    "midi_id": 617,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1233,
+    "num_frames": 77743,
+    "room_id": 3,
+    "midi_id": 617,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1238,
+    "num_frames": 35433,
+    "room_id": 3,
+    "midi_id": 620,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1239,
+    "num_frames": 35325,
+    "room_id": 3,
+    "midi_id": 620,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1240,
+    "num_frames": 34567,
+    "room_id": 3,
+    "midi_id": 621,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1241,
+    "num_frames": 34405,
+    "room_id": 3,
+    "midi_id": 621,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1242,
+    "num_frames": 26407,
+    "room_id": 3,
+    "midi_id": 622,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1243,
+    "num_frames": 26345,
+    "room_id": 3,
+    "midi_id": 622,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1244,
+    "num_frames": 30230,
+    "room_id": 3,
+    "midi_id": 623,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1245,
+    "num_frames": 30033,
+    "room_id": 3,
+    "midi_id": 623,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1246,
+    "num_frames": 28277,
+    "room_id": 3,
+    "midi_id": 624,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1247,
+    "num_frames": 28086,
+    "room_id": 3,
+    "midi_id": 624,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1248,
+    "num_frames": 41485,
+    "room_id": 3,
+    "midi_id": 625,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1249,
+    "num_frames": 41389,
+    "room_id": 3,
+    "midi_id": 625,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1250,
+    "num_frames": 37302,
+    "room_id": 3,
+    "midi_id": 626,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1251,
+    "num_frames": 37226,
+    "room_id": 3,
+    "midi_id": 626,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1252,
+    "num_frames": 22707,
+    "room_id": 3,
+    "midi_id": 627,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1253,
+    "num_frames": 22444,
+    "room_id": 3,
+    "midi_id": 627,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1258,
+    "num_frames": 29886,
+    "room_id": 3,
+    "midi_id": 630,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1259,
+    "num_frames": 29730,
+    "room_id": 3,
+    "midi_id": 630,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1264,
+    "num_frames": 43049,
+    "room_id": 3,
+    "midi_id": 633,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1265,
+    "num_frames": 42903,
+    "room_id": 3,
+    "midi_id": 633,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1266,
+    "num_frames": 36048,
+    "room_id": 3,
+    "midi_id": 634,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1267,
+    "num_frames": 36048,
+    "room_id": 3,
+    "midi_id": 634,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1268,
+    "num_frames": 28090,
+    "room_id": 3,
+    "midi_id": 635,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1269,
+    "num_frames": 28029,
+    "room_id": 3,
+    "midi_id": 635,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1296,
+    "num_frames": 51010,
+    "room_id": 3,
+    "midi_id": 649,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1297,
+    "num_frames": 50974,
+    "room_id": 3,
+    "midi_id": 649,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1298,
+    "num_frames": 53017,
+    "room_id": 3,
+    "midi_id": 650,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1299,
+    "num_frames": 53042,
+    "room_id": 3,
+    "midi_id": 650,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1300,
+    "num_frames": 55847,
+    "room_id": 3,
+    "midi_id": 651,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1301,
+    "num_frames": 55828,
+    "room_id": 3,
+    "midi_id": 651,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1384,
+    "num_frames": 143046,
+    "room_id": 3,
+    "midi_id": 693,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1385,
+    "num_frames": 142960,
+    "room_id": 3,
+    "midi_id": 693,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1509,
+    "num_frames": 19171,
+    "room_id": 3,
+    "midi_id": 757,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1510,
+    "num_frames": 19152,
+    "room_id": 3,
+    "midi_id": 757,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1545,
+    "num_frames": 33059,
+    "room_id": 3,
+    "midi_id": 776,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1546,
+    "num_frames": 33040,
+    "room_id": 3,
+    "midi_id": 776,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1559,
+    "num_frames": 45774,
+    "room_id": 3,
+    "midi_id": 783,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1560,
+    "num_frames": 45609,
+    "room_id": 3,
+    "midi_id": 783,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1561,
+    "num_frames": 32512,
+    "room_id": 3,
+    "midi_id": 784,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1562,
+    "num_frames": 32497,
+    "room_id": 3,
+    "midi_id": 784,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1563,
+    "num_frames": 44814,
+    "room_id": 3,
+    "midi_id": 785,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1564,
+    "num_frames": 44659,
+    "room_id": 3,
+    "midi_id": 785,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1581,
+    "num_frames": 20604,
+    "room_id": 3,
+    "midi_id": 794,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1582,
+    "num_frames": 20608,
+    "room_id": 3,
+    "midi_id": 794,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1585,
+    "num_frames": 23159,
+    "room_id": 3,
+    "midi_id": 796,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1586,
+    "num_frames": 23111,
+    "room_id": 3,
+    "midi_id": 796,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1587,
+    "num_frames": 21546,
+    "room_id": 3,
+    "midi_id": 797,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1588,
+    "num_frames": 21546,
+    "room_id": 3,
+    "midi_id": 797,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1589,
+    "num_frames": 21133,
+    "room_id": 3,
+    "midi_id": 798,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1590,
+    "num_frames": 21133,
+    "room_id": 3,
+    "midi_id": 798,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1648,
+    "num_frames": 43957,
+    "room_id": 3,
+    "midi_id": 829,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1649,
+    "num_frames": 43957,
+    "room_id": 3,
+    "midi_id": 829,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1650,
+    "num_frames": 35149,
+    "room_id": 3,
+    "midi_id": 830,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1651,
+    "num_frames": 35149,
+    "room_id": 3,
+    "midi_id": 830,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1652,
+    "num_frames": 40451,
+    "room_id": 3,
+    "midi_id": 831,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1653,
+    "num_frames": 40451,
+    "room_id": 3,
+    "midi_id": 831,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1654,
+    "num_frames": 38876,
+    "room_id": 3,
+    "midi_id": 832,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1655,
+    "num_frames": 38870,
+    "room_id": 3,
+    "midi_id": 832,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1656,
+    "num_frames": 45387,
+    "room_id": 3,
+    "midi_id": 833,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1657,
+    "num_frames": 45177,
+    "room_id": 3,
+    "midi_id": 833,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1732,
+    "num_frames": 106670,
+    "room_id": 3,
+    "midi_id": 873,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1733,
+    "num_frames": 106658,
+    "room_id": 3,
+    "midi_id": 873,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1742,
+    "num_frames": 83870,
+    "room_id": 3,
+    "midi_id": 878,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1743,
+    "num_frames": 83598,
+    "room_id": 3,
+    "midi_id": 878,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1750,
+    "num_frames": 55556,
+    "room_id": 3,
+    "midi_id": 882,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1751,
+    "num_frames": 55435,
+    "room_id": 3,
+    "midi_id": 882,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1756,
+    "num_frames": 167693,
+    "room_id": 3,
+    "midi_id": 885,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1757,
+    "num_frames": 167553,
+    "room_id": 3,
+    "midi_id": 885,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1758,
+    "num_frames": 158123,
+    "room_id": 3,
+    "midi_id": 886,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1759,
+    "num_frames": 158017,
+    "room_id": 3,
+    "midi_id": 886,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1784,
+    "num_frames": 56167,
+    "room_id": 3,
+    "midi_id": 899,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1785,
+    "num_frames": 56062,
+    "room_id": 3,
+    "midi_id": 899,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1790,
+    "num_frames": 83470,
+    "room_id": 3,
+    "midi_id": 902,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1791,
+    "num_frames": 83396,
+    "room_id": 3,
+    "midi_id": 902,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1806,
+    "num_frames": 13235,
+    "room_id": 3,
+    "midi_id": 910,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1807,
+    "num_frames": 13235,
+    "room_id": 3,
+    "midi_id": 910,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1838,
+    "num_frames": 21105,
+    "room_id": 3,
+    "midi_id": 926,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1839,
+    "num_frames": 21102,
+    "room_id": 3,
+    "midi_id": 926,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1872,
+    "num_frames": 140766,
+    "room_id": 3,
+    "midi_id": 943,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1873,
+    "num_frames": 140719,
+    "room_id": 3,
+    "midi_id": 943,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1874,
+    "num_frames": 53066,
+    "room_id": 3,
+    "midi_id": 944,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1875,
+    "num_frames": 52852,
+    "room_id": 3,
+    "midi_id": 944,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1882,
+    "num_frames": 131836,
+    "room_id": 3,
+    "midi_id": 948,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1883,
+    "num_frames": 131753,
+    "room_id": 3,
+    "midi_id": 948,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1896,
+    "num_frames": 34072,
+    "room_id": 3,
+    "midi_id": 955,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1897,
+    "num_frames": 34060,
+    "room_id": 3,
+    "midi_id": 955,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1898,
+    "num_frames": 32319,
+    "room_id": 3,
+    "midi_id": 956,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1899,
+    "num_frames": 32299,
+    "room_id": 3,
+    "midi_id": 956,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1900,
+    "num_frames": 132548,
+    "room_id": 3,
+    "midi_id": 957,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1901,
+    "num_frames": 132497,
+    "room_id": 3,
+    "midi_id": 957,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1902,
+    "num_frames": 32684,
+    "room_id": 3,
+    "midi_id": 958,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 1903,
+    "num_frames": 32636,
+    "room_id": 3,
+    "midi_id": 958,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2006,
+    "num_frames": 76301,
+    "room_id": 3,
+    "midi_id": 1010,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2007,
+    "num_frames": 76301,
+    "room_id": 3,
+    "midi_id": 1010,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2008,
+    "num_frames": 31188,
+    "room_id": 3,
+    "midi_id": 1011,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2009,
+    "num_frames": 31188,
+    "room_id": 3,
+    "midi_id": 1011,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2010,
+    "num_frames": 32218,
+    "room_id": 3,
+    "midi_id": 1012,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2011,
+    "num_frames": 32176,
+    "room_id": 3,
+    "midi_id": 1012,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2018,
+    "num_frames": 246150,
+    "room_id": 3,
+    "midi_id": 1016,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2019,
+    "num_frames": 246136,
+    "room_id": 3,
+    "midi_id": 1016,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2166,
+    "num_frames": 153521,
+    "room_id": 3,
+    "midi_id": 1090,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2167,
+    "num_frames": 153470,
+    "room_id": 3,
+    "midi_id": 1090,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2174,
+    "num_frames": 53567,
+    "room_id": 3,
+    "midi_id": 1094,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2175,
+    "num_frames": 53524,
+    "room_id": 3,
+    "midi_id": 1094,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2176,
+    "num_frames": 49665,
+    "room_id": 3,
+    "midi_id": 1095,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2177,
+    "num_frames": 49633,
+    "room_id": 3,
+    "midi_id": 1095,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2178,
+    "num_frames": 53999,
+    "room_id": 3,
+    "midi_id": 1096,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2179,
+    "num_frames": 53964,
+    "room_id": 3,
+    "midi_id": 1096,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2268,
+    "num_frames": 43886,
+    "room_id": 3,
+    "midi_id": 1141,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2269,
+    "num_frames": 43744,
+    "room_id": 3,
+    "midi_id": 1141,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2270,
+    "num_frames": 38957,
+    "room_id": 3,
+    "midi_id": 1142,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2271,
+    "num_frames": 38781,
+    "room_id": 3,
+    "midi_id": 1142,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2280,
+    "num_frames": 210376,
+    "room_id": 3,
+    "midi_id": 1147,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2281,
+    "num_frames": 210235,
+    "room_id": 3,
+    "midi_id": 1147,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2292,
+    "num_frames": 163771,
+    "room_id": 3,
+    "midi_id": 1153,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2293,
+    "num_frames": 163755,
+    "room_id": 3,
+    "midi_id": 1153,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2308,
+    "num_frames": 24972,
+    "room_id": 3,
+    "midi_id": 1161,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2309,
+    "num_frames": 24909,
+    "room_id": 3,
+    "midi_id": 1161,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2318,
+    "num_frames": 98143,
+    "room_id": 3,
+    "midi_id": 1166,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2319,
+    "num_frames": 98100,
+    "room_id": 3,
+    "midi_id": 1166,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2320,
+    "num_frames": 113256,
+    "room_id": 3,
+    "midi_id": 1167,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2321,
+    "num_frames": 113194,
+    "room_id": 3,
+    "midi_id": 1167,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2322,
+    "num_frames": 98521,
+    "room_id": 3,
+    "midi_id": 1168,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2323,
+    "num_frames": 98488,
+    "room_id": 3,
+    "midi_id": 1168,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2354,
+    "num_frames": 110837,
+    "room_id": 3,
+    "midi_id": 1184,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2355,
+    "num_frames": 110678,
+    "room_id": 3,
+    "midi_id": 1184,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2356,
+    "num_frames": 38114,
+    "room_id": 3,
+    "midi_id": 1185,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2357,
+    "num_frames": 37835,
+    "room_id": 3,
+    "midi_id": 1185,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2358,
+    "num_frames": 30596,
+    "room_id": 3,
+    "midi_id": 1186,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2359,
+    "num_frames": 30398,
+    "room_id": 3,
+    "midi_id": 1186,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2360,
+    "num_frames": 33376,
+    "room_id": 3,
+    "midi_id": 1187,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2361,
+    "num_frames": 33021,
+    "room_id": 3,
+    "midi_id": 1187,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2366,
+    "num_frames": 15851,
+    "room_id": 3,
+    "midi_id": 1190,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2367,
+    "num_frames": 15822,
+    "room_id": 3,
+    "midi_id": 1190,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2368,
+    "num_frames": 16638,
+    "room_id": 3,
+    "midi_id": 1191,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2369,
+    "num_frames": 16633,
+    "room_id": 3,
+    "midi_id": 1191,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2374,
+    "num_frames": 15970,
+    "room_id": 3,
+    "midi_id": 1194,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2375,
+    "num_frames": 15944,
+    "room_id": 3,
+    "midi_id": 1194,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2380,
+    "num_frames": 16329,
+    "room_id": 3,
+    "midi_id": 1197,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2381,
+    "num_frames": 16329,
+    "room_id": 3,
+    "midi_id": 1197,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2382,
+    "num_frames": 27022,
+    "room_id": 3,
+    "midi_id": 1198,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2383,
+    "num_frames": 26950,
+    "room_id": 3,
+    "midi_id": 1198,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2388,
+    "num_frames": 136212,
+    "room_id": 3,
+    "midi_id": 1201,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2389,
+    "num_frames": 135953,
+    "room_id": 3,
+    "midi_id": 1201,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2390,
+    "num_frames": 22133,
+    "room_id": 3,
+    "midi_id": 1202,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2391,
+    "num_frames": 22133,
+    "room_id": 3,
+    "midi_id": 1202,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2392,
+    "num_frames": 14150,
+    "room_id": 3,
+    "midi_id": 1203,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2393,
+    "num_frames": 13942,
+    "room_id": 3,
+    "midi_id": 1203,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2418,
+    "num_frames": 23965,
+    "room_id": 3,
+    "midi_id": 1216,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2419,
+    "num_frames": 23908,
+    "room_id": 3,
+    "midi_id": 1216,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2420,
+    "num_frames": 20471,
+    "room_id": 3,
+    "midi_id": 1217,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2421,
+    "num_frames": 20396,
+    "room_id": 3,
+    "midi_id": 1217,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2422,
+    "num_frames": 24834,
+    "room_id": 3,
+    "midi_id": 1218,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2423,
+    "num_frames": 24609,
+    "room_id": 3,
+    "midi_id": 1218,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2432,
+    "num_frames": 24592,
+    "room_id": 3,
+    "midi_id": 1223,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2433,
+    "num_frames": 24401,
+    "room_id": 3,
+    "midi_id": 1223,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2438,
+    "num_frames": 37184,
+    "room_id": 3,
+    "midi_id": 1226,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2439,
+    "num_frames": 37001,
+    "room_id": 3,
+    "midi_id": 1226,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2440,
+    "num_frames": 23483,
+    "room_id": 3,
+    "midi_id": 1227,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2441,
+    "num_frames": 23413,
+    "room_id": 3,
+    "midi_id": 1227,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2502,
+    "num_frames": 60314,
+    "room_id": 3,
+    "midi_id": 1258,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2503,
+    "num_frames": 60282,
+    "room_id": 3,
+    "midi_id": 1258,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2530,
+    "num_frames": 107872,
+    "room_id": 3,
+    "midi_id": 1272,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2531,
+    "num_frames": 107872,
+    "room_id": 3,
+    "midi_id": 1272,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2546,
+    "num_frames": 114174,
+    "room_id": 3,
+    "midi_id": 1280,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2547,
+    "num_frames": 114174,
+    "room_id": 3,
+    "midi_id": 1280,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2548,
+    "num_frames": 107183,
+    "room_id": 3,
+    "midi_id": 1281,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
+    "example_index": 2549,
+    "num_frames": 107183,
+    "room_id": 3,
+    "midi_id": 1281,
+    "pedal_factor": 0
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 4,
+    "num_frames": 40018,
+    "room_id": 0,
+    "midi_id": 5,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 5,
+    "num_frames": 40043,
+    "room_id": 0,
+    "midi_id": 6,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 9,
+    "num_frames": 16885,
+    "room_id": 0,
+    "midi_id": 10,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 15,
+    "num_frames": 14334,
+    "room_id": 0,
+    "midi_id": 16,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 24,
+    "num_frames": 44107,
+    "room_id": 0,
+    "midi_id": 25,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 36,
+    "num_frames": 36653,
+    "room_id": 0,
+    "midi_id": 37,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 37,
+    "num_frames": 32079,
+    "room_id": 0,
+    "midi_id": 38,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 89,
+    "num_frames": 118914,
+    "room_id": 0,
+    "midi_id": 90,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 90,
+    "num_frames": 105548,
+    "room_id": 0,
+    "midi_id": 91,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 91,
+    "num_frames": 102298,
+    "room_id": 0,
+    "midi_id": 92,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 128,
+    "num_frames": 7692,
+    "room_id": 0,
+    "midi_id": 129,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 131,
+    "num_frames": 36371,
+    "room_id": 0,
+    "midi_id": 132,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 132,
+    "num_frames": 36033,
+    "room_id": 0,
+    "midi_id": 133,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 189,
+    "num_frames": 69851,
+    "room_id": 0,
+    "midi_id": 190,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 190,
+    "num_frames": 63102,
+    "room_id": 0,
+    "midi_id": 191,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 198,
+    "num_frames": 61094,
+    "room_id": 0,
+    "midi_id": 199,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 201,
+    "num_frames": 56740,
+    "room_id": 0,
+    "midi_id": 202,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 202,
+    "num_frames": 42274,
+    "room_id": 0,
+    "midi_id": 203,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 203,
+    "num_frames": 50829,
+    "room_id": 0,
+    "midi_id": 204,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 204,
+    "num_frames": 31489,
+    "room_id": 0,
+    "midi_id": 205,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 205,
+    "num_frames": 54082,
+    "room_id": 0,
+    "midi_id": 206,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 210,
+    "num_frames": 57013,
+    "room_id": 0,
+    "midi_id": 211,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 247,
+    "num_frames": 41239,
+    "room_id": 0,
+    "midi_id": 248,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 254,
+    "num_frames": 62987,
+    "room_id": 0,
+    "midi_id": 255,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 255,
+    "num_frames": 5513,
+    "room_id": 0,
+    "midi_id": 256,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 256,
+    "num_frames": 4604,
+    "room_id": 0,
+    "midi_id": 257,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 261,
+    "num_frames": 27066,
+    "room_id": 0,
+    "midi_id": 262,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 262,
+    "num_frames": 25801,
+    "room_id": 0,
+    "midi_id": 263,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 275,
+    "num_frames": 51077,
+    "room_id": 0,
+    "midi_id": 276,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 280,
+    "num_frames": 34400,
+    "room_id": 0,
+    "midi_id": 281,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 287,
+    "num_frames": 27210,
+    "room_id": 0,
+    "midi_id": 288,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 292,
+    "num_frames": 30945,
+    "room_id": 0,
+    "midi_id": 293,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 293,
+    "num_frames": 53078,
+    "room_id": 0,
+    "midi_id": 294,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 294,
+    "num_frames": 33726,
+    "room_id": 0,
+    "midi_id": 295,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 353,
+    "num_frames": 35191,
+    "room_id": 0,
+    "midi_id": 354,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 356,
+    "num_frames": 10703,
+    "room_id": 0,
+    "midi_id": 357,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 425,
+    "num_frames": 31370,
+    "room_id": 0,
+    "midi_id": 426,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 480,
+    "num_frames": 30598,
+    "room_id": 0,
+    "midi_id": 481,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 537,
+    "num_frames": 26222,
+    "room_id": 0,
+    "midi_id": 538,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 538,
+    "num_frames": 26812,
+    "room_id": 0,
+    "midi_id": 539,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 539,
+    "num_frames": 25903,
+    "room_id": 0,
+    "midi_id": 540,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 540,
+    "num_frames": 27557,
+    "room_id": 0,
+    "midi_id": 541,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 541,
+    "num_frames": 29699,
+    "room_id": 0,
+    "midi_id": 542,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 570,
+    "num_frames": 9661,
+    "room_id": 0,
+    "midi_id": 571,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 571,
+    "num_frames": 9316,
+    "room_id": 0,
+    "midi_id": 572,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 572,
+    "num_frames": 10097,
+    "room_id": 0,
+    "midi_id": 573,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 608,
+    "num_frames": 71634,
+    "room_id": 0,
+    "midi_id": 609,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 609,
+    "num_frames": 76775,
+    "room_id": 0,
+    "midi_id": 610,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 611,
+    "num_frames": 13990,
+    "room_id": 0,
+    "midi_id": 612,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 613,
+    "num_frames": 12562,
+    "room_id": 0,
+    "midi_id": 614,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 614,
+    "num_frames": 12294,
+    "room_id": 0,
+    "midi_id": 615,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 615,
+    "num_frames": 9586,
+    "room_id": 0,
+    "midi_id": 616,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 616,
+    "num_frames": 77677,
+    "room_id": 0,
+    "midi_id": 617,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 619,
+    "num_frames": 35305,
+    "room_id": 0,
+    "midi_id": 620,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 620,
+    "num_frames": 34419,
+    "room_id": 0,
+    "midi_id": 621,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 621,
+    "num_frames": 26115,
+    "room_id": 0,
+    "midi_id": 622,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 622,
+    "num_frames": 30036,
+    "room_id": 0,
+    "midi_id": 623,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 623,
+    "num_frames": 28090,
+    "room_id": 0,
+    "midi_id": 624,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 624,
+    "num_frames": 41401,
+    "room_id": 0,
+    "midi_id": 625,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 625,
+    "num_frames": 37229,
+    "room_id": 0,
+    "midi_id": 626,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 626,
+    "num_frames": 22457,
+    "room_id": 0,
+    "midi_id": 627,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 629,
+    "num_frames": 29708,
+    "room_id": 0,
+    "midi_id": 630,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 632,
+    "num_frames": 42904,
+    "room_id": 0,
+    "midi_id": 633,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 633,
+    "num_frames": 35540,
+    "room_id": 0,
+    "midi_id": 634,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 634,
+    "num_frames": 27932,
+    "room_id": 0,
+    "midi_id": 635,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 648,
+    "num_frames": 50689,
+    "room_id": 0,
+    "midi_id": 649,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 649,
+    "num_frames": 52841,
+    "room_id": 0,
+    "midi_id": 650,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 650,
+    "num_frames": 55607,
+    "room_id": 0,
+    "midi_id": 651,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 692,
+    "num_frames": 142775,
+    "room_id": 0,
+    "midi_id": 693,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 755,
+    "num_frames": 18972,
+    "room_id": 0,
+    "midi_id": 757,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 773,
+    "num_frames": 32933,
+    "room_id": 0,
+    "midi_id": 776,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 780,
+    "num_frames": 45659,
+    "room_id": 0,
+    "midi_id": 783,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 781,
+    "num_frames": 32376,
+    "room_id": 0,
+    "midi_id": 784,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 782,
+    "num_frames": 44661,
+    "room_id": 0,
+    "midi_id": 785,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 791,
+    "num_frames": 20460,
+    "room_id": 0,
+    "midi_id": 794,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 793,
+    "num_frames": 22964,
+    "room_id": 0,
+    "midi_id": 796,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 794,
+    "num_frames": 21450,
+    "room_id": 0,
+    "midi_id": 797,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 795,
+    "num_frames": 20947,
+    "room_id": 0,
+    "midi_id": 798,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 825,
+    "num_frames": 43796,
+    "room_id": 0,
+    "midi_id": 829,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 826,
+    "num_frames": 34946,
+    "room_id": 0,
+    "midi_id": 830,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 827,
+    "num_frames": 40196,
+    "room_id": 0,
+    "midi_id": 831,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 828,
+    "num_frames": 38670,
+    "room_id": 0,
+    "midi_id": 832,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 829,
+    "num_frames": 45133,
+    "room_id": 0,
+    "midi_id": 833,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 867,
+    "num_frames": 106574,
+    "room_id": 0,
+    "midi_id": 873,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 872,
+    "num_frames": 83552,
+    "room_id": 0,
+    "midi_id": 878,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 876,
+    "num_frames": 55366,
+    "room_id": 0,
+    "midi_id": 882,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 879,
+    "num_frames": 167497,
+    "room_id": 0,
+    "midi_id": 885,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 880,
+    "num_frames": 157823,
+    "room_id": 0,
+    "midi_id": 886,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 893,
+    "num_frames": 55940,
+    "room_id": 0,
+    "midi_id": 899,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 896,
+    "num_frames": 83196,
+    "room_id": 0,
+    "midi_id": 902,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 904,
+    "num_frames": 12948,
+    "room_id": 0,
+    "midi_id": 910,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 920,
+    "num_frames": 20814,
+    "room_id": 0,
+    "midi_id": 926,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 937,
+    "num_frames": 140416,
+    "room_id": 0,
+    "midi_id": 943,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 938,
+    "num_frames": 52912,
+    "room_id": 0,
+    "midi_id": 944,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 942,
+    "num_frames": 131558,
+    "room_id": 0,
+    "midi_id": 948,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 949,
+    "num_frames": 33714,
+    "room_id": 0,
+    "midi_id": 955,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 950,
+    "num_frames": 31950,
+    "room_id": 0,
+    "midi_id": 956,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 951,
+    "num_frames": 132185,
+    "room_id": 0,
+    "midi_id": 957,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 952,
+    "num_frames": 32326,
+    "room_id": 0,
+    "midi_id": 958,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1004,
+    "num_frames": 76115,
+    "room_id": 0,
+    "midi_id": 1010,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1005,
+    "num_frames": 30941,
+    "room_id": 0,
+    "midi_id": 1011,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1006,
+    "num_frames": 31991,
+    "room_id": 0,
+    "midi_id": 1012,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1010,
+    "num_frames": 245878,
+    "room_id": 0,
+    "midi_id": 1016,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1084,
+    "num_frames": 153149,
+    "room_id": 0,
+    "midi_id": 1090,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1088,
+    "num_frames": 53218,
+    "room_id": 0,
+    "midi_id": 1094,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1089,
+    "num_frames": 49271,
+    "room_id": 0,
+    "midi_id": 1095,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1090,
+    "num_frames": 53588,
+    "room_id": 0,
+    "midi_id": 1096,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1135,
+    "num_frames": 43733,
+    "room_id": 0,
+    "midi_id": 1141,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1136,
+    "num_frames": 38802,
+    "room_id": 0,
+    "midi_id": 1142,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1141,
+    "num_frames": 210329,
+    "room_id": 0,
+    "midi_id": 1147,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1147,
+    "num_frames": 163529,
+    "room_id": 0,
+    "midi_id": 1153,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1155,
+    "num_frames": 24732,
+    "room_id": 0,
+    "midi_id": 1161,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1160,
+    "num_frames": 97778,
+    "room_id": 0,
+    "midi_id": 1166,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1161,
+    "num_frames": 112959,
+    "room_id": 0,
+    "midi_id": 1167,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1162,
+    "num_frames": 98213,
+    "room_id": 0,
+    "midi_id": 1168,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1178,
+    "num_frames": 110739,
+    "room_id": 0,
+    "midi_id": 1184,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1179,
+    "num_frames": 37858,
+    "room_id": 0,
+    "midi_id": 1185,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1180,
+    "num_frames": 30298,
+    "room_id": 0,
+    "midi_id": 1186,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1181,
+    "num_frames": 33027,
+    "room_id": 0,
+    "midi_id": 1187,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1184,
+    "num_frames": 15497,
+    "room_id": 0,
+    "midi_id": 1190,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1185,
+    "num_frames": 16279,
+    "room_id": 0,
+    "midi_id": 1191,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1188,
+    "num_frames": 15605,
+    "room_id": 0,
+    "midi_id": 1194,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1191,
+    "num_frames": 15967,
+    "room_id": 0,
+    "midi_id": 1197,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1192,
+    "num_frames": 26732,
+    "room_id": 0,
+    "midi_id": 1198,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1195,
+    "num_frames": 135883,
+    "room_id": 0,
+    "midi_id": 1201,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1196,
+    "num_frames": 21880,
+    "room_id": 0,
+    "midi_id": 1202,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1197,
+    "num_frames": 13977,
+    "room_id": 0,
+    "midi_id": 1203,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1210,
+    "num_frames": 23704,
+    "room_id": 0,
+    "midi_id": 1216,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1211,
+    "num_frames": 20268,
+    "room_id": 0,
+    "midi_id": 1217,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1212,
+    "num_frames": 24630,
+    "room_id": 0,
+    "midi_id": 1218,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1217,
+    "num_frames": 24430,
+    "room_id": 0,
+    "midi_id": 1223,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1220,
+    "num_frames": 36850,
+    "room_id": 0,
+    "midi_id": 1226,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1221,
+    "num_frames": 23179,
+    "room_id": 0,
+    "midi_id": 1227,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1252,
+    "num_frames": 59983,
+    "room_id": 0,
+    "midi_id": 1258,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1266,
+    "num_frames": 107637,
+    "room_id": 0,
+    "midi_id": 1272,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1274,
+    "num_frames": 114008,
+    "room_id": 0,
+    "midi_id": 1280,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
+    "example_index": 1275,
+    "num_frames": 106963,
+    "room_id": 0,
+    "midi_id": 1281,
+    "pedal_factor": 1
+  }
+]

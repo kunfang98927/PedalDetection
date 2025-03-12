@@ -13,6 +13,7 @@ from src.utils import (
     split_data_real_audio,
 )
 import functools
+
 print = functools.partial(print, flush=True)
 
 
@@ -55,9 +56,10 @@ def mix_dataset(
 
 def main():
 
-    checkpoint_path = "ckpt_0223_10per-clip-500frm_bs32-relubefore-lr5e-4-sbatch/model_epoch_460_val_loss_0.2191_val_f1_0.5295.pt"
+    checkpoint_path = None
+    # checkpoint_path = "ckpt_0303_10per-clip-500frm_bs32_onoff_sbatch/model_epoch_460_val_loss_0.1984_f1_0.7202_mae_0.1631.pt"
 
-    data_version_synth = "_kong504room3synth0220"  # "_4096_full_room1" # "_4096_NormPerFeat" # "_real_audio_4096"
+    data_version_synth = "_kong1012room1_synth_20250217"  # "_kong504room3synth0220"  # "_4096_full_room1" # "_4096_NormPerFeat" # "_real_audio_4096"
     data_version_real = "_kong508room1real20250217"  # "_real_audio_4096"
 
     # Feature dimension
@@ -67,12 +69,12 @@ def main():
     num_samples_per_clip = 10
     num_classes = 1
 
-    low_res_pedal_ratio = 0.5
-    pedal_value_ratio = 0.5
-    pedal_onset_ratio = 0.0
-    pedal_offset_ratio = 0.0
+    low_res_pedal_ratio = 0.1
+    pedal_value_ratio = 0.4
+    pedal_onset_ratio = 0.2
+    pedal_offset_ratio = 0.2
     room_ratio = 0.0
-    contrastive_ratio = 0.5
+    contrastive_ratio = 0.1
 
     pedal_factor = [0.0]  # pedal factor for synthetic data
     room_acoustics = [1.0]
@@ -83,7 +85,7 @@ def main():
     # Checkpoint save path
     label_bin_edge_str = str(label_bin_edges[1]) + "-" + str(label_bin_edges[-2])
     factor_str = "&".join([str(f) for f in pedal_factor])
-    save_dir = f"ckpt_0224_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-resume"
+    save_dir = f"ckpt_0306_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}_onoff-bce_sbatch"
 
     # Copy this file to save_dir
     os.makedirs(save_dir, exist_ok=True)
@@ -111,8 +113,27 @@ def main():
             features_synth, labels_synth, metadata_synth, split="train"
         )
     )
+    # features_synth_1, labels_synth_1, metadata_synth_1 = load_data(
+    #     data_path_synth,
+    #     label_bin_edges,
+    #     pedal_factor=[1.0],
+    #     room_acoustics=room_acoustics,
+    # )
+    # val_features_synth, val_labels_synth, val_metadata_synth = split_data_real_audio(
+    #     features_synth_1, labels_synth_1, metadata_synth_1, split="val"
+    # )
     print("Real audio train dataset size:", len(train_features_real))
     print("Synthetic audio train dataset size:", len(train_features_synth))
+    # train_features, train_labels, train_metadata = (
+    #     train_features_synth,
+    #     train_labels_synth,
+    #     train_metadata_synth,
+    # )
+    # val_features, val_labels, val_metadata = (
+    #     val_features_synth,
+    #     val_labels_synth,
+    #     val_metadata_synth,
+    # )
     # Mix data
     train_features, train_labels, train_metadata = mix_dataset(
         train_features_real,
@@ -188,7 +209,7 @@ def main():
         input_dim=feature_dim,
         hidden_dim=256,
         num_heads=8,
-        ff_dim=1024, #256,
+        ff_dim=1024,  # 256,
         num_layers=8,
         num_classes=num_classes,
     )
@@ -201,20 +222,30 @@ def main():
     # Load checkpoint
     if checkpoint_path and os.path.exists(checkpoint_path):
         print(f"Loading checkpoint from {checkpoint_path}...")
-        checkpoint = torch.load(checkpoint_path)
-        # model.load_state_dict(checkpoint['model'])
-        model.load_state_dict(checkpoint)
-        # optimizer.load_state_dict(checkpoint['optimizer'])
-        # scheduler.load_state_dict(checkpoint['scheduler'])
-        start_epoch = 460 # checkpoint['epoch'] + 1  # Resume from the next epoch
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        print("The device is", device)
+        checkpoint = torch.load(checkpoint_path, map_location=device)
+        model.load_state_dict(checkpoint["model"])
+        optimizer.load_state_dict(checkpoint["optimizer"])
+        scheduler.load_state_dict(checkpoint["scheduler"])
+
+        # Manually move optimizer state tensors to the correct device
+        for state in optimizer.state.values():
+            for k, v in state.items():
+                if isinstance(v, torch.Tensor):
+                    state[k] = v.to(device)
+
+        start_epoch = checkpoint["epoch"] + 1  # Resume from the next epoch
         print(f"Resuming training from epoch {start_epoch}...")
     else:
         print("No checkpoint found. Starting from scratch.")
         start_epoch = 0
 
     # Manually step the scheduler based on the epoch number
-    for _ in range(start_epoch):
+    for e in range(start_epoch):
+        optimizer.step()
         scheduler.step()
+        print(f"Epoch {e}: lr={optimizer.param_groups[0]['lr']}")
 
     # Loss
     criterion = torch.nn.CrossEntropyLoss()
@@ -230,7 +261,7 @@ def main():
         device="cuda" if torch.cuda.is_available() else "cpu",
         logging_steps=10,
         eval_epochs=10,
-        save_total_limit=20,
+        save_total_limit=10,
         num_train_epochs=500,
         train_batch_size=batch_size,
         val_batch_size=batch_size,

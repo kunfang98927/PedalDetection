@@ -41,7 +41,8 @@ def load_model(
         num_layers=num_layers,
         num_classes=num_classes,
     ).to(device)
-    model.load_state_dict(torch.load(checkpoint_path, map_location=device))
+    checkpoint = torch.load(checkpoint_path, map_location=device)
+    model.load_state_dict(checkpoint["model"])
     model.eval()
     return model
 
@@ -61,11 +62,11 @@ def infer(model, feature, loss_mask, device="cpu"):
         p_on_logits = p_on_logits[loss_mask]
         p_off_logits = p_off_logits[loss_mask]
         low_res_p_v_preds = low_res_p_logits  # torch.argmax(torch.softmax(low_res_p_logits, dim=-1), dim=-1)
-        p_v_preds = (
-            p_v_logits  # torch.argmax(torch.softmax(p_v_logits, dim=-1), dim=-1)
-        )
-        p_on_preds = torch.sigmoid(p_on_logits)
-        p_off_preds = torch.sigmoid(p_off_logits)
+        p_v_preds = p_v_logits
+        p_on_preds = p_on_logits
+        p_off_preds = p_off_logits
+        # p_on_preds = torch.sigmoid(p_on_logits)
+        # p_off_preds = torch.sigmoid(p_off_logits)
         room_preds = torch.argmax(torch.softmax(room_logits, dim=-1), dim=-1)
     return (
         low_res_p_v_preds.squeeze(0).cpu().numpy(),
@@ -78,7 +79,9 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 def main():
     # Parameters
-    checkpoint_path = "ckpt_0223_10per-clip-500frm_bs32-relubefore-lr5e-4/model_epoch_230_val_loss_0.2543_val_f1_0.5157.pt"
+    # checkpoint_path = "ckpt_0307_1per-clip-500frm_bs32/model_epoch_10_val_loss_0.1156_f1_0.8234_mae_0.1616.pt" # not good
+    checkpoint_path = "ckpt_0306_10per-clip-500frm_bs32_onoff-bce_sbatch/model_epoch_370_val_loss_0.1002_f1_0.7635_mae_0.1544.pt"  # best
+    # checkpoint_path = "ckpt_0306_10per-clip-500frm_bs32_onoff_sbatch_resume/model_epoch_500_val_loss_0.6021_f1_0.8045_mae_0.1605.pt"
 
     feature_dim = 249
     max_frame = 500
@@ -92,7 +95,7 @@ def main():
     room_acoustics = [1.0]
 
     label_bin_edges = get_label_bin_edges(num_classes)
-    inf_label_bin_edges = [0, 11, 128]
+    inf_label_bin_edges = [0, 64, 128]
     # inf_label_bin_edges = [0, 16, 32, 48, 64, 80, 96, 112, 128]
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -111,9 +114,9 @@ def main():
 
     # Data path
     # data_path = "data/processed_data_4096_NormPerFeat.npz"
-    # data_path = "data/processed_data_kong508room1real20250217.npz"
+    data_path = "data/processed_data_kong508room1real20250217.npz"
     # data_path = "data/processed_data_4096_full_room1.npz"
-    data_path = "data/processed_data_kong1012room1_synth_20250217.npz"
+    # data_path = "data/processed_data_kong1012room1_synth_20250217.npz"
 
     # Load data
     if "real" in data_path:
@@ -154,9 +157,6 @@ def main():
     test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
     # Perform inference
-    pedal_onset_maes = []
-    pedal_offset_maes = []
-
     quantized_all_low_res_p_labels = []
     quantized_all_low_res_p_preds = []
     all_low_res_p_labels = []
@@ -166,6 +166,12 @@ def main():
     quantized_all_p_v_preds = []
     all_p_v_labels = []
     all_p_v_preds = []
+
+    all_p_onset_labels = []
+    all_p_onset_preds = []
+
+    all_p_offset_labels = []
+    all_p_offset_preds = []
     for (
         inputs,
         low_res_p_labels,
@@ -233,12 +239,20 @@ def main():
         quantized_all_p_v_labels.append(quantized_p_v_labels)
         quantized_all_p_v_preds.append(quantized_p_v_preds)
 
-        # p_on_labels = p_on_labels.cpu().numpy()
-        # p_off_labels = p_off_labels.cpu().numpy()
-        # p_on_labels = p_on_labels.squeeze()
-        # p_off_labels = p_off_labels.squeeze()
-        # p_on_preds = p_on_preds.squeeze()
-        # p_off_preds = p_off_preds.squeeze()
+        p_on_labels = p_on_labels.cpu().numpy().squeeze()
+        p_off_labels = p_off_labels.cpu().numpy().squeeze()
+        p_on_preds = p_on_preds.squeeze()
+        p_off_preds = p_off_preds.squeeze()
+        p_on_preds[p_on_preds < 0] = 0
+        p_on_preds[p_on_preds > 1] = 1
+        p_off_preds[p_off_preds < 0] = 0
+        p_off_preds[p_off_preds > 1] = 1
+
+        all_p_onset_labels.append(p_on_labels)
+        all_p_onset_preds.append(p_on_preds)
+
+        all_p_offset_labels.append(p_off_labels)
+        all_p_offset_preds.append(p_off_preds)
 
         # # Measure pedal onset prediction
         # pedal_onset_mae = mean_absolute_error(p_on_labels, p_on_preds)
@@ -278,26 +292,55 @@ def main():
         # plt.close()
         # img_count += 1
 
+    # pedal value
     print(len(all_p_v_labels), len(all_p_v_preds))
     np.save(
-        "p_v_labels_test_set_synth-room3-ckpt230-mf500-room1-pf1-kongfeat-lr5e-4.npy",
+        "p_v_labels_test_set_real-0306_10per-clip-500frm_bs32-onoff-bce_sbatch.npy",
         all_p_v_labels,
     )
     np.save(
-        "p_v_preds_test_set_synth-room3-ckpt230-mf500-room1-pf1-kongfeat-lr5e-4.npy",
+        "p_v_preds_test_set_real-0306_10per-clip-500frm_bs32-onoff-bce_sbatch.npy",
         all_p_v_preds,
     )
     all_p_v_labels = np.concatenate(all_p_v_labels)
     all_p_v_preds = np.concatenate(all_p_v_preds)
     print(all_p_v_labels.shape, all_p_v_preds.shape)
 
-    # store the results
+    # pedal onset
+    print(len(all_p_onset_labels), len(all_p_onset_preds))
     np.save(
-        "global_p_labels_test_set_synth-room3-ckpt230-mf500-room1-pf1-kongfeat-lr5e-4.npy",
+        "p_onset_labels_test_set_real-0306_10per-clip-500frm_bs32-onoff-bce_sbatch.npy",
+        all_p_onset_labels,
+    )
+    np.save(
+        "p_onset_preds_test_set_real-0306_10per-clip-500frm_bs32-onoff-bce_sbatch.npy",
+        all_p_onset_preds,
+    )
+    all_p_onset_labels = np.concatenate(all_p_onset_labels)
+    all_p_onset_preds = np.concatenate(all_p_onset_preds)
+    print(all_p_onset_labels.shape, all_p_onset_preds.shape)
+
+    # pedal offset
+    print(len(all_p_offset_labels), len(all_p_offset_preds))
+    np.save(
+        "p_offset_labels_test_set_real-0306_10per-clip-500frm_bs32-onoff-bce_sbatch.npy",
+        all_p_offset_labels,
+    )
+    np.save(
+        "p_offset_preds_test_set_real-0306_10per-clip-500frm_bs32-onoff-bce_sbatch.npy",
+        all_p_offset_preds,
+    )
+    all_p_offset_labels = np.concatenate(all_p_offset_labels)
+    all_p_offset_preds = np.concatenate(all_p_offset_preds)
+    print(all_p_offset_labels.shape, all_p_offset_preds.shape)
+
+    # global pedal value
+    np.save(
+        "global_p_labels_test_set_real-0306_10per-clip-500frm_bs32-onoff-bce_sbatch.npy",
         all_low_res_p_labels,
     )
     np.save(
-        "global_p_preds_test_set_synth-room3-ckpt230-mf500-room1-pf1-kongfeat-lr5e-4.npy",
+        "global_p_preds_test_set_real-0306_10per-clip-500frm_bs32-onoff-bce_sbatch.npy",
         all_low_res_p_preds,
     )
 
@@ -341,8 +384,14 @@ def main():
     # print("Average Pedal Onset MAE:", sum(pedal_onset_maes) / len(pedal_onset_maes))
     # print("Average Pedal Offset MAE:", sum(pedal_offset_maes) / len(pedal_offset_maes))
 
-    plot_pedal_pred(all_low_res_p_labels, all_low_res_p_preds, "low_res")
-    plot_pedal_pred(all_p_v_labels, all_p_v_preds, "p_v", img_num_frames=500)
+    plot_pedal_pred(
+        all_low_res_p_labels, all_low_res_p_preds, "low_res", img_num_frames=1000
+    )
+    plot_pedal_pred(all_p_v_labels, all_p_v_preds, "p_v", img_num_frames=1000)
+    plot_pedal_pred(all_p_onset_labels, all_p_onset_preds, "p_on", img_num_frames=1000)
+    plot_pedal_pred(
+        all_p_offset_labels, all_p_offset_preds, "p_off", img_num_frames=1000
+    )
 
 
 if __name__ == "__main__":

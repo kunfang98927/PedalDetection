@@ -9,6 +9,7 @@ from .transformer import (
 )
 from .cnn_block import CNNBlock
 
+
 class PedalDetectionModelwithCNN(nn.Module):
     def __init__(
         self,
@@ -49,8 +50,8 @@ class PedalDetectionModelwithCNN(nn.Module):
             nn.Linear(hidden_dim, hidden_dim // 2),
             nn.ReLU(),
             nn.Linear(hidden_dim // 2, 3),
-        )
-        
+        )  # 4 classes for room type: 0 for real, 1, 2, 3 for synthetic rooms
+
         self.pedal_value_output_layer = nn.Linear(hidden_dim, num_classes)
         self.pedal_onset_output_layer = nn.Linear(hidden_dim, num_classes)
         self.pedal_offset_output_layer = nn.Linear(hidden_dim, num_classes)
@@ -78,4 +79,11 @@ class PedalDetectionModelwithCNN(nn.Module):
         room_logits = self.room_head(mean_latent_repr)
         low_res_p_v_logits = self.low_res_pedal_value_head(mean_latent_repr)
 
-        return low_res_p_v_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr
+        return (
+            low_res_p_v_logits,
+            p_v_logits,
+            p_on_logits,
+            p_off_logits,
+            room_logits,
+            latent_repr,
+        )

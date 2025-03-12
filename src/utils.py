@@ -5,28 +5,33 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 
 
-def plot_pedal_pred(labels, preds, title, img_num_frames=100, img_num_plots=6):
+def plot_pedal_pred(labels, preds, save_path, img_num_frames=100, img_num_plots=6):
 
     # plot the ground truth and prediction: all_low_res_p_labels, all_low_res_p_preds, in the same plot
     plt.figure(figsize=(20, 9))
 
     for i in range(img_num_plots):
-        plt.subplot(img_num_plots, 1, i+1)
+        plt.subplot(img_num_plots, 1, i + 1)
         # randomly select a start frame
         start_frame = np.random.randint(0, len(labels) - img_num_frames)
         end_frame = start_frame + img_num_frames
-        plt.plot(labels[start_frame:end_frame], label="Ground Truth", alpha=0.8, linestyle='dashed')
+        plt.plot(
+            labels[start_frame:end_frame],
+            label="Ground Truth",
+            alpha=0.8,
+            linestyle="dashed",
+        )
         plt.plot(preds[start_frame:end_frame], label="Predictions", alpha=0.8)
         plt.xlabel("Frame Index")
         plt.ylabel("Pedal Value")
         plt.legend()
     plt.tight_layout()
     # save the plot
-    plt.savefig(f"pedal_pred-{title}.png")
+    plt.savefig(save_path)
     plt.close()
 
 
-def calculate_pedal_onset_offset(quantized_pedal_value, on_off_threshold=0.):
+def calculate_pedal_onset_offset(quantized_pedal_value, on_off_threshold=0.0):
     """
     Calculate the pedal onset and offset from the pedal value.
 
@@ -42,18 +47,25 @@ def calculate_pedal_onset_offset(quantized_pedal_value, on_off_threshold=0.):
     pedal_onset = np.zeros_like(quantized_pedal_value)
     pedal_offset = np.zeros_like(quantized_pedal_value)
     for i in range(1, len(quantized_pedal_value)):
-        if quantized_pedal_value[i] > quantized_pedal_value[i - 1] and quantized_pedal_value[i - 1] <= on_off_threshold \
-            and quantized_pedal_value[i] > on_off_threshold:
+        if (
+            quantized_pedal_value[i] > quantized_pedal_value[i - 1]
+            and quantized_pedal_value[i - 1] <= on_off_threshold
+            and quantized_pedal_value[i] > on_off_threshold
+        ):
             pedal_onset[i] = 1
-        if quantized_pedal_value[i] < quantized_pedal_value[i - 1] and quantized_pedal_value[i] <= on_off_threshold \
-            and quantized_pedal_value[i - 1] > on_off_threshold:
+        if (
+            quantized_pedal_value[i] < quantized_pedal_value[i - 1]
+            and quantized_pedal_value[i] <= on_off_threshold
+            and quantized_pedal_value[i - 1] > on_off_threshold
+        ):
             pedal_offset[i] = 1
     return pedal_onset, pedal_offset
+
 
 def calculate_soft_regresion_label(label, window=5):
     """
     Calculate the soft regression label from the pedal onset.
-    
+
     Args:
         label (numpy.ndarray): Label of shape (seq_len, ).
         window (int): The window size for the soft regression label.
@@ -69,8 +81,10 @@ def calculate_soft_regresion_label(label, window=5):
                     soft_regression_label[i + j] = 1 - abs(j) / window
     return soft_regression_label
 
-def calculate_low_res_pedal_value(selected_pedal_value, quantized_pedal_value, 
-                                  label_start, label_end, label_bin_edges):
+
+def calculate_low_res_pedal_value(
+    selected_pedal_value, quantized_pedal_value, label_start, label_end, label_bin_edges
+):
     """
     Calculate the low resolution pedal value from the  pedal value.
 
@@ -100,11 +114,14 @@ def calculate_low_res_pedal_value(selected_pedal_value, quantized_pedal_value,
     # and return [0.7, 0.2, 0.1] as the low_res_soft_pedal_value
     low_res_soft_pedal_value = np.zeros(len(label_bin_edges) - 1)
     for i in range(len(label_bin_edges) - 1):
-        low_res_soft_pedal_value[i] = np.mean(quantized_pedal_value[label_start:label_end] == i)
+        low_res_soft_pedal_value[i] = np.mean(
+            quantized_pedal_value[label_start:label_end] == i
+        )
     # print("\n", low_res_soft_pedal_value)
     # print(quantized_low_res_pedal_value, low_res_pedal_value, selected_pedal_value[label_start:label_end])
 
-    return quantized_low_res_pedal_value #, low_res_soft_pedal_value
+    return quantized_low_res_pedal_value  # , low_res_soft_pedal_value
+
 
 def get_label_bin_edges(num_classes):
     label_bins = {
@@ -112,7 +129,7 @@ def get_label_bin_edges(num_classes):
         2: [0, 64, 128],
         3: [0, 11, 95, 128],
         4: [0, 11, 60, 95, 128],
-        128: list(range(129))
+        128: list(range(129)),
     }
     return label_bins.get(num_classes, None)
 
@@ -137,9 +154,31 @@ def load_data(data_path, label_bin_edges, pedal_factor, room_acoustics):
     metadata = data["metadata"]
 
     print("Features shape:", features.shape, features[0].shape)
-    print("Average labels shape:", average_labels.shape, average_labels[0].shape, average_labels[0][:, 0], average_labels[0][:, 1], average_labels[0][:, 2])
-    print("Instant values shape:", instant_values.shape, instant_values[0].shape, instant_values[0][:, 0], instant_values[0][:, 1], instant_values[0][:, 2])
-    print("Metadata shape:", metadata.shape, metadata[0])
+    print(
+        "Average labels shape:",
+        average_labels.shape,
+        average_labels[0].shape,
+        average_labels[0][:, 0],
+        average_labels[0][:, 1],
+        average_labels[0][:, 2],
+    )
+    print(
+        "Instant values shape:",
+        instant_values.shape,
+        instant_values[0].shape,
+        instant_values[0][:, 0],
+        instant_values[0][:, 1],
+        instant_values[0][:, 2],
+    )
+    print(
+        "Metadata shape:",
+        metadata.shape,
+        metadata[0],
+        metadata[1],
+        metadata[2],
+        metadata[-2],
+        metadata[-1],
+    )
 
     # pedal_labels: shape: (num_samples, ); pedal_labels[0].shape: (seq_len, )
     pedal_labels = np.ndarray((len(instant_values)), dtype=object)
@@ -197,8 +236,22 @@ def load_data_real_audio(data_path, label_bin_edges):
     metadata = data["metadata"]
 
     print("Features shape:", features.shape, features[0].shape)
-    print("Average labels shape:", average_labels.shape, average_labels[0].shape, average_labels[0][:, 0], average_labels[0][:, 1], average_labels[0][:, 2])
-    print("Instant values shape:", instant_values.shape, instant_values[0].shape, instant_values[0][:, 0], instant_values[0][:, 1], instant_values[0][:, 2])
+    print(
+        "Average labels shape:",
+        average_labels.shape,
+        average_labels[0].shape,
+        average_labels[0][:, 0],
+        average_labels[0][:, 1],
+        average_labels[0][:, 2],
+    )
+    print(
+        "Instant values shape:",
+        instant_values.shape,
+        instant_values[0].shape,
+        instant_values[0][:, 0],
+        instant_values[0][:, 1],
+        instant_values[0][:, 2],
+    )
     print("Metadata shape:", metadata.shape, metadata[0])
 
     # pedal_labels: shape: (num_samples, ); pedal_labels[0].shape: (seq_len, )
@@ -225,7 +278,9 @@ def load_data_real_audio(data_path, label_bin_edges):
     return features, pedal_labels, metadata
 
 
-def split_data(features, labels, metadata, val_size=0.1, test_size=0.1, random_state=42):
+def split_data(
+    features, labels, metadata, val_size=0.1, test_size=0.1, random_state=42
+):
     """
     Split the data into training and validation sets according to piece ids.
     """
@@ -233,12 +288,22 @@ def split_data(features, labels, metadata, val_size=0.1, test_size=0.1, random_s
     unique_piece_ids = np.unique(piece_ids)
 
     np.random.seed(random_state)
-    val_piece_ids = np.random.choice(unique_piece_ids, size=int(val_size * len(unique_piece_ids)), replace=False)
-    test_piece_ids = np.random.choice(
-        np.setdiff1d(unique_piece_ids, val_piece_ids), size=int(test_size * len(unique_piece_ids)), replace=False
+    val_piece_ids = np.random.choice(
+        unique_piece_ids, size=int(val_size * len(unique_piece_ids)), replace=False
     )
-    train_piece_ids = np.setdiff1d(unique_piece_ids, np.concatenate([val_piece_ids, test_piece_ids]))
-    print(f"Train Piece IDs: {train_piece_ids}", f"Val Piece IDs: {val_piece_ids}", f"Test Piece IDs: {test_piece_ids}")
+    test_piece_ids = np.random.choice(
+        np.setdiff1d(unique_piece_ids, val_piece_ids),
+        size=int(test_size * len(unique_piece_ids)),
+        replace=False,
+    )
+    train_piece_ids = np.setdiff1d(
+        unique_piece_ids, np.concatenate([val_piece_ids, test_piece_ids])
+    )
+    print(
+        f"Train Piece IDs: {train_piece_ids}",
+        f"Val Piece IDs: {val_piece_ids}",
+        f"Test Piece IDs: {test_piece_ids}",
+    )
 
     train_indices = np.where(np.isin(piece_ids, train_piece_ids))[0]
     val_indices = np.where(np.isin(piece_ids, val_piece_ids))[0]
@@ -256,15 +321,27 @@ def split_data(features, labels, metadata, val_size=0.1, test_size=0.1, random_s
     val_metadata = metadata[val_indices]
     test_metadata = metadata[test_indices]
 
-    return train_features, val_features, test_features, \
-        train_labels, val_labels, test_labels, train_metadata, val_metadata, test_metadata
+    return (
+        train_features,
+        val_features,
+        test_features,
+        train_labels,
+        val_labels,
+        test_labels,
+        train_metadata,
+        val_metadata,
+        test_metadata,
+    )
 
-def split_data_real_audio(features, labels, metadata, split="test", max_num_samples=None):
+
+def split_data_real_audio(
+    features, labels, metadata, split="test", max_num_samples=None
+):
     """
     Split the data into training and validation sets according to piece ids.
     """
     split2id = {"train": 0, "val": 1, "test": 2}
-    split_id = metadata[:, -1] # train: 0, val: 1, test: 2
+    split_id = metadata[:, -1]  # train: 0, val: 1, test: 2
     # filter the data according to the split
     split_mask = split_id == split2id[split]
     split_features = features[split_mask]
