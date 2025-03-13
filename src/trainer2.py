@@ -100,7 +100,7 @@ class PedalTrainer2:
         scheduler,
         device="cuda",
         logging_steps=10,
-        eval_steps=100,
+        eval_steps=-1,
         eval_epochs=-1,
         save_total_limit=20,
         save_dir="checkpoints",
@@ -301,17 +301,17 @@ class PedalTrainer2:
             global_step += 1
 
             if batch_idx % self.logging_steps == 0:
-                # print(
-                #     f"Epoch {epoch + 1}, Batch {batch_idx + 1}/{len(self.train_dataloader)}, Loss: "
-                #     f"glob_p_v: {global_p_v_loss.item():.4f}, "
-                #     f"p_v: {p_v_loss.item():.4f}, "
-                #     f"p_on: {p_on_loss.item():.4f}, "
-                #     f"p_off: {p_off_loss.item():.4f}, "
-                #     f"room: {room_loss.item():.4f}, "
-                #     f"p_cntr: {contrastive_loss_value.item():.4f}, "
-                #     # f"Room Contrastive Loss: {room_contrastive_loss_value.item():.4f}, "
-                #     f"total: {loss.item():.4f}"
-                # )
+                print(
+                    f"Epoch {epoch + 1}, Batch {batch_idx + 1}/{len(self.train_dataloader)}, Loss: "
+                    f"glob_p_v: {global_p_v_loss.item():.4f}, "
+                    f"p_v: {p_v_loss.item():.4f}, "
+                    f"p_on: {p_on_loss.item():.4f}, "
+                    f"p_off: {p_off_loss.item():.4f}, "
+                    f"room: {room_loss.item():.4f}, "
+                    f"p_cntr: {contrastive_loss_value.item():.4f}, "
+                    # f"Room Contrastive Loss: {room_contrastive_loss_value.item():.4f}, "
+                    f"total: {loss.item():.4f}"
+                )
                 pbar.set_postfix(
                     {
                         "loss": loss.item(),
@@ -702,6 +702,18 @@ class PedalTrainer2:
                 "p_v_mae": avg_pedal_value_mae,
                 "p_v_mse": avg_pedal_value_mse,
             }
+        )
+        print(
+            f"Validation Loss: {val_loss / len(self.val_dataloader):.4f}, "
+            f"glob_p_v_f1: {avg_global_pedal_value_f1:.4f}, "
+            f"p_v_f1: {avg_pedal_value_f1:.4f}, "
+            f"p_on_f1: {avg_pedal_onset_f1:.4f}, "
+            f"p_off_f1: {avg_pedal_offset_f1:.4f}, "
+            f"room_f1: {avg_room_f1:.4f}, "
+            f"glob_p_v_mae: {avg_global_pedal_value_mae:.4f}, "
+            f"glob_p_v_mse: {avg_global_pedal_value_mse:.4f}, "
+            f"p_v_mae: {avg_pedal_value_mae:.4f}, "
+            f"p_v_mse: {avg_pedal_value_mse:.4f}"
         )
 
         return (

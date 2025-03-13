@@ -54,7 +54,7 @@ def main():
     # checkpoint_path = "ckpt_0311_10per-clip-500frm_bs16-8h-2xdata-val1-6loss/model_epoch_7_step_7950_val_loss_0.1267_f1_0.7976_mae_0.2177.pt"
 
     # Feature dimension
-    batch_size = 16
+    batch_size = 32
     feature_dim = 249  # 128 (spectrogram) + 13 (mfcc)
     max_frame = 500
     num_samples_per_clip = 10
@@ -64,13 +64,15 @@ def main():
     pedal_value_ratio = 0.4
     pedal_onset_ratio = 0.2
     pedal_offset_ratio = 0.2
-    room_ratio = 0.0
+    room_ratio = 0.1
     contrastive_ratio = 0.1
 
     data_filter = [
         "r1-pf0",
-        # "r1-pf1",
+        "r1-pf1",
+        # "r2-pf0",
         # "r2-pf1",
+        # "r3-pf0",
         # "r3-pf1",
         "r0-pf1",
     ]
@@ -79,7 +81,7 @@ def main():
     val_label_bin_edges = get_label_bin_edges(2)
 
     # Checkpoint save path
-    save_dir = f"ckpt_0312_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-8h-2xdata-5loss"
+    save_dir = f"ckpt_0312_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-8h-3xdata-6loss"
 
     # Copy this file to save_dir
     os.makedirs(save_dir, exist_ok=True)
@@ -98,7 +100,7 @@ def main():
     )
     val_dataset = PedalDataset(
         data_path="sample_data/val.json",
-        num_samples_per_clip=None,
+        num_samples_per_clip=5, #num_samples_per_clip,
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
@@ -190,7 +192,7 @@ def main():
         scheduler=scheduler,
         device="cuda" if torch.cuda.is_available() else "cpu",
         logging_steps=10,
-        eval_steps=200,
+        eval_steps=300,
         eval_epochs=-1,
         save_total_limit=10,
         num_train_epochs=50,

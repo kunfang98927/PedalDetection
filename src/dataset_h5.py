@@ -64,13 +64,13 @@ class PedalDataset(Dataset):
         # Open all H5 files and store them in a dictionary.
         self.h5fs = {}
         for ex in self.examples:
-            file_path = ex["file_path"]
+            file_path = ex["file_path"].replace("/scratch/kunfang/pedal_data/data/", "data/h5/")
             if file_path not in self.h5fs:
                 self.h5fs[file_path] = h5py.File(file_path, "r")
                 print(f"Opened {file_path}")
 
         # For validation/test, precompute number of segments per example.
-        if self.split in ["validation", "test"]:
+        if self.split in ["test"]: #["validation", "test"]:
             self.segments_per_example = []
             for ex in self.examples:
                 num_frames = ex["num_frames"]
@@ -104,14 +104,14 @@ class PedalDataset(Dataset):
             return False
 
     def __len__(self):
-        if self.split in ["validation", "test"]:
+        if self.split in ["test"]: #["validation", "test"]:
             return sum(self.segments_per_example)
         else:
             return len(self.examples) * self.num_samples_per_clip
 
     def __getitem__(self, idx):
         # Map global idx to a specific example and segment.
-        if self.split in ["validation", "test"]:
+        if self.split in ["test"]: #["validation", "test"]:
             running = 0
             for i, seg_count in enumerate(self.segments_per_example):
                 if idx < running + seg_count:
@@ -127,7 +127,7 @@ class PedalDataset(Dataset):
 
         # Get JSON info for this example.
         ex_info = self.examples[ex_idx]
-        file_path = ex_info["file_path"]
+        file_path = ex_info["file_path"].replace("/scratch/kunfang/pedal_data/data/", "data/h5/")
         example_index = ex_info["example_index"]
         num_frames = ex_info["num_frames"]
         room_id = ex_info["room_id"]
@@ -136,7 +136,7 @@ class PedalDataset(Dataset):
         # print(file_path, example_index, num_frames, room_id, midi_id, pedal_factor)
 
         # Determine start_frame and end_frame.
-        if self.split == "train":
+        if self.split == "train" or self.split == "validation":
             if num_frames > self.max_frame:
                 start_frame = np.random.randint(0, num_frames - self.max_frame)
             else:
