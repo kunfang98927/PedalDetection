@@ -193,7 +193,9 @@ class PedalTrainer2:
                             remove_idx = best_val_losses.index(max(best_val_losses))
                             remove_idx_in_best_checkpoints = None
                             for i, checkpoint in enumerate(self.best_checkpoints):
-                                if f"val_loss_{best_val_losses[remove_idx]}" in checkpoint:
+                                remove_loss = best_val_losses[remove_idx]
+                                # round to 4 decimal places
+                                if f"val_loss_{remove_loss:.4f}" in checkpoint:
                                     remove_idx_in_best_checkpoints = i
                                     break
                             print(
@@ -386,7 +388,9 @@ class PedalTrainer2:
                         remove_idx = best_val_losses.index(max(best_val_losses))
                         remove_idx_in_best_checkpoints = None
                         for i, checkpoint in enumerate(self.best_checkpoints):
-                            if f"val_loss_{best_val_losses[remove_idx]}" in checkpoint:
+                            remove_loss = best_val_losses[remove_idx]
+                            # round to 4 decimal places
+                            if f"val_loss_{remove_loss:.4f}" in checkpoint:
                                 remove_idx_in_best_checkpoints = i
                                 break
                         print(
