@@ -191,12 +191,19 @@ class PedalTrainer2:
 
                         if len(best_val_losses) > self.save_total_limit:
                             remove_idx = best_val_losses.index(max(best_val_losses))
+                            remove_idx_in_best_checkpoints = None
+                            for i, checkpoint in enumerate(self.best_checkpoints):
+                                if f"val_loss_{best_val_losses[remove_idx]}" in checkpoint:
+                                    remove_idx_in_best_checkpoints = i
+                                    break
                             print(
-                                f"Removing {self.best_checkpoints[remove_idx]} with loss {best_val_losses[remove_idx]}"
+                                f"Removing {self.best_checkpoints[remove_idx_in_best_checkpoints]} with loss {best_val_losses[remove_idx]}"
                             )
-                            os.remove(self.best_checkpoints[remove_idx])
+                            os.remove(
+                                self.best_checkpoints[remove_idx_in_best_checkpoints]
+                            )
                             best_val_losses.pop(remove_idx)
-                            self.best_checkpoints.pop(remove_idx)
+                            self.best_checkpoints.pop(remove_idx_in_best_checkpoints)
                         best_val_losses.append(val_loss)
 
     def train_one_epoch(
@@ -377,12 +384,17 @@ class PedalTrainer2:
                     )
                     if len(best_val_losses) > self.save_total_limit:
                         remove_idx = best_val_losses.index(max(best_val_losses))
+                        remove_idx_in_best_checkpoints = None
+                        for i, checkpoint in enumerate(self.best_checkpoints):
+                            if f"val_loss_{best_val_losses[remove_idx]}" in checkpoint:
+                                remove_idx_in_best_checkpoints = i
+                                break
                         print(
-                            f"Removing {self.best_checkpoints[remove_idx]} with loss {best_val_losses[remove_idx]}"
+                            f"Removing {self.best_checkpoints[remove_idx_in_best_checkpoints]} with loss {best_val_losses[remove_idx]}"
                         )
-                        os.remove(self.best_checkpoints[remove_idx])
+                        os.remove(self.best_checkpoints[remove_idx_in_best_checkpoints])
                         best_val_losses.pop(remove_idx)
-                        self.best_checkpoints.pop(remove_idx)
+                        self.best_checkpoints.pop(remove_idx_in_best_checkpoints)
                     best_val_losses.append(val_loss)
 
         return total_loss / len(self.train_dataloader), global_step, best_val_losses

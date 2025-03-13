@@ -70,7 +70,7 @@ class PedalDataset(Dataset):
                 print(f"Opened {file_path}")
 
         # For validation/test, precompute number of segments per example.
-        if self.split in ["test"]:  # ["validation", "test"]:
+        if self.split in ["validation", "test"]:
             self.segments_per_example = []
             for ex in self.examples:
                 num_frames = ex["num_frames"]
@@ -104,14 +104,14 @@ class PedalDataset(Dataset):
             return False
 
     def __len__(self):
-        if self.split in ["test"]:  # ["validation", "test"]:
+        if self.split in ["validation", "test"]:
             return sum(self.segments_per_example)
         else:
             return len(self.examples) * self.num_samples_per_clip
 
     def __getitem__(self, idx):
         # Map global idx to a specific example and segment.
-        if self.split in ["test"]:  # ["validation", "test"]:
+        if self.split in ["validation", "test"]:
             running = 0
             for i, seg_count in enumerate(self.segments_per_example):
                 if idx < running + seg_count:
@@ -136,14 +136,14 @@ class PedalDataset(Dataset):
         # print(file_path, example_index, num_frames, room_id, midi_id, pedal_factor)
 
         # Determine start_frame and end_frame.
-        if self.split == "train" or self.split == "validation":
+        if self.split == "train":
             if num_frames > self.max_frame:
                 start_frame = np.random.randint(0, num_frames - self.max_frame)
             else:
                 start_frame = 0
             end_frame = start_frame + self.max_frame
         else:
-            # For validation/test, use a sliding window.
+            # For test, use a sliding window.
             step = int(self.max_frame * (1 - self.overlap_ratio))
             start_frame = seg_idx * step
             # If the computed window exceeds the available frames, adjust.
@@ -161,18 +161,18 @@ class PedalDataset(Dataset):
         # print(idx, selected_feature.shape, selected_pedal_value.shape)
 
         # Process labels.
-        if len(self.label_bin_edges) == 2:
-            pedal_onset, pedal_offset = calculate_pedal_onset_offset(
-                selected_pedal_value, 0
-            )
-            quantized_pedal_value = selected_pedal_value / 127.0
-        else:
-            quantized_pedal_value = (
-                np.digitize(selected_pedal_value, self.label_bin_edges) - 1
-            )
-            pedal_onset, pedal_offset = calculate_pedal_onset_offset(
-                quantized_pedal_value, on_off_threshold=self.label_bin_edges[1]
-            )
+        # if len(self.label_bin_edges) == 2:
+        pedal_onset, pedal_offset = calculate_pedal_onset_offset(
+            selected_pedal_value, on_off_threshold=0
+        )
+        quantized_pedal_value = selected_pedal_value / 127.0
+        # else:
+        #     quantized_pedal_value = (
+        #         np.digitize(selected_pedal_value, self.label_bin_edges) - 1
+        #     )
+        #     pedal_onset, pedal_offset = calculate_pedal_onset_offset(
+        #         quantized_pedal_value, on_off_threshold=self.label_bin_edges[1]
+        #     )
         soft_pedal_onset = calculate_soft_regresion_label(pedal_onset)
         soft_pedal_offset = calculate_soft_regresion_label(pedal_offset)
 

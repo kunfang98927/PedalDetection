@@ -50,8 +50,8 @@ def mix_dataset(
 
 def main():
 
-    # checkpoint_path = None
-    checkpoint_path = "ckpt_0311_10per-clip-500frm_bs16-8h-2xdata-val1-6loss/model_epoch_7_step_7950_val_loss_0.1267_f1_0.7976_mae_0.2177.pt"
+    checkpoint_path = None
+    # checkpoint_path = "ckpt_0311_10per-clip-500frm_bs16-8h-2xdata-val1-6loss/model_epoch_7_step_7950_val_loss_0.1267_f1_0.7976_mae_0.2177.pt"
 
     # Feature dimension
     batch_size = 16
@@ -69,7 +69,7 @@ def main():
 
     data_filter = [
         "r1-pf0",
-        "r1-pf1",
+        # "r1-pf1",
         # "r2-pf1",
         # "r3-pf1",
         "r0-pf1",
@@ -79,7 +79,7 @@ def main():
     val_label_bin_edges = get_label_bin_edges(2)
 
     # Checkpoint save path
-    save_dir = f"ckpt_0312_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-8h-2xdata-val1-6loss-resume"
+    save_dir = f"ckpt_0312_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-8h-2xdata-5loss"
 
     # Copy this file to save_dir
     os.makedirs(save_dir, exist_ok=True)
@@ -98,11 +98,11 @@ def main():
     )
     val_dataset = PedalDataset(
         data_path="sample_data/val.json",
-        num_samples_per_clip=1,  # num_samples_per_clip,
+        num_samples_per_clip=None,
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.05,
+        overlap_ratio=0.0,
         split="validation",
         data_filter=[df for df in data_filter if "pf0" not in df],  # not evaluate pf=0
     )
@@ -189,8 +189,8 @@ def main():
         optimizer=optimizer,
         scheduler=scheduler,
         device="cuda" if torch.cuda.is_available() else "cpu",
-        logging_steps=5,
-        eval_steps=150,
+        logging_steps=10,
+        eval_steps=200,
         eval_epochs=-1,
         save_total_limit=10,
         num_train_epochs=50,
