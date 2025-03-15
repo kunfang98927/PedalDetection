@@ -449,22 +449,6 @@
   },
   {
     "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
-    "example_index": 260,
-    "num_frames": 172516,
-    "room_id": 1,
-    "midi_id": 131,
-    "pedal_factor": 1
-  },
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
-    "example_index": 261,
-    "num_frames": 172496,
-    "room_id": 1,
-    "midi_id": 131,
-    "pedal_factor": 0
-  },
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
     "example_index": 332,
     "num_frames": 22227,
     "room_id": 1,
@@ -3277,22 +3261,6 @@
     "num_frames": 66368,
     "room_id": 2,
     "midi_id": 130,
-    "pedal_factor": 0
-  },
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
-    "example_index": 260,
-    "num_frames": 172535,
-    "room_id": 2,
-    "midi_id": 131,
-    "pedal_factor": 1
-  },
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room2synth0303.h5",
-    "example_index": 261,
-    "num_frames": 172521,
-    "room_id": 2,
-    "midi_id": 131,
     "pedal_factor": 0
   },
   {
@@ -6113,22 +6081,6 @@
   },
   {
     "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
-    "example_index": 260,
-    "num_frames": 172751,
-    "room_id": 3,
-    "midi_id": 131,
-    "pedal_factor": 1
-  },
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
-    "example_index": 261,
-    "num_frames": 172719,
-    "room_id": 3,
-    "midi_id": 131,
-    "pedal_factor": 0
-  },
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room3synth0303.h5",
     "example_index": 332,
     "num_frames": 22303,
     "room_id": 3,
@@ -8717,14 +8669,6 @@
     "num_frames": 66327,
     "room_id": 0,
     "midi_id": 130,
-    "pedal_factor": 1
-  },
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong1277real0303.h5",
-    "example_index": 130,
-    "num_frames": 172352,
-    "room_id": 0,
-    "midi_id": 131,
     "pedal_factor": 1
   },
   {

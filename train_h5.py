@@ -1,8 +1,6 @@
 import os
 import torch
 import shutil
-
-
 import argparse
 from torch.utils.data import DataLoader
 from src.model1 import PedalDetectionModelwithCNN
@@ -30,7 +28,7 @@ def parse_args():
         "--data_dir",
         type=str,
         default="/scratch/kunfang/pedal_data/data/",
-        help="Directory where the H5 files are stored (default: /scratch/kunfang/pedal_data/data/)",
+        help="Directory where the H5 files are stored",
     )
 
     # Datasets
@@ -213,7 +211,7 @@ def main():
 
     # Dataset and DataLoader
     train_dataset = PedalDataset(
-        data_list_path="sample_data_old/train.json",
+        data_list_path="sample_data/train.json",
         data_dir=data_dir,
         num_samples_per_clip=num_samples_per_clip,
         max_frame=max_frame,
@@ -225,7 +223,7 @@ def main():
         randomly_sample=True,
     )
     val_dataset = PedalDataset(
-        data_list_path="sample_data_old/val.json",
+        data_list_path="sample_data/val.json",
         data_dir=data_dir,
         num_samples_per_clip=5,  # num_samples_per_clip,
         max_frame=max_frame,
@@ -234,7 +232,7 @@ def main():
         overlap_ratio=0.0,
         split="validation",
         datasets=[df for df in datasets if "pf0" not in df],  # not evaluate pf=0
-        randomly_sample=False,
+        randomly_sample=True,
     )
     print("Train dataset size:", len(train_dataset))
     print("Val dataset size:", len(val_dataset))
@@ -293,14 +291,14 @@ def main():
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
-        num_workers=8,
+        num_workers=16,
         pin_memory=True,
     )
     val_dataloader = DataLoader(
         val_dataset,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=8,
+        num_workers=16,
         pin_memory=True,
     )
 

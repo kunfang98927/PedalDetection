@@ -4,7 +4,8 @@ import h5py
 from tqdm import tqdm
 from src.dirs import DATA_PATH_ROOM1, DATA_PATH_ROOM2, DATA_PATH_ROOM3, DATA_PATH_REAL
 
-h5_files = [DATA_PATH_ROOM1, DATA_PATH_ROOM2, DATA_PATH_ROOM3, DATA_PATH_REAL]
+h5_files = [DATA_PATH_ROOM1, DATA_PATH_ROOM2, DATA_PATH_ROOM3, DATA_PATH_REAL] # store the whole Maestro v2.0 dataset
+invalid_files = [39, 40, 41, 131, 950, 951] # invalid files in the Maestro v3.0 dataset
 
 train_data = []
 val_data = []
@@ -43,6 +44,11 @@ for path in h5_files:
             metadata_list = metadata_arr.tolist()
 
             room_id, midi_id, pedal_factor, split = metadata_list
+
+            # Skip invalid files
+            if midi_id in invalid_files:
+                print(f"Warning: Skipping invalid file midi_id={midi_id}")
+                continue
 
             if "real" in path:
                 room_id = 0
