@@ -1,6 +1,9 @@
 import os
 import torch
 import shutil
+
+
+import argparse
 from torch.utils.data import DataLoader
 from src.model1 import PedalDetectionModelwithCNN
 from src.dataset_h5 import PedalDataset
@@ -9,6 +12,85 @@ from src.utils import get_label_bin_edges
 import functools
 
 print = functools.partial(print, flush=True)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Pedal model training arguments")
+
+    # Checkpoint path
+    parser.add_argument(
+        "--checkpoint_path",
+        type=str,
+        default=None,
+        help="Path to the checkpoint file (default: None)",
+    )
+
+    # Feature dimensions and training parameters
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        default=32,
+        help="Batch size for training (default: 32)",
+    )
+    parser.add_argument(
+        "--feature_dim", type=int, default=249, help="Feature dimension (default: 249)"
+    )
+    parser.add_argument(
+        "--max_frame", type=int, default=500, help="Maximum frame length (default: 500)"
+    )
+    parser.add_argument(
+        "--num_samples_per_clip",
+        type=int,
+        default=10,
+        help="Number of samples per clip (default: 10)",
+    )
+    parser.add_argument(
+        "--num_classes", type=int, default=1, help="Number of classes (default: 1)"
+    )
+
+    # Pedal ratios
+    parser.add_argument(
+        "--global_pedal_ratio",
+        type=float,
+        default=0.1,
+        help="Global pedal ratio (default: 0.1)",
+    )
+    parser.add_argument(
+        "--pedal_value_ratio",
+        type=float,
+        default=0.4,
+        help="Pedal value ratio (default: 0.4)",
+    )
+    parser.add_argument(
+        "--pedal_onset_ratio",
+        type=float,
+        default=0.2,
+        help="Pedal onset ratio (default: 0.2)",
+    )
+    parser.add_argument(
+        "--pedal_offset_ratio",
+        type=float,
+        default=0.2,
+        help="Pedal offset ratio (default: 0.2)",
+    )
+    parser.add_argument(
+        "--room_ratio", type=float, default=0.0, help="Room ratio (default: 0.0)"
+    )
+    parser.add_argument(
+        "--contrastive_ratio",
+        type=float,
+        default=0.1,
+        help="Contrastive ratio (default: 0.1)",
+    )
+    # Data filter
+    parser.add_argument(
+        "--data_filter",
+        nargs="*",
+        default=["r1-pf0", "r0-pf1"],
+        help="Data filter list (default: ['r1-pf0', 'r0-pf1'])",
+    )  # command line: --data_filter r1-pf0 r0-pf1
+
+    return parser.parse_args()
 
 
 def mix_dataset(
@@ -50,42 +132,79 @@ def mix_dataset(
 
 def main():
 
-    checkpoint_path = None
-    # checkpoint_path = "ckpt_0311_10per-clip-500frm_bs16-8h-2xdata-val1-6loss/model_epoch_7_step_7950_val_loss_0.1267_f1_0.7976_mae_0.2177.pt"
+    args = parse_args()
 
-    # Feature dimension
-    batch_size = 32
-    feature_dim = 249  # 128 (spectrogram) + 13 (mfcc)
-    max_frame = 500
-    num_samples_per_clip = 10
-    num_classes = 1
+    # Print the parsed arguments (you can also use these in your training code)
+    print(f"Checkpoint Path: {args.checkpoint_path}")
+    print(f"Batch Size: {args.batch_size}")
+    print(f"Feature Dimension: {args.feature_dim}")
+    print(f"Max Frame: {args.max_frame}")
+    print(f"Num Samples per Clip: {args.num_samples_per_clip}")
+    print(f"Num Classes: {args.num_classes}")
+    print(f"Global Pedal Ratio: {args.global_pedal_ratio}")
+    print(f"Pedal Value Ratio: {args.pedal_value_ratio}")
+    print(f"Pedal Onset Ratio: {args.pedal_onset_ratio}")
+    print(f"Pedal Offset Ratio: {args.pedal_offset_ratio}")
+    print(f"Room Ratio: {args.room_ratio}")
+    print(f"Contrastive Ratio: {args.contrastive_ratio}")
+    print(f"Data Filter: {args.data_filter}")
 
-    global_pedal_ratio = 0.1
-    pedal_value_ratio = 0.4
-    pedal_onset_ratio = 0.2
-    pedal_offset_ratio = 0.2
-    room_ratio = 0.1
-    contrastive_ratio = 0.1
+    checkpoint_path = args.checkpoint_path
+    batch_size = args.batch_size
+    feature_dim = args.feature_dim
+    max_frame = args.max_frame
+    num_samples_per_clip = args.num_samples_per_clip
+    num_classes = args.num_classes
+    global_pedal_ratio = args.global_pedal_ratio
+    pedal_value_ratio = args.pedal_value_ratio
+    pedal_onset_ratio = args.pedal_onset_ratio
+    pedal_offset_ratio = args.pedal_offset_ratio
+    room_ratio = args.room_ratio
+    contrastive_ratio = args.contrastive_ratio
+    data_filter = args.data_filter
 
-    data_filter = [
-        "r1-pf0",
-        "r1-pf1",
-        # "r2-pf0",
-        # "r2-pf1",
-        # "r3-pf0",
-        # "r3-pf1",
-        "r0-pf1",
-    ]
+    # Calculate the number of losses
+    loss_num = 0
+    if global_pedal_ratio > 0:
+        loss_num += 1
+    if pedal_value_ratio > 0:
+        loss_num += 1
+    if pedal_onset_ratio > 0:
+        loss_num += 1
+    if pedal_offset_ratio > 0:
+        loss_num += 1
+    if room_ratio > 0:
+        loss_num += 1
+    if contrastive_ratio > 0:
+        loss_num += 1
 
+    # Calculate the number of data types
+    data_size = len(data_filter)
+
+    # Label bin edges, train and val
     label_bin_edges = get_label_bin_edges(num_classes)
     val_label_bin_edges = get_label_bin_edges(2)
 
     # Checkpoint save path
-    save_dir = f"ckpt_0312_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-8h-3xdata-6loss"
-
+    save_dir = f"debug-ckpt_0314_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-8h-{data_size}xdata-{loss_num}loss"
     # Copy this file to save_dir
     os.makedirs(save_dir, exist_ok=True)
     shutil.copy("train_h5.py", os.path.join(save_dir, "train_h5"))
+    # write the arguments to a yaml file
+    with open(f"{save_dir}/config.yaml", "w") as f:
+        f.write(f"checkpoint_path: {args.checkpoint_path}\n")
+        f.write(f"batch_size: {args.batch_size}\n")
+        f.write(f"feature_dim: {args.feature_dim}\n")
+        f.write(f"max_frame: {args.max_frame}\n")
+        f.write(f"num_samples_per_clip: {args.num_samples_per_clip}\n")
+        f.write(f"num_classes: {args.num_classes}\n")
+        f.write(f"global_pedal_ratio: {args.global_pedal_ratio}\n")
+        f.write(f"pedal_value_ratio: {args.pedal_value_ratio}\n")
+        f.write(f"pedal_onset_ratio: {args.pedal_onset_ratio}\n")
+        f.write(f"pedal_offset_ratio: {args.pedal_offset_ratio}\n")
+        f.write(f"room_ratio: {args.room_ratio}\n")
+        f.write(f"contrastive_ratio: {args.contrastive_ratio}\n")
+        f.write(f"data_filter: {args.data_filter}\n")
 
     # Dataset and DataLoader
     train_dataset = PedalDataset(
@@ -97,16 +216,18 @@ def main():
         overlap_ratio=0.25,
         split="train",
         data_filter=data_filter,
+        randomly_sample=True,
     )
     val_dataset = PedalDataset(
         data_path="sample_data/val.json",
-        num_samples_per_clip=5, #num_samples_per_clip,
+        num_samples_per_clip=5,  # num_samples_per_clip,
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
         overlap_ratio=0.0,
         split="validation",
         data_filter=[df for df in data_filter if "pf0" not in df],  # not evaluate pf=0
+        randomly_sample=False,
     )
     print("Train dataset size:", len(train_dataset))
     print("Val dataset size:", len(val_dataset))
@@ -165,11 +286,15 @@ def main():
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
+        num_workers=8,
+        pin_memory=True,
     )
     val_dataloader = DataLoader(
         val_dataset,
         batch_size=batch_size,
         shuffle=False,
+        num_workers=8,
+        pin_memory=True,
     )
 
     # Multi-GPU support using DataParallel
@@ -192,9 +317,9 @@ def main():
         scheduler=scheduler,
         device="cuda" if torch.cuda.is_available() else "cpu",
         logging_steps=10,
-        eval_steps=300,
-        eval_epochs=-1,
-        save_total_limit=10,
+        eval_steps=-1,
+        eval_epochs=1,
+        save_total_limit=20,
         num_train_epochs=50,
         val_label_bin_edges=val_label_bin_edges,
         save_dir=save_dir,

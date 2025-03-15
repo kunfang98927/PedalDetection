@@ -242,7 +242,7 @@ def sliding_window_normalize(a, window_size):
 
 def main():
 
-    ckpt_dir = "ckpt_0312_10per-clip-500frm_bs16-8h-2xdata-val1-6loss-resume/results"
+    ckpt_dir = "ckpt_0314_10per-clip-500frm_bs32-8h-3xdata-5loss/results"
     report_path = f"{ckpt_dir}/report.txt"
 
     all_p_v_labels = np.load(f"{ckpt_dir}/p_v_labels_test_set_0310.npy")

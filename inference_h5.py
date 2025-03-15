@@ -92,7 +92,7 @@ def main():
     # checkpoint_path = "ckpt_0303_10per-clip-500frm_bs32_no-onoff_sbatch/model_epoch_450_val_loss_0.1921_f1_0.6449_mae_0.1736.pt"
     # checkpoint_path = "ckpt_0306_10per-clip-500frm_bs32_onoff_sbatch_resume/model_epoch_500_val_loss_0.6021_f1_0.8045_mae_0.1605.pt" # best 1st model
     # checkpoint_path = "ckpt_0306_10per-clip-500frm_bs32_onoff-bce_sbatch/model_epoch_370_val_loss_0.1002_f1_0.7635_mae_0.1544.pt"  # best 2nd model
-    checkpoint_path = "ckpt_0312_10per-clip-500frm_bs16-8h-2xdata-val1-6loss-resume/model_epoch_8_step_1200_val_loss_0.1165_f1_0.8290_mae_0.2024.pt"
+    checkpoint_path = "ckpt_0314_10per-clip-500frm_bs32-8h-3xdata-5loss/model_epoch_33_val_loss_0.0956_f1_0.6302_mae_0.1610.pt"
 
     # Get the name of the checkpoint
     ckpt_name = checkpoint_path.split("/")[-1]
@@ -139,8 +139,9 @@ def main():
         label_bin_edges=label_bin_edges,
         overlap_ratio=0.05,
         split="test",
-        data_filter=["r0-pf1"],  # ["r1-pf1", "r2-pf1", "r3-pf1", "r0-pf1"],
+        data_filter=["r3-pf1"],  # ["r1-pf1", "r2-pf1", "r3-pf1", "r0-pf1"],
         # num_examples=20,
+        randomly_sample=False,
     )
     print("Test dataset size:", len(test_dataset))
 
@@ -154,6 +155,8 @@ def main():
         test_dataset,
         batch_size=64,
         shuffle=False,
+        num_workers=8,
+        pin_memory=True,
     )
 
     # Perform inference
