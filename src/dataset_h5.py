@@ -1,3 +1,4 @@
+import os
 import json
 import h5py
 import numpy as np
@@ -13,20 +14,22 @@ from src.utils import (
 class PedalDataset(Dataset):
     def __init__(
         self,
-        data_path,  # Path to the JSON file (e.g., train.json, val.json, or test.json)
+        data_list_path,  # Path to the JSON file (e.g., train.json, val.json, or test.json)
+        data_dir="/scratch/kunfang/pedal_data/data/",
+        datasets=["r0-pf1"],
         num_samples_per_clip=10,
         max_frame=500,
         label_ratio=1.0,
         label_bin_edges=[0, 11, 95, 128],
         overlap_ratio=0.25,
         split="train",
-        data_filter=None,
         num_examples=None,
         randomly_sample=False,
     ):
         """
         Args:
-            data_path (str): Path to the JSON file with a list of examples.
+            data_list_path (str): Path to the JSON file (e.g., train.json, val.json, or test.json).
+            data_dir (str): Directory where the H5 files are stored.
             num_samples_per_clip (int): Number of clips to sample per example (for training).
             max_frame (int): Length of the clip in frames.
             label_ratio (float): Portion of the clip where the loss is computed.
@@ -34,15 +37,15 @@ class PedalDataset(Dataset):
             overlap_ratio (float): Overlap ratio for sliding window.
             split (str): "train", "validation", or "test".
         """
-        with open(data_path, "r") as f:
+        with open(data_list_path, "r") as f:
             self.examples = json.load(f)
-            print(f"Loaded {len(self.examples)} examples from {data_path}")
+            print(f"Loaded {len(self.examples)} examples from {data_list_path}")
 
         # filter the examples
         self.examples = [
             ex
             for ex in self.examples
-            if data_filter is None or self.filter_examples(ex, data_filter)
+            if datasets is None or self.filter_examples(ex, datasets)
         ]
         print(f"Filtered examples: {len(self.examples)}")
         if num_examples is not None:
@@ -55,6 +58,7 @@ class PedalDataset(Dataset):
             selected_midi_ids = set([ex["midi_id"] for ex in self.examples])
             print(f"Selected midi_ids: {selected_midi_ids}")
 
+        self.data_dir = data_dir
         self.num_samples_per_clip = num_samples_per_clip
         self.max_frame = max_frame
         self.label_ratio = label_ratio
@@ -67,6 +71,7 @@ class PedalDataset(Dataset):
         self.h5fs = {}
         for ex in self.examples:
             file_path = ex["file_path"]
+            file_path = os.path.join(data_dir, file_path)
             if file_path not in self.h5fs:
                 self.h5fs[file_path] = h5py.File(file_path, "r")
                 print(f"Opened {file_path}")
@@ -85,22 +90,22 @@ class PedalDataset(Dataset):
                 self.segments_per_example.append(segments)
         # Print some information.
         print(
-            f"Loaded {len(self.examples)} examples from {data_path} for split: {self.split}"
+            f"Loaded {len(self.examples)} examples from {data_list_path} for split: {self.split}"
         )
 
-    def filter_examples(self, ex, data_filter):
+    def filter_examples(self, ex, datasets):
         """
-        Filter examples based on the provided data_filter.
+        Filter examples based on the provided datasets.
 
         Args:
             ex (dict): Example to filter.
-            data_filter: ["r1-pf1", "r2-pf1", "r3-pf1", "r0-pf1"].
+            datasets: ["r1-pf1", "r2-pf1", "r3-pf1", "r0-pf1"].
         """
-        if data_filter is None:
+        if datasets is None:
             return True
         room_id = str(ex["room_id"])
         pedal_factor = str(ex["pedal_factor"])
-        if f"r{room_id}-pf{pedal_factor}" in data_filter:
+        if f"r{room_id}-pf{pedal_factor}" in datasets:
             return True
         else:
             return False
@@ -129,7 +134,7 @@ class PedalDataset(Dataset):
 
         # Get JSON info for this example.
         ex_info = self.examples[ex_idx]
-        file_path = ex_info["file_path"]
+        file_path = os.path.join(self.data_dir, ex_info["file_path"])
         example_index = ex_info["example_index"]
         num_frames = ex_info["num_frames"]
         room_id = ex_info["room_id"]

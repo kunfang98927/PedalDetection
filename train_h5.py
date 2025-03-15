@@ -25,6 +25,30 @@ def parse_args():
         help="Path to the checkpoint file (default: None)",
     )
 
+    # Data directory
+    parser.add_argument(
+        "--data_dir",
+        type=str,
+        default="/scratch/kunfang/pedal_data/data/",
+        help="Directory where the H5 files are stored (default: /scratch/kunfang/pedal_data/data/)",
+    )
+
+    # Datasets
+    parser.add_argument(
+        "--datasets",
+        nargs="*",
+        default=["r1-pf0", "r0-pf1"],
+        help="Datasets list (default: ['r1-pf0', 'r0-pf1'])",
+    )  # command line: --datasets r1-pf0 r0-pf1
+
+    # Save directory
+    parser.add_argument(
+        "--save_dir",
+        type=str,
+        default="ckpt",
+        help="Directory to save the model checkpoints and logs (default: ckpt)",
+    )
+
     # Feature dimensions and training parameters
     parser.add_argument(
         "--batch_size",
@@ -82,13 +106,6 @@ def parse_args():
         default=0.1,
         help="Contrastive ratio (default: 0.1)",
     )
-    # Data filter
-    parser.add_argument(
-        "--data_filter",
-        nargs="*",
-        default=["r1-pf0", "r0-pf1"],
-        help="Data filter list (default: ['r1-pf0', 'r0-pf1'])",
-    )  # command line: --data_filter r1-pf0 r0-pf1
 
     return parser.parse_args()
 
@@ -136,6 +153,9 @@ def main():
 
     # Print the parsed arguments (you can also use these in your training code)
     print(f"Checkpoint Path: {args.checkpoint_path}")
+    print(f"Data Directory: {args.data_dir}")
+    print(f"Datasets: {args.datasets}")
+    print(f"Save Directory: {args.save_dir}")
     print(f"Batch Size: {args.batch_size}")
     print(f"Feature Dimension: {args.feature_dim}")
     print(f"Max Frame: {args.max_frame}")
@@ -147,9 +167,11 @@ def main():
     print(f"Pedal Offset Ratio: {args.pedal_offset_ratio}")
     print(f"Room Ratio: {args.room_ratio}")
     print(f"Contrastive Ratio: {args.contrastive_ratio}")
-    print(f"Data Filter: {args.data_filter}")
 
     checkpoint_path = args.checkpoint_path
+    data_dir = args.data_dir
+    datasets = args.datasets
+    save_dir = args.save_dir
     batch_size = args.batch_size
     feature_dim = args.feature_dim
     max_frame = args.max_frame
@@ -161,38 +183,21 @@ def main():
     pedal_offset_ratio = args.pedal_offset_ratio
     room_ratio = args.room_ratio
     contrastive_ratio = args.contrastive_ratio
-    data_filter = args.data_filter
-
-    # Calculate the number of losses
-    loss_num = 0
-    if global_pedal_ratio > 0:
-        loss_num += 1
-    if pedal_value_ratio > 0:
-        loss_num += 1
-    if pedal_onset_ratio > 0:
-        loss_num += 1
-    if pedal_offset_ratio > 0:
-        loss_num += 1
-    if room_ratio > 0:
-        loss_num += 1
-    if contrastive_ratio > 0:
-        loss_num += 1
-
-    # Calculate the number of data types
-    data_size = len(data_filter)
 
     # Label bin edges, train and val
     label_bin_edges = get_label_bin_edges(num_classes)
     val_label_bin_edges = get_label_bin_edges(2)
 
-    # Checkpoint save path
-    save_dir = f"debug-ckpt_0314_{num_samples_per_clip}per-clip-{max_frame}frm_bs{batch_size}-8h-{data_size}xdata-{loss_num}loss"
     # Copy this file to save_dir
     os.makedirs(save_dir, exist_ok=True)
     shutil.copy("train_h5.py", os.path.join(save_dir, "train_h5"))
+
     # write the arguments to a yaml file
     with open(f"{save_dir}/config.yaml", "w") as f:
         f.write(f"checkpoint_path: {args.checkpoint_path}\n")
+        f.write(f"data_dir: {args.data_dir}\n")
+        f.write(f"datasets: {args.datasets}\n")
+        f.write(f"save_dir: {args.save_dir}\n")
         f.write(f"batch_size: {args.batch_size}\n")
         f.write(f"feature_dim: {args.feature_dim}\n")
         f.write(f"max_frame: {args.max_frame}\n")
@@ -204,29 +209,30 @@ def main():
         f.write(f"pedal_offset_ratio: {args.pedal_offset_ratio}\n")
         f.write(f"room_ratio: {args.room_ratio}\n")
         f.write(f"contrastive_ratio: {args.contrastive_ratio}\n")
-        f.write(f"data_filter: {args.data_filter}\n")
 
     # Dataset and DataLoader
     train_dataset = PedalDataset(
-        data_path="sample_data/train.json",
+        data_list_path="sample_data_old/train.json",
+        data_dir=data_dir,
         num_samples_per_clip=num_samples_per_clip,
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
         overlap_ratio=0.25,
         split="train",
-        data_filter=data_filter,
+        datasets=datasets,
         randomly_sample=True,
     )
     val_dataset = PedalDataset(
-        data_path="sample_data/val.json",
+        data_list_path="sample_data_old/val.json",
+        data_dir=data_dir,
         num_samples_per_clip=5,  # num_samples_per_clip,
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
         overlap_ratio=0.0,
         split="validation",
-        data_filter=[df for df in data_filter if "pf0" not in df],  # not evaluate pf=0
+        datasets=[df for df in datasets if "pf0" not in df],  # not evaluate pf=0
         randomly_sample=False,
     )
     print("Train dataset size:", len(train_dataset))
