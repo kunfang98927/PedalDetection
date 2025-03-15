@@ -189,7 +189,8 @@ def main():
     val_label_bin_edges = get_label_bin_edges(2)
 
     # Copy this file to save_dir
-    os.makedirs(save_dir, exist_ok=True)
+    log_dir = os.path.join(save_dir, "logs")
+    os.makedirs(log_dir, exist_ok=True)
     shutil.copy("train_h5.py", os.path.join(save_dir, "train_h5"))
 
     # write the arguments to a yaml file
@@ -329,6 +330,7 @@ def main():
         num_train_epochs=50,
         val_label_bin_edges=val_label_bin_edges,
         save_dir=save_dir,
+        log_dir=log_dir,
     )
 
     # Train the model

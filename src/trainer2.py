@@ -106,6 +106,7 @@ class PedalTrainer2:
         save_dir="checkpoints",
         num_train_epochs=100,
         val_label_bin_edges=[0, 11, 95, 128],
+        log_dir="logs",
     ):
         self.train_dataloader = train_dataloader
         self.val_dataloader = val_dataloader
@@ -116,7 +117,7 @@ class PedalTrainer2:
         self.optimizer = optimizer
         self.scheduler = scheduler
         self.device = device
-        self.writer = SummaryWriter()
+        self.writer = SummaryWriter(log_dir=log_dir)
         self.logging_steps = logging_steps
         self.eval_steps = eval_steps
         self.eval_epochs = eval_epochs
