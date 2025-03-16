@@ -72,8 +72,16 @@ class PedalDetectionModelwithCNN(nn.Module):
         p_off_logits = self.pedal_offset_output_layer(latent_repr)
         p_v_logits = self.pedal_value_output_layer(latent_repr)
 
+        # Apply Loss Mask
+        if loss_mask is not None:
+            loss_mask = loss_mask.unsqueeze(-1)  # Ensure correct shape [batch, seq_len, 1]
+            p_on_logits = p_on_logits * loss_mask
+            p_off_logits = p_off_logits * loss_mask
+            p_v_logits = p_v_logits * loss_mask
+            latent_repr = latent_repr * loss_mask
+
         # Mean Latent Representation for Global Prediction
-        mean_latent_repr = x.sum(dim=1) / x.shape[1]
+        mean_latent_repr = latent_repr.sum(dim=1) / loss_mask.sum(dim=1)
 
         # Global Pedal & Room Predictions
         room_logits = self.room_head(mean_latent_repr)

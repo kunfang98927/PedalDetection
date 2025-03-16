@@ -1,8 +1,10 @@
 import os
 import json
 import h5py
+import math
 import numpy as np
 import torch
+import torch.nn.functional as F
 from torch.utils.data import Dataset
 from src.utils import (
     calculate_pedal_onset_offset,
@@ -70,8 +72,7 @@ class PedalDataset(Dataset):
         # Open all H5 files and store them in a dictionary.
         self.h5fs = {}
         for ex in self.examples:
-            file_path = ex["file_path"]
-            file_path = os.path.join(data_dir, file_path)
+            file_path = os.path.join(data_dir, ex["file_path"])
             if file_path not in self.h5fs:
                 self.h5fs[file_path] = h5py.File(file_path, "r")
                 print(f"Opened {file_path}")
@@ -84,7 +85,7 @@ class PedalDataset(Dataset):
                 if num_frames > self.max_frame:
                     # Compute number of segments with a sliding window.
                     step = int(self.max_frame * (1 - self.overlap_ratio))
-                    segments = (num_frames - self.max_frame) // step
+                    segments = math.ceil((num_frames - self.max_frame) / step) + 1
                 else:
                     segments = 0
                 self.segments_per_example.append(segments)
@@ -152,10 +153,7 @@ class PedalDataset(Dataset):
         else: # sliding window
             step = int(self.max_frame * (1 - self.overlap_ratio))
             start_frame = seg_idx * step
-            # If the computed window exceeds the available frames, adjust.
-            if start_frame + self.max_frame > num_frames:
-                start_frame = num_frames - self.max_frame
-            end_frame = start_frame + self.max_frame
+            end_frame = min(start_frame + self.max_frame, num_frames)
 
         # Slice the feature and pedal arrays.
         selected_feature = self.h5fs[file_path]["features"][str(example_index)][
@@ -167,18 +165,10 @@ class PedalDataset(Dataset):
         # print(idx, selected_feature.shape, selected_pedal_value.shape)
 
         # Process labels.
-        # if len(self.label_bin_edges) == 2:
         pedal_onset, pedal_offset = calculate_pedal_onset_offset(
             selected_pedal_value, on_off_threshold=0
         )
         quantized_pedal_value = selected_pedal_value / 127.0
-        # else:
-        #     quantized_pedal_value = (
-        #         np.digitize(selected_pedal_value, self.label_bin_edges) - 1
-        #     )
-        #     pedal_onset, pedal_offset = calculate_pedal_onset_offset(
-        #         quantized_pedal_value, on_off_threshold=self.label_bin_edges[1]
-        #     )
         soft_pedal_onset = calculate_soft_regresion_label(pedal_onset)
         soft_pedal_offset = calculate_soft_regresion_label(pedal_offset)
 
@@ -223,6 +213,21 @@ class PedalDataset(Dataset):
             soft_pedal_offset_masked, dtype=torch.float32
         )
 
+        # Create loss mask.
+        loss_mask = torch.zeros(self.max_frame, dtype=torch.float32)
+        loss_mask[label_start:label_end] = 1.0
+
+        # pad the feature to max_frame
+        if selected_feature.shape[0] < self.max_frame:
+            (selected_feature, quantized_pedal_value_masked,
+            soft_pedal_onset_masked, soft_pedal_offset_masked, loss_mask) = self.pad_data(
+                selected_feature,
+                quantized_pedal_value_masked,
+                soft_pedal_onset_masked,
+                soft_pedal_offset_masked,
+                loss_mask
+            )
+
         return (
             selected_feature,
             low_res_label,
@@ -232,4 +237,21 @@ class PedalDataset(Dataset):
             room_id,
             midi_id,
             pedal_factor,
+            loss_mask,
+        )
+    
+    def pad_data(self, selected_feature, quantized_pedal_value_masked,
+                    soft_pedal_onset_masked, soft_pedal_offset_masked, loss_mask):
+        pad_length = self.max_frame - selected_feature.shape[0]
+        selected_feature = F.pad(selected_feature, (0, 0, 0, pad_length), "constant", 0)
+        quantized_pedal_value_masked = F.pad(quantized_pedal_value_masked, (0, pad_length), "constant", -1)
+        soft_pedal_onset_masked = F.pad(soft_pedal_onset_masked, (0, pad_length), "constant", -1)
+        soft_pedal_offset_masked = F.pad(soft_pedal_offset_masked, (0, pad_length), "constant", -1)
+        loss_mask[-pad_length:] = 0
+        return (
+            selected_feature,
+            quantized_pedal_value_masked,
+            soft_pedal_onset_masked,
+            soft_pedal_offset_masked,
+            loss_mask
         )

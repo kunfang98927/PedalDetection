@@ -51,8 +51,20 @@ def parse_args():
     parser.add_argument(
         "--batch_size",
         type=int,
-        default=32,
-        help="Batch size for training (default: 32)",
+        default=24,
+        help="Batch size for training (default: 24)",
+    )
+    parser.add_argument(
+        "--eval_epochs",
+        type=int,
+        default=1,
+        help="Evaluate every N epochs (default: 1)",
+    )
+    parser.add_argument(
+        "--eval_steps",
+        type=int,
+        default=-1,
+        help="Evaluate every N steps (default: -1)",
     )
     parser.add_argument(
         "--feature_dim", type=int, default=249, help="Feature dimension (default: 249)"
@@ -68,6 +80,11 @@ def parse_args():
     )
     parser.add_argument(
         "--num_classes", type=int, default=1, help="Number of classes (default: 1)"
+    )
+    parser.add_argument(
+        "--train_rand_sample",
+        action="store_true",
+        help="Randomly sample train dataset (default: False)",
     )
 
     # Pedal ratios
@@ -155,10 +172,13 @@ def main():
     print(f"Datasets: {args.datasets}")
     print(f"Save Directory: {args.save_dir}")
     print(f"Batch Size: {args.batch_size}")
+    print(f"Eval Epochs: {args.eval_epochs}")
+    print(f"Eval Steps: {args.eval_steps}")
     print(f"Feature Dimension: {args.feature_dim}")
     print(f"Max Frame: {args.max_frame}")
     print(f"Num Samples per Clip: {args.num_samples_per_clip}")
     print(f"Num Classes: {args.num_classes}")
+    print(f"Train Random Sample: {args.train_rand_sample}")
     print(f"Global Pedal Ratio: {args.global_pedal_ratio}")
     print(f"Pedal Value Ratio: {args.pedal_value_ratio}")
     print(f"Pedal Onset Ratio: {args.pedal_onset_ratio}")
@@ -171,10 +191,13 @@ def main():
     datasets = args.datasets
     save_dir = args.save_dir
     batch_size = args.batch_size
+    eval_epochs = args.eval_epochs
+    eval_steps = args.eval_steps
     feature_dim = args.feature_dim
     max_frame = args.max_frame
     num_samples_per_clip = args.num_samples_per_clip
     num_classes = args.num_classes
+    train_rand_sample = args.train_rand_sample
     global_pedal_ratio = args.global_pedal_ratio
     pedal_value_ratio = args.pedal_value_ratio
     pedal_onset_ratio = args.pedal_onset_ratio
@@ -198,10 +221,13 @@ def main():
         f.write(f"datasets: {args.datasets}\n")
         f.write(f"save_dir: {args.save_dir}\n")
         f.write(f"batch_size: {args.batch_size}\n")
+        f.write(f"eval_epochs: {args.eval_epochs}\n")
+        f.write(f"eval_steps: {args.eval_steps}\n")
         f.write(f"feature_dim: {args.feature_dim}\n")
         f.write(f"max_frame: {args.max_frame}\n")
         f.write(f"num_samples_per_clip: {args.num_samples_per_clip}\n")
         f.write(f"num_classes: {args.num_classes}\n")
+        f.write(f"train_rand_sample: {args.train_rand_sample}\n")
         f.write(f"global_pedal_ratio: {args.global_pedal_ratio}\n")
         f.write(f"pedal_value_ratio: {args.pedal_value_ratio}\n")
         f.write(f"pedal_onset_ratio: {args.pedal_onset_ratio}\n")
@@ -220,7 +246,7 @@ def main():
         overlap_ratio=0.25,
         split="train",
         datasets=datasets,
-        randomly_sample=True,
+        randomly_sample=train_rand_sample,
     )
     val_dataset = PedalDataset(
         data_list_path="sample_data/val.json",
@@ -232,7 +258,7 @@ def main():
         overlap_ratio=0.0,
         split="validation",
         datasets=[df for df in datasets if "pf0" not in df],  # not evaluate pf=0
-        randomly_sample=True,
+        randomly_sample=False,
     )
     print("Train dataset size:", len(train_dataset))
     print("Val dataset size:", len(val_dataset))
@@ -293,6 +319,7 @@ def main():
         shuffle=True,
         num_workers=16,
         pin_memory=True,
+        pin_memory_device=device,
     )
     val_dataloader = DataLoader(
         val_dataset,
@@ -300,6 +327,7 @@ def main():
         shuffle=False,
         num_workers=16,
         pin_memory=True,
+        pin_memory_device=device,
     )
 
     # Multi-GPU support using DataParallel
@@ -321,10 +349,10 @@ def main():
         optimizer=optimizer,
         scheduler=scheduler,
         device="cuda" if torch.cuda.is_available() else "cpu",
-        logging_steps=10,
-        eval_steps=-1,
-        eval_epochs=1,
-        save_total_limit=20,
+        logging_steps=50,
+        eval_steps=eval_steps,
+        eval_epochs=eval_epochs,
+        save_total_limit=10,
         num_train_epochs=50,
         val_label_bin_edges=val_label_bin_edges,
         save_dir=save_dir,

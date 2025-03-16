@@ -112,8 +112,8 @@ class PedalTrainer2:
         self.val_dataloader = val_dataloader
         self.model = model
         self.ce_criterion = torch.nn.CrossEntropyLoss()
-        self.mse_criterion = torch.nn.MSELoss()
-        self.bce_criterion = torch.nn.BCEWithLogitsLoss()
+        self.mse_criterion = torch.nn.MSELoss(reduction="none")
+        self.bce_criterion = torch.nn.BCEWithLogitsLoss(reduction="none")
         self.optimizer = optimizer
         self.scheduler = scheduler
         self.device = device
@@ -154,7 +154,7 @@ class PedalTrainer2:
                 room_ratio,
                 contrastive_ratio,
             )
-            if self.eval_steps == -1 and self.eval_epochs != -1:
+            if self.eval_steps == -1 and self.eval_epochs != -1 and (epoch+1) % self.eval_epochs == 0 and epoch != 0:
                 (
                     val_loss,
                     val_global_pedal_v_mae,
@@ -163,8 +163,8 @@ class PedalTrainer2:
                     val_pedal_value_mae,
                     val_pedal_value_mse,
                     val_pedal_value_f1,
-                    val_pedal_on_f1,
-                    val_pedal_off_f1,
+                    val_pedal_on_mae,
+                    val_pedal_off_mae,
                     val_room_f1,
                 ) = self.validate(
                     epoch,
@@ -175,39 +175,38 @@ class PedalTrainer2:
                     room_ratio,
                     contrastive_ratio,
                 )
-                if (epoch + 1) % self.eval_epochs == 0 and epoch != 0:
-                    # Save the model if it has the best validation loss
-                    if (
-                        val_loss < max(best_val_losses)
-                        or len(self.best_checkpoints) < self.save_total_limit
-                    ):
-                        self.save_best_model(
-                            val_loss,
-                            val_pedal_value_mae,
-                            val_pedal_value_f1,
-                            epoch,
-                            optimizer=self.optimizer,
-                            scheduler=self.scheduler,
-                        )
+                # Save the model if it has the best validation loss
+                if (
+                    val_loss < max(best_val_losses)
+                    or len(self.best_checkpoints) < self.save_total_limit
+                ):
+                    self.save_best_model(
+                        val_loss,
+                        val_pedal_value_mae,
+                        val_pedal_value_f1,
+                        epoch,
+                        optimizer=self.optimizer,
+                        scheduler=self.scheduler,
+                    )
 
-                        if len(best_val_losses) > self.save_total_limit:
-                            remove_idx = best_val_losses.index(max(best_val_losses))
-                            remove_idx_in_best_checkpoints = None
-                            for i, checkpoint in enumerate(self.best_checkpoints):
-                                remove_loss = best_val_losses[remove_idx]
-                                # round to 4 decimal places
-                                if f"val_loss_{remove_loss:.4f}" in checkpoint:
-                                    remove_idx_in_best_checkpoints = i
-                                    break
-                            print(
-                                f"Removing {self.best_checkpoints[remove_idx_in_best_checkpoints]} with loss {best_val_losses[remove_idx]}"
-                            )
-                            os.remove(
-                                self.best_checkpoints[remove_idx_in_best_checkpoints]
-                            )
-                            best_val_losses.pop(remove_idx)
-                            self.best_checkpoints.pop(remove_idx_in_best_checkpoints)
-                        best_val_losses.append(val_loss)
+                    if len(best_val_losses) > self.save_total_limit:
+                        remove_idx = best_val_losses.index(max(best_val_losses))
+                        remove_idx_in_best_checkpoints = None
+                        for i, checkpoint in enumerate(self.best_checkpoints):
+                            remove_loss = best_val_losses[remove_idx]
+                            # round to 4 decimal places
+                            if f"val_loss_{remove_loss:.4f}" in checkpoint:
+                                remove_idx_in_best_checkpoints = i
+                                break
+                        print(
+                            f"Removing {self.best_checkpoints[remove_idx_in_best_checkpoints]} with loss {best_val_losses[remove_idx]}"
+                        )
+                        os.remove(
+                            self.best_checkpoints[remove_idx_in_best_checkpoints]
+                        )
+                        best_val_losses.pop(remove_idx)
+                        self.best_checkpoints.pop(remove_idx_in_best_checkpoints)
+                    best_val_losses.append(val_loss)
 
     def train_one_epoch(
         self,
@@ -239,14 +238,16 @@ class PedalTrainer2:
             room_labels,
             midi_ids,
             pedal_factors,
+            loss_mask,
         ) in pbar:
             # Move data to device
-            inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels = (
+            inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = (
                 inputs.to(self.device),
                 global_p_v_labels.to(self.device),
                 p_v_labels.to(self.device),
                 p_on_labels.to(self.device),
                 p_off_labels.to(self.device),
+                loss_mask.to(self.device),
             )
             room_labels, midi_ids, pedal_factors = (
                 room_labels.to(self.device),
@@ -261,7 +262,10 @@ class PedalTrainer2:
                 p_off_logits,
                 room_logits,
                 latent_repr,
-            ) = self.model(inputs, loss_mask=None)
+            ) = self.model(inputs, loss_mask=loss_mask)
+
+            # calculate valid frame number according to loss_mask
+            loss_len = loss_mask.sum().item()
 
             latent_repr = latent_repr.reshape(-1, latent_repr.shape[-1])
 
@@ -269,6 +273,15 @@ class PedalTrainer2:
             p_v_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
             p_on_loss = self.bce_criterion(p_on_logits.squeeze(), p_on_labels)
             p_off_loss = self.bce_criterion(p_off_logits.squeeze(), p_off_labels)
+            
+            # Apply loss_mask
+            p_v_loss = p_v_loss * loss_mask
+            p_on_loss = p_on_loss * loss_mask
+            p_off_loss = p_off_loss * loss_mask
+
+            p_v_loss = p_v_loss.sum() / loss_len
+            p_on_loss = p_on_loss.sum() / loss_len
+            p_off_loss = p_off_loss.sum() / loss_len
 
             # Room classification loss
             room_labels = room_labels.long()
@@ -278,6 +291,7 @@ class PedalTrainer2:
             global_p_v_loss = self.mse_criterion(
                 global_p_v_logits.squeeze(), global_p_v_labels
             )
+            global_p_v_loss = global_p_v_loss.sum() / global_p_v_labels.shape[0]
 
             # Original contrastive loss (pedal-based)
             contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
@@ -359,8 +373,8 @@ class PedalTrainer2:
                     val_pedal_value_mae,
                     val_pedal_value_mse,
                     val_pedal_value_f1,
-                    val_pedal_on_f1,
-                    val_pedal_off_f1,
+                    val_pedal_on_mae,
+                    val_pedal_off_mae,
                     val_room_f1,
                 ) = self.validate(
                     epoch,
@@ -432,12 +446,8 @@ class PedalTrainer2:
         pedal_value_maes = []
         pedal_value_mses = []
         pedal_value_f1s = []
-        pedal_onset_mses = []
         pedal_onset_maes = []
-        pedal_onset_f1s = []
-        pedal_offset_mses = []
         pedal_offset_maes = []
-        pedal_offset_f1s = []
         room_f1s = []
 
         with torch.no_grad():
@@ -455,14 +465,16 @@ class PedalTrainer2:
                 room_labels,
                 midi_ids,
                 pedal_factors,
+                loss_mask,
             ) in pbar:
                 # Move data to device
-                inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels = (
+                inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = (
                     inputs.to(self.device),
                     global_p_v_labels.to(self.device),
                     p_v_labels.to(self.device),
                     p_on_labels.to(self.device),
                     p_off_labels.to(self.device),
+                    loss_mask.to(self.device),
                 )
                 room_labels, midi_ids, pedal_factors = (
                     room_labels.to(self.device),
@@ -477,7 +489,10 @@ class PedalTrainer2:
                     p_off_logits,
                     room_logits,
                     latent_repr,
-                ) = self.model(inputs, loss_mask=None)
+                ) = self.model(inputs, loss_mask=loss_mask)
+
+                # calculate valid frame number according to loss_mask
+                loss_len = loss_mask.sum().item()
 
                 latent_repr = latent_repr.reshape(-1, latent_repr.shape[-1])
 
@@ -488,6 +503,15 @@ class PedalTrainer2:
                     p_off_logits.squeeze(), p_off_labels
                 )
 
+                # Apply loss_mask
+                pedal_value_loss = pedal_value_loss * loss_mask
+                pedal_on_loss = pedal_on_loss * loss_mask
+                pedal_off_loss = pedal_off_loss * loss_mask
+
+                pedal_value_loss = pedal_value_loss.sum() / loss_len
+                pedal_on_loss = pedal_on_loss.sum() / loss_len
+                pedal_off_loss = pedal_off_loss.sum() / loss_len
+
                 # Room classification loss
                 room_labels = room_labels.long()
                 room_loss = self.ce_criterion(room_logits.squeeze(), room_labels)
@@ -496,6 +520,7 @@ class PedalTrainer2:
                 global_p_v_loss = self.mse_criterion(
                     global_p_v_logits.squeeze(), global_p_v_labels
                 )
+                global_p_v_loss = global_p_v_loss.sum() / global_p_v_labels.shape[0]
 
                 # Contrastive losses
                 contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
@@ -521,6 +546,16 @@ class PedalTrainer2:
                 total_contrastive_loss += contrastive_loss_value.item()
                 # total_room_contrastive_loss += room_contrastive_loss_value.item()
 
+                # Apply loss_mask
+                p_v_labels = p_v_labels[loss_mask == 1]
+                p_v_logits = p_v_logits[loss_mask == 1]
+                p_on_labels = p_on_labels[loss_mask == 1]
+                p_on_logits = p_on_logits[loss_mask == 1]
+                p_off_labels = p_off_labels[loss_mask == 1]
+                p_off_logits = p_off_logits[loss_mask == 1]
+
+                ################# Calculate metrics #################
+
                 # Measure room prediction
                 room_outputs = torch.softmax(room_logits, dim=-1)
                 room_preds = torch.argmax(room_outputs, dim=-1)
@@ -533,8 +568,6 @@ class PedalTrainer2:
                 p_v_preds = p_v_logits.squeeze()
                 p_v_labels = p_v_labels.cpu().numpy()
                 p_v_preds = p_v_preds.cpu().numpy()
-                p_v_labels = p_v_labels.flatten()
-                p_v_preds = p_v_preds.flatten()
 
                 pedal_value_mse = mean_squared_error(p_v_labels, p_v_preds)
                 pedal_value_mae = mean_absolute_error(p_v_labels, p_v_preds)
@@ -555,36 +588,17 @@ class PedalTrainer2:
                 p_on_preds = torch.sigmoid(p_on_logits).squeeze()
                 p_on_labels = p_on_labels.cpu().numpy()
                 p_on_preds = p_on_preds.cpu().numpy()
-                p_on_labels = p_on_labels.flatten()
-                p_on_preds = p_on_preds.flatten()
-
-                # pedal_on_mse = mean_squared_error(p_on_labels, p_on_preds)
-                # pedal_on_mae = mean_absolute_error(p_on_labels, p_on_preds)
-                # pedal_onset_maes.append(pedal_on_mae)
-                # pedal_onset_mses.append(pedal_on_mse)
-                p_on_preds = np.where(p_on_preds > 0.5, 1, 0)
-                p_on_labels = np.where(p_on_labels > 0.2, 1, 0)
-                pedal_on_f1 = f1_score(p_on_labels, p_on_preds, average="binary")
-                pedal_onset_f1s.append(pedal_on_f1)
+                pedal_on_mae = mean_absolute_error(p_on_labels, p_on_preds)
+                pedal_onset_maes.append(pedal_on_mae)
 
                 # Measure pedal offset prediction
                 p_off_preds = torch.sigmoid(p_off_logits).squeeze()
                 p_off_labels = p_off_labels.cpu().numpy()
                 p_off_preds = p_off_preds.cpu().numpy()
-                p_off_labels = p_off_labels.flatten()
-                p_off_preds = p_off_preds.flatten()
-
-                # pedal_off_mse = mean_squared_error(p_off_labels, p_off_preds)
-                # pedal_off_mae = mean_absolute_error(p_off_labels, p_off_preds)
-                # pedal_offset_maes.append(pedal_off_mae)
-                # pedal_offset_mses.append(pedal_off_mse)
-                p_off_preds = np.where(p_off_preds > 0.5, 1, 0)
-                p_off_labels = np.where(p_on_labels > 0.2, 1, 0)
-                pedal_off_f1 = f1_score(p_off_labels, p_off_preds, average="binary")
-                pedal_offset_f1s.append(pedal_off_f1)
+                pedal_off_mae = mean_absolute_error(p_off_labels, p_off_preds)
+                pedal_offset_maes.append(pedal_off_mae)
 
                 # Measure global pedal value prediction
-                # global_p_v_outputs = torch.softmax(global_p_v_logits, dim=-1)
                 global_p_v_preds = global_p_v_logits
                 global_p_v_labels = global_p_v_labels.cpu().numpy()
                 global_p_v_preds = global_p_v_preds.cpu().numpy()
@@ -619,13 +633,9 @@ class PedalTrainer2:
             global_pedal_value_f1s
         )
         avg_pedal_value_f1 = sum(pedal_value_f1s) / len(pedal_value_f1s)
-        # avg_pedal_onset_mse = sum(pedal_onset_mses) / len(pedal_onset_mses)
-        # avg_pedal_onset_mae = sum(pedal_onset_maes) / len(pedal_onset_maes)
-        avg_pedal_onset_f1 = sum(pedal_onset_f1s) / len(pedal_onset_f1s)
-        # avg_pedal_offset_mse = sum(pedal_offset_mses) / len(pedal_offset_mses)
-        # avg_pedal_offset_mae = sum(pedal_offset_maes) / len(pedal_offset_maes)
-        avg_pedal_offset_f1 = sum(pedal_offset_f1s) / len(pedal_offset_f1s)
-        avg_room_f1 = sum(room_f1s) / len(room_f1s)
+        avg_pedal_onset_mae = sum(pedal_onset_maes) / len(pedal_onset_maes)
+        avg_pedal_offset_mae = sum(pedal_offset_maes) / len(pedal_offset_maes)
+        avg_room_f1 = sum(room_f1s) / len(room_f1s) if room_ratio > 0 else -1
         avg_global_pedal_value_mae = sum(global_pedal_value_maes) / len(
             global_pedal_value_maes
         )
@@ -678,12 +688,8 @@ class PedalTrainer2:
             "Validation/Global Pedal Value F1", avg_global_pedal_value_f1, epoch
         )
         self.writer.add_scalar("Validation/Pedal Value F1", avg_pedal_value_f1, epoch)
-        # self.writer.add_scalar("Validation/Pedal Onset MSE", avg_pedal_onset_mse, epoch)
-        # self.writer.add_scalar("Validation/Pedal Onset MAE", avg_pedal_onset_mae, epoch)
-        self.writer.add_scalar("Validation/Pedal Onset F1", avg_pedal_onset_f1, epoch)
-        # self.writer.add_scalar("Validation/Pedal Offset MSE", avg_pedal_offset_mse, epoch)
-        # self.writer.add_scalar("Validation/Pedal Offset MAE", avg_pedal_offset_mae, epoch)
-        self.writer.add_scalar("Validation/Pedal Offset F1", avg_pedal_offset_f1, epoch)
+        self.writer.add_scalar("Validation/Pedal Onset MAE", avg_pedal_onset_mae, epoch)
+        self.writer.add_scalar("Validation/Pedal Offset MAE", avg_pedal_offset_mae, epoch)
         self.writer.add_scalar("Validation/Room F1", avg_room_f1, epoch)
         self.writer.add_scalar(
             "Validation/Global Pedal Value MAE", avg_global_pedal_value_mae, epoch
@@ -699,8 +705,8 @@ class PedalTrainer2:
                 "val_loss": val_loss / len(self.val_dataloader),
                 "glob_p_v_f1": avg_global_pedal_value_f1,
                 "p_v_f1": avg_pedal_value_f1,
-                "p_on_f1": avg_pedal_onset_f1,
-                "p_off_f1": avg_pedal_offset_f1,
+                "p_on_mae": avg_pedal_onset_mae,
+                "p_off_mae": avg_pedal_offset_mae,
                 "room_f1": avg_room_f1,
                 "glob_p_v_mae": avg_global_pedal_value_mae,
                 "glob_p_v_mse": avg_global_pedal_value_mse,
@@ -712,8 +718,8 @@ class PedalTrainer2:
             f"Validation Loss: {val_loss / len(self.val_dataloader):.4f}, "
             f"glob_p_v_f1: {avg_global_pedal_value_f1:.4f}, "
             f"p_v_f1: {avg_pedal_value_f1:.4f}, "
-            f"p_on_f1: {avg_pedal_onset_f1:.4f}, "
-            f"p_off_f1: {avg_pedal_offset_f1:.4f}, "
+            f"p_on_mae: {avg_pedal_onset_mae:.4f}, "
+            f"p_off_mae: {avg_pedal_offset_mae:.4f}, "
             f"room_f1: {avg_room_f1:.4f}, "
             f"glob_p_v_mae: {avg_global_pedal_value_mae:.4f}, "
             f"glob_p_v_mse: {avg_global_pedal_value_mse:.4f}, "
@@ -729,12 +735,8 @@ class PedalTrainer2:
             avg_pedal_value_mae,
             avg_pedal_value_mse,
             avg_pedal_value_f1,
-            # avg_pedal_onset_mae,
-            # avg_pedal_onset_mse,
-            avg_pedal_onset_f1,
-            # avg_pedal_offset_mae,
-            # avg_pedal_offset_mse,
-            avg_pedal_offset_f1,
+            avg_pedal_onset_mae,
+            avg_pedal_offset_mae,
             avg_room_f1,
         )
 
