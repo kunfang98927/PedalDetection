@@ -67,8 +67,6 @@ def room_invariant_contrastive_loss(
 
 def pedal_contrastive_loss(latent_repr, pedal_labels, temperature=0.07):
     _, hidden_dim = latent_repr.shape
-    latent_repr = latent_repr.view(-1, hidden_dim)  # Flatten for pairwise computation
-    pedal_labels = pedal_labels.view(-1)
 
     similarity = (
         torch.matmul(latent_repr, latent_repr.T) / temperature
@@ -112,8 +110,8 @@ class PedalTrainer2:
         self.val_dataloader = val_dataloader
         self.model = model
         self.ce_criterion = torch.nn.CrossEntropyLoss()
-        self.mse_criterion = torch.nn.MSELoss(reduction="none")
-        self.bce_criterion = torch.nn.BCEWithLogitsLoss(reduction="none")
+        self.mse_criterion = torch.nn.MSELoss(reduction="mean")
+        self.bce_criterion = torch.nn.BCEWithLogitsLoss(reduction="mean")
         self.optimizer = optimizer
         self.scheduler = scheduler
         self.device = device
@@ -137,9 +135,10 @@ class PedalTrainer2:
         room_ratio=0.1,
         contrastive_ratio=0.1,
         start_epoch=0,
+        start_global_step=-1,
     ):
         best_val_losses = [float("inf")]
-        global_step = 0
+        global_step = 0 if start_global_step == -1 else start_global_step
         # Start from `start_epoch` instead of 0
         for epoch in range(start_epoch, self.num_train_epochs):
             print(f"Starting Epoch {epoch + 1}/{self.num_train_epochs}")
@@ -175,37 +174,47 @@ class PedalTrainer2:
                     room_ratio,
                     contrastive_ratio,
                 )
-                # Save the model if it has the best validation loss
-                if (
-                    val_loss < max(best_val_losses)
-                    or len(self.best_checkpoints) < self.save_total_limit
-                ):
+                # Save the model if it is the best
+                if len(self.best_checkpoints) < self.save_total_limit:
                     self.save_best_model(
                         val_loss,
                         val_pedal_value_mae,
                         val_pedal_value_f1,
                         epoch,
+                        global_step=global_step,
                         optimizer=self.optimizer,
                         scheduler=self.scheduler,
                     )
-
-                    if len(best_val_losses) > self.save_total_limit:
-                        remove_idx = best_val_losses.index(max(best_val_losses))
-                        remove_idx_in_best_checkpoints = None
-                        for i, checkpoint in enumerate(self.best_checkpoints):
-                            remove_loss = best_val_losses[remove_idx]
-                            # round to 4 decimal places
-                            if f"val_loss_{remove_loss:.4f}" in checkpoint:
-                                remove_idx_in_best_checkpoints = i
-                                break
-                        print(
-                            f"Removing {self.best_checkpoints[remove_idx_in_best_checkpoints]} with loss {best_val_losses[remove_idx]}"
-                        )
-                        os.remove(
-                            self.best_checkpoints[remove_idx_in_best_checkpoints]
-                        )
-                        best_val_losses.pop(remove_idx)
-                        self.best_checkpoints.pop(remove_idx_in_best_checkpoints)
+                    # First checkpoint, remove the default value of inf
+                    if len(best_val_losses) == 1 and float("inf") in best_val_losses:
+                        best_val_losses = [val_loss]
+                    else:
+                        best_val_losses.append(val_loss)
+                else:
+                    # Select the worst checkpoint to remove
+                    remove_idx = best_val_losses.index(max(best_val_losses))
+                    remove_idx_in_best_checkpoints = None
+                    for i, checkpoint in enumerate(self.best_checkpoints):
+                        remove_loss = best_val_losses[remove_idx]
+                        # round to 4 decimal places
+                        if f"val_loss_{remove_loss:.4f}" in checkpoint:
+                            remove_idx_in_best_checkpoints = i
+                            break
+                    print(
+                        f"Removing {self.best_checkpoints[remove_idx_in_best_checkpoints]} with loss {best_val_losses[remove_idx]}"
+                    )
+                    os.remove(self.best_checkpoints[remove_idx_in_best_checkpoints])
+                    best_val_losses.pop(remove_idx)
+                    self.best_checkpoints.pop(remove_idx_in_best_checkpoints)
+                    self.save_best_model(
+                        val_loss,
+                        val_pedal_value_mae,
+                        val_pedal_value_f1,
+                        epoch,
+                        global_step=global_step,
+                        optimizer=self.optimizer,
+                        scheduler=self.scheduler,
+                    )
                     best_val_losses.append(val_loss)
 
     def train_one_epoch(
@@ -239,7 +248,7 @@ class PedalTrainer2:
             midi_ids,
             pedal_factors,
             loss_mask,
-        ) in pbar:
+        ) in pbar:            
             # Move data to device
             inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = (
                 inputs.to(self.device),
@@ -264,24 +273,19 @@ class PedalTrainer2:
                 latent_repr,
             ) = self.model(inputs, loss_mask=loss_mask)
 
-            # calculate valid frame number according to loss_mask
-            loss_len = loss_mask.sum().item()
-
-            latent_repr = latent_repr.reshape(-1, latent_repr.shape[-1])
+            # Apply loss_mask
+            p_v_labels = p_v_labels[loss_mask == 1]
+            p_v_logits = p_v_logits[loss_mask == 1]
+            p_on_labels = p_on_labels[loss_mask == 1]   
+            p_on_logits = p_on_logits[loss_mask == 1]
+            p_off_labels = p_off_labels[loss_mask == 1]
+            p_off_logits = p_off_logits[loss_mask == 1]
+            latent_repr = latent_repr[loss_mask == 1]
 
             # Pedal classification loss
             p_v_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
             p_on_loss = self.bce_criterion(p_on_logits.squeeze(), p_on_labels)
             p_off_loss = self.bce_criterion(p_off_logits.squeeze(), p_off_labels)
-            
-            # Apply loss_mask
-            p_v_loss = p_v_loss * loss_mask
-            p_on_loss = p_on_loss * loss_mask
-            p_off_loss = p_off_loss * loss_mask
-
-            p_v_loss = p_v_loss.sum() / loss_len
-            p_on_loss = p_on_loss.sum() / loss_len
-            p_off_loss = p_off_loss.sum() / loss_len
 
             # Room classification loss
             room_labels = room_labels.long()
@@ -386,10 +390,7 @@ class PedalTrainer2:
                     contrastive_ratio,
                 )
                 # Save best model if conditions are met
-                if (
-                    val_loss < max(best_val_losses)
-                    or len(self.best_checkpoints) < self.save_total_limit
-                ):
+                if len(self.best_checkpoints) < self.save_total_limit:
                     self.save_best_model(
                         val_loss,
                         val_pedal_value_mae,
@@ -399,21 +400,35 @@ class PedalTrainer2:
                         optimizer=self.optimizer,
                         scheduler=self.scheduler,
                     )
-                    if len(best_val_losses) > self.save_total_limit:
-                        remove_idx = best_val_losses.index(max(best_val_losses))
-                        remove_idx_in_best_checkpoints = None
-                        for i, checkpoint in enumerate(self.best_checkpoints):
-                            remove_loss = best_val_losses[remove_idx]
-                            # round to 4 decimal places
-                            if f"val_loss_{remove_loss:.4f}" in checkpoint:
-                                remove_idx_in_best_checkpoints = i
-                                break
-                        print(
-                            f"Removing {self.best_checkpoints[remove_idx_in_best_checkpoints]} with loss {best_val_losses[remove_idx]}"
-                        )
-                        os.remove(self.best_checkpoints[remove_idx_in_best_checkpoints])
-                        best_val_losses.pop(remove_idx)
-                        self.best_checkpoints.pop(remove_idx_in_best_checkpoints)
+                    if len(best_val_losses) == 1 and float("inf") in best_val_losses:
+                        best_val_losses = [val_loss]
+                    else:
+                        best_val_losses.append(val_loss)
+                else:
+                    # Select the worst checkpoint to remove
+                    remove_idx = best_val_losses.index(max(best_val_losses))
+                    remove_idx_in_best_checkpoints = None
+                    for i, checkpoint in enumerate(self.best_checkpoints):
+                        remove_loss = best_val_losses[remove_idx]
+                        # round to 4 decimal places
+                        if f"val_loss_{remove_loss:.4f}" in checkpoint:
+                            remove_idx_in_best_checkpoints = i
+                            break
+                    print(
+                        f"Removing {self.best_checkpoints[remove_idx_in_best_checkpoints]} with loss {best_val_losses[remove_idx]}"
+                    )
+                    os.remove(self.best_checkpoints[remove_idx_in_best_checkpoints])
+                    best_val_losses.pop(remove_idx)
+                    self.best_checkpoints.pop(remove_idx_in_best_checkpoints)
+                    self.save_best_model(
+                        val_loss,
+                        val_pedal_value_mae,
+                        val_pedal_value_f1,
+                        epoch,
+                        global_step=global_step,
+                        optimizer=self.optimizer,
+                        scheduler=self.scheduler,
+                    )
                     best_val_losses.append(val_loss)
 
         return total_loss / len(self.train_dataloader), global_step, best_val_losses
@@ -492,9 +507,14 @@ class PedalTrainer2:
                 ) = self.model(inputs, loss_mask=loss_mask)
 
                 # calculate valid frame number according to loss_mask
-                loss_len = loss_mask.sum().item()
-
-                latent_repr = latent_repr.reshape(-1, latent_repr.shape[-1])
+                # Apply loss_mask
+                p_v_labels = p_v_labels[loss_mask == 1]
+                p_v_logits = p_v_logits[loss_mask == 1]
+                p_on_labels = p_on_labels[loss_mask == 1]
+                p_on_logits = p_on_logits[loss_mask == 1]
+                p_off_labels = p_off_labels[loss_mask == 1]
+                p_off_logits = p_off_logits[loss_mask == 1]
+                latent_repr = latent_repr[loss_mask == 1]
 
                 # Pedal classification loss
                 pedal_value_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
@@ -502,15 +522,6 @@ class PedalTrainer2:
                 pedal_off_loss = self.bce_criterion(
                     p_off_logits.squeeze(), p_off_labels
                 )
-
-                # Apply loss_mask
-                pedal_value_loss = pedal_value_loss * loss_mask
-                pedal_on_loss = pedal_on_loss * loss_mask
-                pedal_off_loss = pedal_off_loss * loss_mask
-
-                pedal_value_loss = pedal_value_loss.sum() / loss_len
-                pedal_on_loss = pedal_on_loss.sum() / loss_len
-                pedal_off_loss = pedal_off_loss.sum() / loss_len
 
                 # Room classification loss
                 room_labels = room_labels.long()
@@ -545,14 +556,6 @@ class PedalTrainer2:
                 total_room_loss += room_loss.item()
                 total_contrastive_loss += contrastive_loss_value.item()
                 # total_room_contrastive_loss += room_contrastive_loss_value.item()
-
-                # Apply loss_mask
-                p_v_labels = p_v_labels[loss_mask == 1]
-                p_v_logits = p_v_logits[loss_mask == 1]
-                p_on_labels = p_on_labels[loss_mask == 1]
-                p_on_logits = p_on_logits[loss_mask == 1]
-                p_off_labels = p_off_labels[loss_mask == 1]
-                p_off_logits = p_off_logits[loss_mask == 1]
 
                 ################# Calculate metrics #################
 
@@ -745,7 +748,7 @@ class PedalTrainer2:
         val_loss,
         val_pedal_v_mae,
         val_pedal_v_f1,
-        epoch,
+        epoch=None,
         global_step=None,
         optimizer=None,
         scheduler=None,
@@ -774,6 +777,7 @@ class PedalTrainer2:
                     "optimizer": optimizer.state_dict() if optimizer else None,
                     "scheduler": scheduler.state_dict() if scheduler else None,
                     "epoch": epoch,
+                    "global_step": global_step if global_step is not None else -1,
                 },
                 best_checkpoint_path,
             )

@@ -243,7 +243,7 @@ def main():
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.25,
+        overlap_ratio=0.70,
         split="train",
         datasets=datasets,
         randomly_sample=train_rand_sample,
@@ -300,14 +300,21 @@ def main():
                 if isinstance(v, torch.Tensor):
                     state[k] = v.to(device)
 
-        start_epoch = checkpoint["epoch"] + 1  # Resume from the next epoch
-        print(f"Resuming training from epoch {start_epoch}...")
+        start_epoch = checkpoint["epoch"]  # Resume from the next epoch
+        start_global_step = checkpoint["global_step"]
+        start_epoch = start_epoch + 1 if start_global_step == -1 else start_epoch
+        if start_global_step != -1:
+            print(f"Resuming training from epoch {start_epoch}, global step {start_global_step}...")
+        else:
+            print(f"Resuming training from epoch {start_epoch}...")
     else:
         print("No checkpoint found. Starting from scratch.")
         start_epoch = 0
+        start_global_step = -1
 
     # Manually step the scheduler based on the epoch number
-    for e in range(start_epoch):
+    num_iterations = start_global_step if start_global_step != -1 else start_epoch * len(train_dataset)
+    for e in range(num_iterations):
         optimizer.step()
         scheduler.step()
         print(f"Epoch {e}: lr={optimizer.param_groups[0]['lr']}")
@@ -368,6 +375,7 @@ def main():
         room_ratio=room_ratio,
         contrastive_ratio=contrastive_ratio,
         start_epoch=start_epoch,
+        start_global_step=start_global_step,
     )
 
 

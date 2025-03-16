@@ -49,7 +49,7 @@ class PedalDetectionModelwithCNN(nn.Module):
         self.room_head = nn.Sequential(
             nn.Linear(hidden_dim, hidden_dim // 2),
             nn.ReLU(),
-            nn.Linear(hidden_dim // 2, 3),
+            nn.Linear(hidden_dim // 2, 4),
         )  # 4 classes for room type: 0 for real, 1, 2, 3 for synthetic rooms
 
         self.pedal_value_output_layer = nn.Linear(hidden_dim, num_classes)
