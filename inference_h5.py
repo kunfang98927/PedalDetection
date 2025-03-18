@@ -12,7 +12,7 @@ from sklearn.metrics import (
     f1_score,
     mean_squared_error,
 )
-from src.model1 import PedalDetectionModelwithCNN
+from src.model2 import PedalDetectionModelwithCNN1
 from src.dataset_h5 import PedalDataset
 from src.utils import (
     load_data,
@@ -33,14 +33,22 @@ def load_model(
     num_layers,
     num_classes,
     device="cpu",
+    predict_global_pedal=True,
+    predict_pedal_onset=False,
+    predict_pedal_offset=False,
+    predict_room=False,
 ):
-    model = PedalDetectionModelwithCNN(
+    model = PedalDetectionModelwithCNN1(
         input_dim=input_dim,
         hidden_dim=hidden_dim,
         num_heads=num_heads,
         ff_dim=ff_dim,
         num_layers=num_layers,
         num_classes=num_classes,
+        predict_global_pedal=predict_global_pedal,
+        predict_pedal_onset=predict_pedal_onset,
+        predict_pedal_offset=predict_pedal_offset,
+        predict_room=predict_room,
     ).to(device)
     checkpoint = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint["model"])
@@ -92,7 +100,12 @@ def main():
     # checkpoint_path = "ckpt_0303_10per-clip-500frm_bs32_no-onoff_sbatch/model_epoch_450_val_loss_0.1921_f1_0.6449_mae_0.1736.pt"
     # checkpoint_path = "ckpt_0306_10per-clip-500frm_bs32_onoff_sbatch_resume/model_epoch_500_val_loss_0.6021_f1_0.8045_mae_0.1605.pt" # best 1st model
     # checkpoint_path = "ckpt_0306_10per-clip-500frm_bs32_onoff-bce_sbatch/model_epoch_370_val_loss_0.1002_f1_0.7635_mae_0.1544.pt"  # best 2nd model
-    checkpoint_path = "ckpt_0314_10per-clip-500frm_bs32-8h-3xdata-5loss/model_epoch_33_val_loss_0.0956_f1_0.6302_mae_0.1610.pt"
+    checkpoint_path = "ckpt-0317_real_mlp_simplest_no-glob/model_epoch_2_step_27000_val_loss_0.0267_f1_0.8718_mae_0.1653.pt"
+    datasets = ["r0-pf1"]
+    predict_global_pedal = False
+    predict_pedal_onset = False
+    predict_pedal_offset = False
+    predict_room = False
 
     # Get the name of the checkpoint
     ckpt_name = checkpoint_path.split("/")[-1]
@@ -103,6 +116,7 @@ def main():
     report_path = f"{result_dir}/report.txt"
     with open(report_path, "a") as f:
         f.write(f"checkpoint: {checkpoint_path}\n")
+        f.write(f"datasets: {datasets}\n")
 
     feature_dim = 249
     max_frame = 500
@@ -128,18 +142,32 @@ def main():
         num_layers=num_layers,
         num_classes=num_classes,
         device=device,
+        predict_global_pedal=predict_global_pedal,
+        predict_pedal_onset=predict_pedal_onset,
+        predict_pedal_offset=predict_pedal_offset,
+        predict_room=predict_room,
     )
+    # print model trainable parameters number
+    print(
+        f"Model has {sum(p.numel() for p in model.parameters() if p.requires_grad)} trainable parameters."
+    )
+    # write model parameters to report
+    with open(report_path, "a") as f:
+        f.write(
+            f"Model has {sum(p.numel() for p in model.parameters() if p.requires_grad)} trainable parameters.\n"
+        )
 
     # Data loading
     test_dataset = PedalDataset(
-        data_path="sample_data/test.json",
+        data_list_path="sample_data/test.json",
+        data_dir="/scratch/kunfang/pedal_data/data/",
         num_samples_per_clip=1,  # num_samples_per_clip,
         max_frame=max_frame,
         label_ratio=1.0,
         label_bin_edges=label_bin_edges,
-        overlap_ratio=0.05,
+        overlap_ratio=0.0,
         split="test",
-        data_filter=["r3-pf1"],  # ["r1-pf1", "r2-pf1", "r3-pf1", "r0-pf1"],
+        datasets=datasets,
         # num_examples=20,
         randomly_sample=False,
     )
@@ -155,7 +183,7 @@ def main():
         test_dataset,
         batch_size=64,
         shuffle=False,
-        num_workers=8,
+        num_workers=16,
         pin_memory=True,
     )
 
@@ -188,6 +216,7 @@ def main():
         room_labels,
         midi_ids,
         pedal_factors,
+        _,
     ) in tqdm(test_dataloader):
         inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels = (
             inputs.to(device),
@@ -274,11 +303,11 @@ def main():
     all_p_v_preds = np.concatenate(all_p_v_preds)
     print(all_p_v_labels.shape, all_p_v_preds.shape)
     np.save(
-        f"{result_dir}/p_v_labels_test_set_0310.npy",
+        f"{result_dir}/p_v_labels_test_set.npy",
         all_p_v_labels,
     )
     np.save(
-        f"{result_dir}/p_v_preds_test_set_0310.npy",
+        f"{result_dir}/p_v_preds_test_set.npy",
         all_p_v_preds,
     )
 
@@ -287,11 +316,11 @@ def main():
     all_p_onset_preds = np.concatenate(all_p_onset_preds)
     print(all_p_onset_labels.shape, all_p_onset_preds.shape)
     np.save(
-        f"{result_dir}/p_onset_labels_test_set_0310.npy",
+        f"{result_dir}/p_onset_labels_test_set.npy",
         all_p_onset_labels,
     )
     np.save(
-        f"{result_dir}/p_onset_preds_test_set_0310.npy",
+        f"{result_dir}/p_onset_preds_test_set.npy",
         all_p_onset_preds,
     )
 
@@ -300,11 +329,11 @@ def main():
     all_p_offset_preds = np.concatenate(all_p_offset_preds)
     print(all_p_offset_labels.shape, all_p_offset_preds.shape)
     np.save(
-        f"{result_dir}/p_offset_labels_test_set_0310.npy",
+        f"{result_dir}/p_offset_labels_test_set.npy",
         all_p_offset_labels,
     )
     np.save(
-        f"{result_dir}/p_offset_preds_test_set_0310.npy",
+        f"{result_dir}/p_offset_preds_test_set.npy",
         all_p_offset_preds,
     )
 
@@ -313,11 +342,11 @@ def main():
     all_global_p_preds = np.concatenate(all_global_p_preds)
     print(all_global_p_labels.shape, all_global_p_preds.shape)
     np.save(
-        f"{result_dir}/global_p_labels_test_set_0310.npy",
+        f"{result_dir}/global_p_labels_test_set.npy",
         all_global_p_labels,
     )
     np.save(
-        f"{result_dir}/global_p_preds_test_set_0310.npy",
+        f"{result_dir}/global_p_preds_test_set.npy",
         all_global_p_preds,
     )
 
@@ -326,11 +355,11 @@ def main():
     all_room_preds = np.concatenate(all_room_preds)
     print(all_room_labels.shape, all_room_preds.shape)
     np.save(
-        f"{result_dir}/room_labels_test_set_0310.npy",
+        f"{result_dir}/room_labels_test_set.npy",
         all_room_labels,
     )
     np.save(
-        f"{result_dir}/room_preds_test_set_0310.npy",
+        f"{result_dir}/room_preds_test_set.npy",
         all_room_preds,
     )
 
@@ -356,7 +385,7 @@ def main():
     # classification report
     print("Classification Report:")
     cr = classification_report(
-        quantized_all_global_p_labels, quantized_all_global_p_preds
+        quantized_all_global_p_labels, quantized_all_global_p_preds, digits=4
     )
     print(cr)
 
@@ -366,18 +395,6 @@ def main():
         f.write(f"Global Pedal Value F1 Score: {global_p_f1}\n")
         f.write("Classification Report:\n")
         f.write(cr)
-
-    # # confusion matrix
-    # cm = confusion_matrix(quantized_all_global_p_labels, quantized_all_global_p_preds)
-    # plt.figure(figsize=(6, 6))
-    # sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", square=True)
-    # plt.xlabel("Predicted Label")
-    # plt.ylabel("True Label")
-    # plt.title("Confusion Matrix")
-    # plt.tight_layout()
-    # # save the plot
-    # plt.savefig(f"global_{len(inf_label_bin_edges)-1}{ckpt_name}.png")
-    # plt.close()
 
     plot_pedal_pred(
         all_global_p_labels,

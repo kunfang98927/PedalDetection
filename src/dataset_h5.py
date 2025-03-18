@@ -166,7 +166,7 @@ class PedalDataset(Dataset):
 
         # Process labels.
         pedal_onset, pedal_offset = calculate_pedal_onset_offset(
-            selected_pedal_value, on_off_threshold=0
+            selected_pedal_value, on_off_threshold=64
         )
         quantized_pedal_value = selected_pedal_value / 127.0
         soft_pedal_onset = calculate_soft_regresion_label(pedal_onset)

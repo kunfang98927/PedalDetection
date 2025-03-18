@@ -4,6 +4,7 @@ import shutil
 import argparse
 from torch.utils.data import DataLoader
 from src.model1 import PedalDetectionModelwithCNN
+from src.model2 import PedalDetectionModelwithCNN1
 from src.dataset_h5 import PedalDataset
 from src.trainer2 import PedalTrainer2
 from src.utils import get_label_bin_edges
@@ -121,6 +122,12 @@ def parse_args():
         default=0.1,
         help="Contrastive ratio (default: 0.1)",
     )
+    parser.add_argument(
+        "--model_version",
+        type=str,
+        default="model1",
+        help="Model version (default: model1)",
+    )
 
     return parser.parse_args()
 
@@ -185,6 +192,7 @@ def main():
     print(f"Pedal Offset Ratio: {args.pedal_offset_ratio}")
     print(f"Room Ratio: {args.room_ratio}")
     print(f"Contrastive Ratio: {args.contrastive_ratio}")
+    print(f"Model Version: {args.model_version}")
 
     checkpoint_path = args.checkpoint_path
     data_dir = args.data_dir
@@ -204,6 +212,7 @@ def main():
     pedal_offset_ratio = args.pedal_offset_ratio
     room_ratio = args.room_ratio
     contrastive_ratio = args.contrastive_ratio
+    model_version = args.model_version
 
     # Label bin edges, train and val
     label_bin_edges = get_label_bin_edges(num_classes)
@@ -234,6 +243,7 @@ def main():
         f.write(f"pedal_offset_ratio: {args.pedal_offset_ratio}\n")
         f.write(f"room_ratio: {args.room_ratio}\n")
         f.write(f"contrastive_ratio: {args.contrastive_ratio}\n")
+        f.write(f"model_version: {args.model_version}\n")
 
     # Dataset and DataLoader
     train_dataset = PedalDataset(
@@ -270,15 +280,32 @@ def main():
         print(f"Number of GPUs available: {torch.cuda.device_count()}")
 
     # Model
-    model = PedalDetectionModelwithCNN(
-        input_dim=feature_dim,
-        hidden_dim=256,
-        num_heads=8,
-        ff_dim=1024,  # 256,
-        num_layers=8,
-        num_classes=num_classes,
-    )
+    model = None
+    if model_version == "model1":
+        model = PedalDetectionModelwithCNN(
+            input_dim=feature_dim,
+            hidden_dim=256,
+            num_heads=8,
+            ff_dim=1024,  # 256,
+            num_layers=8,
+            num_classes=num_classes,
+        )
+    elif model_version == "model2":
+        model = PedalDetectionModelwithCNN1(
+            input_dim=feature_dim,
+            hidden_dim=256,
+            num_heads=8,
+            ff_dim=1024,  # 256,
+            num_layers=8,
+            num_classes=num_classes,
+            predict_global_pedal=True if global_pedal_ratio > 0 else False,
+            predict_pedal_onset=True if pedal_onset_ratio > 0 else False,
+            predict_pedal_offset=True if pedal_offset_ratio > 0 else False,
+            predict_room=True if room_ratio > 0 else False,
+        )
     print(model)
+    # print trainable parameters number
+    print("Trainable parameters:", sum(p.numel() for p in model.parameters() if p.requires_grad))
 
     # Optimizer and Scheduler
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4)

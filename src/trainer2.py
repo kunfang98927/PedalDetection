@@ -167,6 +167,7 @@ class PedalTrainer2:
                     val_room_f1,
                 ) = self.validate(
                     epoch,
+                    global_step,
                     global_pedal_ratio,
                     pedal_value_ratio,
                     pedal_onset_ratio,
@@ -264,6 +265,7 @@ class PedalTrainer2:
                 pedal_factors.to(self.device),
             )
 
+            self.model.train()
             (
                 global_p_v_logits,
                 p_v_logits,
@@ -347,25 +349,25 @@ class PedalTrainer2:
 
                 # Log to TensorBoard
                 self.writer.add_scalar(
-                    "Train/Global Pedal Loss", global_p_v_loss.item(), global_step
+                    "Global Pedal Loss", {"Train": global_p_v_loss.item()}, global_step
                 )
                 self.writer.add_scalar(
-                    "Train/Pedal Value Loss", p_v_loss.item(), global_step
+                    "Pedal Value Loss", {"Train": p_v_loss.item()}, global_step
                 )
                 self.writer.add_scalar(
-                    "Train/Pedal Onset Loss", p_on_loss.item(), global_step
+                    "Pedal Onset Loss", {"Train": p_on_loss.item()}, global_step
                 )
                 self.writer.add_scalar(
-                    "Train/Pedal Offset Loss", p_off_loss.item(), global_step
+                    "Pedal Offset Loss", {"Train": p_off_loss.item()}, global_step
                 )
-                self.writer.add_scalar("Train/Room Loss", room_loss.item(), global_step)
+                self.writer.add_scalar("Room Loss", {"Train": room_loss.item()}, global_step)
                 self.writer.add_scalar(
-                    "Train/Pedal Contrastive Loss",
-                    contrastive_loss_value.item(),
+                    "Pedal Contrastive Loss",
+                    {"Train": contrastive_loss_value.item()},
                     global_step,
                 )
                 # self.writer.add_scalar("Train/Room Contrastive Loss", room_contrastive_loss_value.item(), global_step)
-                self.writer.add_scalar("Train/Total Loss", loss.item(), global_step)
+                self.writer.add_scalar("Total Loss", {"Train": loss.item()}, global_step)
 
             # Validate by step, not just at epoch end.
             if self.eval_steps != -1 and global_step % self.eval_steps == 0:
@@ -382,6 +384,7 @@ class PedalTrainer2:
                     val_room_f1,
                 ) = self.validate(
                     epoch,
+                    global_step,
                     global_pedal_ratio,
                     pedal_value_ratio,
                     pedal_onset_ratio,
@@ -436,6 +439,7 @@ class PedalTrainer2:
     def validate(
         self,
         epoch,
+        global_step=-1,
         global_pedal_ratio=0.1,
         pedal_value_ratio=0.5,
         pedal_onset_ratio=0.1,
@@ -559,13 +563,14 @@ class PedalTrainer2:
 
                 ################# Calculate metrics #################
 
-                # Measure room prediction
-                room_outputs = torch.softmax(room_logits, dim=-1)
-                room_preds = torch.argmax(room_outputs, dim=-1)
-                room_preds = room_preds.cpu().numpy()
-                room_labels = room_labels.cpu().numpy()
-                room_f1 = f1_score(room_labels, room_preds, average="weighted")
-                room_f1s.append(room_f1)
+                if room_ratio > 0:
+                    # Measure room prediction
+                    room_outputs = torch.softmax(room_logits, dim=-1)
+                    room_preds = torch.argmax(room_outputs, dim=-1)
+                    room_preds = room_preds.cpu().numpy()
+                    room_labels = room_labels.cpu().numpy()
+                    room_f1 = f1_score(room_labels, room_preds, average="weighted")
+                    room_f1s.append(room_f1)
 
                 # Measure pedal value prediction
                 p_v_preds = p_v_logits.squeeze()
@@ -587,121 +592,128 @@ class PedalTrainer2:
                 pedal_value_f1 = f1_score(p_v_labels, p_v_preds, average="weighted")
                 pedal_value_f1s.append(pedal_value_f1)
 
-                # Measure pedal onset prediction
-                p_on_preds = torch.sigmoid(p_on_logits).squeeze()
-                p_on_labels = p_on_labels.cpu().numpy()
-                p_on_preds = p_on_preds.cpu().numpy()
-                pedal_on_mae = mean_absolute_error(p_on_labels, p_on_preds)
-                pedal_onset_maes.append(pedal_on_mae)
+                if pedal_onset_ratio > 0:
+                    # Measure pedal onset prediction
+                    p_on_preds = torch.sigmoid(p_on_logits).squeeze()
+                    p_on_labels = p_on_labels.cpu().numpy()
+                    p_on_preds = p_on_preds.cpu().numpy()
+                    pedal_on_mae = mean_absolute_error(p_on_labels, p_on_preds)
+                    pedal_onset_maes.append(pedal_on_mae)
 
-                # Measure pedal offset prediction
-                p_off_preds = torch.sigmoid(p_off_logits).squeeze()
-                p_off_labels = p_off_labels.cpu().numpy()
-                p_off_preds = p_off_preds.cpu().numpy()
-                pedal_off_mae = mean_absolute_error(p_off_labels, p_off_preds)
-                pedal_offset_maes.append(pedal_off_mae)
+                if pedal_offset_ratio > 0:
+                    # Measure pedal offset prediction
+                    p_off_preds = torch.sigmoid(p_off_logits).squeeze()
+                    p_off_labels = p_off_labels.cpu().numpy()
+                    p_off_preds = p_off_preds.cpu().numpy()
+                    pedal_off_mae = mean_absolute_error(p_off_labels, p_off_preds)
+                    pedal_offset_maes.append(pedal_off_mae)
 
-                # Measure global pedal value prediction
-                global_p_v_preds = global_p_v_logits
-                global_p_v_labels = global_p_v_labels.cpu().numpy()
-                global_p_v_preds = global_p_v_preds.cpu().numpy()
+                if global_pedal_ratio > 0:
+                    # Measure global pedal value prediction
+                    global_p_v_preds = global_p_v_logits
+                    global_p_v_labels = global_p_v_labels.cpu().numpy()
+                    global_p_v_preds = global_p_v_preds.cpu().numpy()
 
-                global_pedal_value_mse = mean_squared_error(
-                    global_p_v_labels, global_p_v_preds
-                )
-                global_pedal_value_mae = mean_absolute_error(
-                    global_p_v_labels, global_p_v_preds
-                )
-                global_pedal_value_maes.append(global_pedal_value_mae)
-                global_pedal_value_mses.append(global_pedal_value_mse)
+                    global_pedal_value_mse = mean_squared_error(
+                        global_p_v_labels, global_p_v_preds
+                    )
+                    global_pedal_value_mae = mean_absolute_error(
+                        global_p_v_labels, global_p_v_preds
+                    )
+                    global_pedal_value_maes.append(global_pedal_value_mae)
+                    global_pedal_value_mses.append(global_pedal_value_mse)
 
-                # for global_p_v_labels and global_p_v_preds, if < 11, then 0, if > 95, then 2, else 1
-                global_p_v_labels = global_p_v_labels * 127
-                global_p_v_preds = global_p_v_preds * 127
-                global_p_v_labels = np.digitize(
-                    global_p_v_labels, self.val_label_bin_edges
-                )
-                global_p_v_preds = np.digitize(
-                    global_p_v_preds, self.val_label_bin_edges
-                )
+                    # for global_p_v_labels and global_p_v_preds, if < 11, then 0, if > 95, then 2, else 1
+                    global_p_v_labels = global_p_v_labels * 127
+                    global_p_v_preds = global_p_v_preds * 127
+                    global_p_v_labels = np.digitize(
+                        global_p_v_labels, self.val_label_bin_edges
+                    )
+                    global_p_v_preds = np.digitize(
+                        global_p_v_preds, self.val_label_bin_edges
+                    )
 
-                # f1
-                global_pedal_value_f1 = f1_score(
-                    global_p_v_labels, global_p_v_preds, average="weighted"
-                )
-                global_pedal_value_f1s.append(global_pedal_value_f1)
+                    # f1
+                    global_pedal_value_f1 = f1_score(
+                        global_p_v_labels, global_p_v_preds, average="weighted"
+                    )
+                    global_pedal_value_f1s.append(global_pedal_value_f1)
 
         # calculate avg f1
         avg_global_pedal_value_f1 = sum(global_pedal_value_f1s) / len(
             global_pedal_value_f1s
-        )
+        ) if global_pedal_ratio > 0 else -1
         avg_pedal_value_f1 = sum(pedal_value_f1s) / len(pedal_value_f1s)
-        avg_pedal_onset_mae = sum(pedal_onset_maes) / len(pedal_onset_maes)
-        avg_pedal_offset_mae = sum(pedal_offset_maes) / len(pedal_offset_maes)
+        avg_pedal_onset_mae = sum(pedal_onset_maes) / len(pedal_onset_maes) if pedal_onset_ratio > 0 else -1
+        avg_pedal_offset_mae = sum(pedal_offset_maes) / len(pedal_offset_maes) if pedal_offset_ratio > 0 else -1
         avg_room_f1 = sum(room_f1s) / len(room_f1s) if room_ratio > 0 else -1
         avg_global_pedal_value_mae = sum(global_pedal_value_maes) / len(
             global_pedal_value_maes
-        )
+        ) if global_pedal_ratio > 0 else -1
         avg_global_pedal_value_mse = sum(global_pedal_value_mses) / len(
             global_pedal_value_mses
-        )
+        ) if global_pedal_ratio > 0 else -1
         avg_pedal_value_mae = sum(pedal_value_maes) / len(pedal_value_maes)
         avg_pedal_value_mse = sum(pedal_value_mses) / len(pedal_value_mses)
 
+        log_step = global_step if global_step != -1 else epoch * len(
+            self.train_dataloader
+        )
+
         # Log to TensorBoard
         self.writer.add_scalar(
-            "Validation/Total Loss", val_loss / len(self.val_dataloader), epoch
+            "Total Loss", {"Val": val_loss / len(self.val_dataloader)}, log_step
         )
         self.writer.add_scalar(
-            "Validation/Global Pedal Value Loss",
-            total_global_p_v_loss / len(self.val_dataloader),
-            epoch,
+            "Global Pedal Value Loss",
+            {"Val": total_global_p_v_loss / len(self.val_dataloader)},
+            log_step,
         )
         self.writer.add_scalar(
-            "Validation/Pedal Value Loss",
-            total_pedal_value_loss / len(self.val_dataloader),
-            epoch,
+            "Pedal Value Loss",
+            {"Val": total_pedal_value_loss / len(self.val_dataloader)},
+            log_step,
         )
         self.writer.add_scalar(
-            "Validation/Pedal Onset Loss",
-            total_pedal_on_loss / len(self.val_dataloader),
-            epoch,
+            "Pedal Onset Loss",
+            {"Val": total_pedal_on_loss / len(self.val_dataloader)},
+            log_step,
         )
         self.writer.add_scalar(
-            "Validation/Pedal Offset Loss",
-            total_pedal_off_loss / len(self.val_dataloader),
-            epoch,
+            "Pedal Offset Loss",
+            {"Val": total_pedal_off_loss / len(self.val_dataloader)},
+            log_step,
         )
         self.writer.add_scalar(
-            "Validation/Room Loss",
-            total_room_loss / len(self.val_dataloader),
-            epoch,
+            "Room Loss",
+            {"Val": total_room_loss / len(self.val_dataloader)},
+            log_step,
         )
         self.writer.add_scalar(
-            "Validation/Contrastive Loss",
-            total_contrastive_loss / len(self.val_dataloader),
-            epoch,
+            "Pedal Contrastive Loss",
+            {"Val": total_contrastive_loss / len(self.val_dataloader)},
+            log_step,
         )
         # self.writer.add_scalar(
         #     "Validation/Room Contrastive Loss",
         #     total_room_contrastive_loss / len(self.val_dataloader),
-        #     epoch,
+        #     log_step,
         # )
         self.writer.add_scalar(
-            "Validation/Global Pedal Value F1", avg_global_pedal_value_f1, epoch
+            "Validation/Global Pedal Value F1", avg_global_pedal_value_f1, log_step
         )
-        self.writer.add_scalar("Validation/Pedal Value F1", avg_pedal_value_f1, epoch)
-        self.writer.add_scalar("Validation/Pedal Onset MAE", avg_pedal_onset_mae, epoch)
-        self.writer.add_scalar("Validation/Pedal Offset MAE", avg_pedal_offset_mae, epoch)
-        self.writer.add_scalar("Validation/Room F1", avg_room_f1, epoch)
+        self.writer.add_scalar("Validation/Pedal Value F1", avg_pedal_value_f1, log_step)
+        self.writer.add_scalar("Validation/Pedal Onset MAE", avg_pedal_onset_mae, log_step)
+        self.writer.add_scalar("Validation/Pedal Offset MAE", avg_pedal_offset_mae, log_step)
+        self.writer.add_scalar("Validation/Room F1", avg_room_f1, log_step)
         self.writer.add_scalar(
-            "Validation/Global Pedal Value MAE", avg_global_pedal_value_mae, epoch
+            "Validation/Global Pedal Value MAE", avg_global_pedal_value_mae, log_step
         )
         self.writer.add_scalar(
-            "Validation/Global Pedal Value MSE", avg_global_pedal_value_mse, epoch
+            "Validation/Global Pedal Value MSE", avg_global_pedal_value_mse, log_step
         )
-        self.writer.add_scalar("Validation/Pedal Value MAE", avg_pedal_value_mae, epoch)
-        self.writer.add_scalar("Validation/Pedal Value MSE", avg_pedal_value_mse, epoch)
+        self.writer.add_scalar("Validation/Pedal Value MAE", avg_pedal_value_mae, log_step)
+        self.writer.add_scalar("Validation/Pedal Value MSE", avg_pedal_value_mse, log_step)
 
         pbar.set_postfix(
             {

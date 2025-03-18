@@ -1,5 +1,6 @@
 import numpy as np
-import seaborn as sns
+
+# import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.metrics import (
     mean_absolute_error,
@@ -8,7 +9,8 @@ from sklearn.metrics import (
     f1_score,
     mean_squared_error,
 )
-from src.utils import plot_pedal_pred
+
+# from src.utils import plot_pedal_pred
 
 
 def plot_all_pred(
@@ -21,6 +23,7 @@ def plot_all_pred(
     title,
     img_num_frames=100,
     img_num_plots=2,
+    save_dir=None,
 ):
 
     # plot the ground truth and prediction: all_low_res_p_labels, all_low_res_p_preds, in the same plot
@@ -72,7 +75,7 @@ def plot_all_pred(
 
     plt.tight_layout()
     # save the plot
-    plt.savefig(f"pedal_pred-{title}.png")
+    plt.savefig(f"{save_dir}/pedal_pred-{title}.png")
     plt.close()
 
 
@@ -86,7 +89,9 @@ def calculate_classification_metrics(label_bin_edges, all_labels, all_preds):
     f1 = f1_score(
         quantized_low_res_p_labels, quantized_low_res_p_preds, average="weighted"
     )
-    cr = classification_report(quantized_low_res_p_labels, quantized_low_res_p_preds)
+    cr = classification_report(
+        quantized_low_res_p_labels, quantized_low_res_p_preds, digits=4
+    )
 
     print("F1:", f1)
     print("Classification Report:")
@@ -95,7 +100,7 @@ def calculate_classification_metrics(label_bin_edges, all_labels, all_preds):
     return f1, cr
 
 
-def event_f1_score(pred_events, label_events, tolerance=70):
+def event_f1_score(pred_events, label_events, tolerance=0.07):
     """
     Compute precision, recall, and F1 score for events.
 
@@ -179,12 +184,12 @@ def calculate_result(all_labels, all_preds, title="p_v", report_path=None):
             if all_preds[i] > all_preds[i - 1] and all_preds[i] > all_preds[i + 1]:
                 if all_preds[i] > 0.0:
                     all_preds_[i] = 1
-        label_event_times = np.where(all_labels == 1)[0]
-        pred_event_times = np.where(all_preds_ == 1)[0]
+        label_event_times = np.where(all_labels == 1)[0] / 100
+        pred_event_times = np.where(all_preds_ == 1)[0] / 100
         print("pred", pred_event_times)
         print("label", label_event_times)
         precision, recall, f1 = event_f1_score(
-            pred_event_times, label_event_times, tolerance=7
+            pred_event_times, label_event_times, tolerance=0.07
         )
         with open(report_path, "a") as f:
             f.write(f"Precision: {precision}\n")
@@ -195,11 +200,11 @@ def calculate_result(all_labels, all_preds, title="p_v", report_path=None):
         print(all_labels)
         print(all_preds)
         print(confusion_matrix(all_labels, all_preds))
-        print(classification_report(all_labels, all_preds))
+        print(classification_report(all_labels, all_preds, digits=4))
         with open(report_path, "a") as f:
             f.write(f"Confusion Matrix:\n{confusion_matrix(all_labels, all_preds)}\n")
             f.write(
-                f"Classification Report:\n{classification_report(all_labels, all_preds)}\n"
+                f"Classification Report:\n{classification_report(all_labels, all_preds, digits=4)}\n"
             )
 
 
@@ -242,23 +247,23 @@ def sliding_window_normalize(a, window_size):
 
 def main():
 
-    ckpt_dir = "ckpt_0314_10per-clip-500frm_bs32-8h-3xdata-5loss/results"
+    ckpt_dir = "ckpt-0317_real_mlp_simplest-withbach/results"
     report_path = f"{ckpt_dir}/report.txt"
 
-    all_p_v_labels = np.load(f"{ckpt_dir}/p_v_labels_test_set_0310.npy")
-    all_p_v_preds = np.load(f"{ckpt_dir}/p_v_preds_test_set_0310.npy")
+    all_p_v_labels = np.load(f"{ckpt_dir}/p_v_labels_test_set.npy")
+    all_p_v_preds = np.load(f"{ckpt_dir}/p_v_preds_test_set.npy")
 
-    all_on_labels = np.load(f"{ckpt_dir}/p_onset_labels_test_set_0310.npy")
-    all_on_preds = np.load(f"{ckpt_dir}/p_onset_preds_test_set_0310.npy")
+    all_on_labels = np.load(f"{ckpt_dir}/p_onset_labels_test_set.npy")
+    all_on_preds = np.load(f"{ckpt_dir}/p_onset_preds_test_set.npy")
 
-    all_off_labels = np.load(f"{ckpt_dir}/p_offset_labels_test_set_0310.npy")
-    all_off_preds = np.load(f"{ckpt_dir}/p_offset_preds_test_set_0310.npy")
+    all_off_labels = np.load(f"{ckpt_dir}/p_offset_labels_test_set.npy")
+    all_off_preds = np.load(f"{ckpt_dir}/p_offset_preds_test_set.npy")
 
     # all_room_labels = np.load(
-    #     f"{ckpt_dir}/room_labels_test_set_0310.npy"
+    #     f"{ckpt_dir}/room_labels_test_set.npy"
     # )
     # all_room_preds = np.load(
-    #     f"{ckpt_dir}/room_preds_test_set_0310.npy"
+    #     f"{ckpt_dir}/room_preds_test_set.npy"
     # )
 
     all_p_v_labels = all_p_v_labels.flatten()
@@ -288,7 +293,8 @@ def main():
         all_off_labels,
         all_off_preds,
         "p_v_on_off",
-        img_num_frames=2000,
+        img_num_frames=1000,
+        save_dir=ckpt_dir,
     )
 
 
