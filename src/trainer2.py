@@ -1,6 +1,7 @@
 import os
 import torch
 import time
+import wandb
 import numpy as np
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
@@ -348,26 +349,38 @@ class PedalTrainer2:
                 )
 
                 # Log to TensorBoard
-                self.writer.add_scalar(
+                self.writer.add_scalars(
                     "Global Pedal Loss", {"Train": global_p_v_loss.item()}, global_step
                 )
-                self.writer.add_scalar(
+                self.writer.add_scalars(
                     "Pedal Value Loss", {"Train": p_v_loss.item()}, global_step
                 )
-                self.writer.add_scalar(
+                self.writer.add_scalars(
                     "Pedal Onset Loss", {"Train": p_on_loss.item()}, global_step
                 )
-                self.writer.add_scalar(
+                self.writer.add_scalars(
                     "Pedal Offset Loss", {"Train": p_off_loss.item()}, global_step
                 )
-                self.writer.add_scalar("Room Loss", {"Train": room_loss.item()}, global_step)
-                self.writer.add_scalar(
+                self.writer.add_scalars("Room Loss", {"Train": room_loss.item()}, global_step)
+                self.writer.add_scalars(
                     "Pedal Contrastive Loss",
                     {"Train": contrastive_loss_value.item()},
                     global_step,
                 )
-                # self.writer.add_scalar("Train/Room Contrastive Loss", room_contrastive_loss_value.item(), global_step)
-                self.writer.add_scalar("Total Loss", {"Train": loss.item()}, global_step)
+                # self.writer.add_scalars("Train/Room Contrastive Loss", room_contrastive_loss_value.item(), global_step)
+                self.writer.add_scalars("Total Loss", {"Train": loss.item()}, global_step)
+
+                wandb.log(
+                    {
+                        "Global Pedal Loss/Train": global_p_v_loss.item(),
+                        "Pedal Value Loss/Train": p_v_loss.item(),
+                        "Pedal Onset Loss/Train": p_on_loss.item(),
+                        "Pedal Offset Loss/Train": p_off_loss.item(),
+                        "Room Loss/Train": room_loss.item(),
+                        "Pedal Contrastive Loss/Train": contrastive_loss_value.item(),
+                        "Total Loss/Train": loss.item(),
+                    }
+                )
 
             # Validate by step, not just at epoch end.
             if self.eval_steps != -1 and global_step % self.eval_steps == 0:
@@ -661,59 +674,75 @@ class PedalTrainer2:
         )
 
         # Log to TensorBoard
-        self.writer.add_scalar(
+        self.writer.add_scalars(
             "Total Loss", {"Val": val_loss / len(self.val_dataloader)}, log_step
         )
-        self.writer.add_scalar(
+        self.writer.add_scalars(
             "Global Pedal Value Loss",
             {"Val": total_global_p_v_loss / len(self.val_dataloader)},
             log_step,
         )
-        self.writer.add_scalar(
+        self.writer.add_scalars(
             "Pedal Value Loss",
             {"Val": total_pedal_value_loss / len(self.val_dataloader)},
             log_step,
         )
-        self.writer.add_scalar(
+        self.writer.add_scalars(
             "Pedal Onset Loss",
             {"Val": total_pedal_on_loss / len(self.val_dataloader)},
             log_step,
         )
-        self.writer.add_scalar(
+        self.writer.add_scalars(
             "Pedal Offset Loss",
             {"Val": total_pedal_off_loss / len(self.val_dataloader)},
             log_step,
         )
-        self.writer.add_scalar(
+        self.writer.add_scalars(
             "Room Loss",
             {"Val": total_room_loss / len(self.val_dataloader)},
             log_step,
         )
-        self.writer.add_scalar(
+        self.writer.add_scalars(
             "Pedal Contrastive Loss",
             {"Val": total_contrastive_loss / len(self.val_dataloader)},
             log_step,
         )
-        # self.writer.add_scalar(
-        #     "Validation/Room Contrastive Loss",
+        # self.writer.add_scalars(
+        #     "Room Contrastive Loss",
         #     total_room_contrastive_loss / len(self.val_dataloader),
         #     log_step,
         # )
-        self.writer.add_scalar(
-            "Validation/Global Pedal Value F1", avg_global_pedal_value_f1, log_step
+        self.writer.add_scalar("Global Pedal Value F1", avg_global_pedal_value_f1, log_step)
+        self.writer.add_scalar("Pedal Value F1", avg_pedal_value_f1, log_step)
+        self.writer.add_scalar("Pedal Onset MAE", avg_pedal_onset_mae, log_step)
+        self.writer.add_scalar("Pedal Offset MAE", avg_pedal_offset_mae, log_step)
+        self.writer.add_scalar("Room F1", avg_room_f1, log_step)
+        self.writer.add_scalar("Global Pedal Value MAE", avg_global_pedal_value_mae, log_step)
+        self.writer.add_scalar("Global Pedal Value MSE", avg_global_pedal_value_mse, log_step)
+        self.writer.add_scalar("Pedal Value MAE", avg_pedal_value_mae, log_step)
+        self.writer.add_scalar("Pedal Value MSE", avg_pedal_value_mse, log_step)
+
+        wandb.log(
+            {
+                "Total Loss/Val": val_loss / len(self.val_dataloader),
+                "Global Pedal Value Loss/Val": total_global_p_v_loss / len(self.val_dataloader),
+                "Pedal Value Loss/Val": total_pedal_value_loss / len(self.val_dataloader),
+                "Pedal Onset Loss/Val": total_pedal_on_loss / len(self.val_dataloader),
+                "Pedal Offset Loss/Val": total_pedal_off_loss / len(self.val_dataloader),
+                "Room Loss/Val": total_room_loss / len(self.val_dataloader),
+                "Pedal Contrastive Loss/Val": total_contrastive_loss / len(self.val_dataloader),
+                # "Room Contrastive Loss": total_room_contrastive_loss / len(self.val_dataloader),
+                "Global Pedal Value F1": avg_global_pedal_value_f1,
+                "Pedal Value F1": avg_pedal_value_f1,
+                "Pedal Onset MAE": avg_pedal_onset_mae,
+                "Pedal Offset MAE": avg_pedal_offset_mae,
+                "Room F1": avg_room_f1,
+                "Global Pedal Value MAE": avg_global_pedal_value_mae,
+                "Global Pedal Value MSE": avg_global_pedal_value_mse,
+                "Pedal Value MAE": avg_pedal_value_mae,
+                "Pedal Value MSE": avg_pedal_value_mse,
+            }
         )
-        self.writer.add_scalar("Validation/Pedal Value F1", avg_pedal_value_f1, log_step)
-        self.writer.add_scalar("Validation/Pedal Onset MAE", avg_pedal_onset_mae, log_step)
-        self.writer.add_scalar("Validation/Pedal Offset MAE", avg_pedal_offset_mae, log_step)
-        self.writer.add_scalar("Validation/Room F1", avg_room_f1, log_step)
-        self.writer.add_scalar(
-            "Validation/Global Pedal Value MAE", avg_global_pedal_value_mae, log_step
-        )
-        self.writer.add_scalar(
-            "Validation/Global Pedal Value MSE", avg_global_pedal_value_mse, log_step
-        )
-        self.writer.add_scalar("Validation/Pedal Value MAE", avg_pedal_value_mae, log_step)
-        self.writer.add_scalar("Validation/Pedal Value MSE", avg_pedal_value_mse, log_step)
 
         pbar.set_postfix(
             {
@@ -793,6 +822,8 @@ class PedalTrainer2:
                 },
                 best_checkpoint_path,
             )
+            # Save to wandb
+            wandb.save(best_checkpoint_path)
 
             self.best_checkpoints.append(best_checkpoint_path)
             print(f"Best model saved at {best_checkpoint_path}")

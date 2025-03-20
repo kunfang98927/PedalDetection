@@ -9,6 +9,8 @@ from src.dataset_h5 import PedalDataset
 from src.trainer2 import PedalTrainer2
 from src.utils import get_label_bin_edges
 import functools
+import wandb
+
 
 print = functools.partial(print, flush=True)
 
@@ -214,6 +216,33 @@ def main():
     contrastive_ratio = args.contrastive_ratio
     model_version = args.model_version
 
+    # WandB
+    wandb.init(
+        project=f"pedal-{save_dir}", 
+        entity="fangk3740-mcgill-university",
+        config={
+            "checkpoint_path": checkpoint_path,
+            "data_dir": data_dir,
+            "datasets": datasets,
+            "save_dir": save_dir,
+            "batch_size": batch_size,
+            "eval_epochs": eval_epochs,
+            "eval_steps": eval_steps,
+            "feature_dim": feature_dim,
+            "max_frame": max_frame,
+            "num_samples_per_clip": num_samples_per_clip,
+            "num_classes": num_classes,
+            "train_rand_sample": train_rand_sample,
+            "global_pedal_ratio": global_pedal_ratio,
+            "pedal_value_ratio": pedal_value_ratio,
+            "pedal_onset_ratio": pedal_onset_ratio,
+            "pedal_offset_ratio": pedal_offset_ratio,
+            "room_ratio": room_ratio,
+            "contrastive_ratio": contrastive_ratio,
+            "model_version": model_version,
+        }
+    )
+
     # Label bin edges, train and val
     label_bin_edges = get_label_bin_edges(num_classes)
     val_label_bin_edges = get_label_bin_edges(2)
@@ -404,6 +433,8 @@ def main():
         start_epoch=start_epoch,
         start_global_step=start_global_step,
     )
+
+    # wandb_run.finish()
 
 
 if __name__ == "__main__":
