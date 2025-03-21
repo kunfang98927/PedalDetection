@@ -12,7 +12,6 @@ from src.utils import (
     calculate_low_res_pedal_value,
 )
 
-
 class PedalDataset(Dataset):
     def __init__(
         self,
@@ -77,22 +76,42 @@ class PedalDataset(Dataset):
                 self.h5fs[file_path] = h5py.File(file_path, "r")
                 print(f"Opened {file_path}")
 
+        # if split is validation, only validate on pedal factor 1
+        if self.split == "validation":
+            self.examples = [
+                ex for ex in self.examples if ex["pedal_factor"] == 1
+            ]
+            print(f"Filtered examples for validation: {len(self.examples)}")
+
         # Precompute number of segments per example if not randomly sampling.
         if not self.randomly_sample:
-            self.segments_per_example = []
-            for ex in self.examples:
-                num_frames = ex["num_frames"]
-                if num_frames > self.max_frame:
-                    # Compute number of segments with a sliding window.
-                    step = int(self.max_frame * (1 - self.overlap_ratio))
-                    segments = math.ceil((num_frames - self.max_frame) / step) + 1
-                else:
-                    segments = 0
-                self.segments_per_example.append(segments)
+            self.segments_per_example = self.precompute_segments_per_example(self.examples)
+
         # Print some information.
         print(
             f"Loaded {len(self.examples)} examples from {data_list_path} for split: {self.split}"
         )
+
+    def precompute_segments_per_example(self, examples):
+        segments_per_example = []
+        for ex in examples:
+            num_frames = ex["num_frames"]
+            if num_frames > self.max_frame:
+                # Compute number of segments with a sliding window.
+                step = int(self.max_frame * (1 - self.overlap_ratio))
+                segments = math.ceil((num_frames - self.max_frame) / step) + 1
+            else:
+                segments = 0
+            segments_per_example.append({
+                # "file_path": ex["file_path"], 
+                # "example_index": ex["example_index"],
+                # "num_frames": num_frames,
+                # "room_id": ex["room_id"],
+                # "midi_id": ex["midi_id"],
+                # "pedal_factor": ex["pedal_factor"],
+                "num_segments": segments
+            })
+        return segments_per_example
 
     def filter_examples(self, ex, datasets):
         """
@@ -113,47 +132,11 @@ class PedalDataset(Dataset):
 
     def __len__(self):
         if not self.randomly_sample:
-            return sum(self.segments_per_example)
+            return sum([seg["num_segments"] for seg in self.segments_per_example])
         else:
             return len(self.examples) * self.num_samples_per_clip
-
-    def __getitem__(self, idx):
-        # Map global idx to a specific example and segment.
-        if not self.randomly_sample:
-            running = 0
-            for i, seg_count in enumerate(self.segments_per_example):
-                if idx < running + seg_count:
-                    ex_idx = i
-                    seg_idx = idx - running
-                    break
-                running += seg_count
-            else:
-                raise IndexError("Index out of range in sliding window mode.")
-        else:
-            ex_idx = idx // self.num_samples_per_clip
-            seg_idx = None  # For training, we'll sample a random segment.
-
-        # Get JSON info for this example.
-        ex_info = self.examples[ex_idx]
-        file_path = os.path.join(self.data_dir, ex_info["file_path"])
-        example_index = ex_info["example_index"]
-        num_frames = ex_info["num_frames"]
-        room_id = ex_info["room_id"]
-        midi_id = ex_info["midi_id"]
-        pedal_factor = ex_info["pedal_factor"]
-        # print(file_path, example_index, num_frames, room_id, midi_id, pedal_factor)
-
-        # Determine start_frame and end_frame.
-        if self.randomly_sample:
-            if num_frames > self.max_frame:
-                start_frame = np.random.randint(0, num_frames - self.max_frame)
-            else:
-                start_frame = 0
-            end_frame = start_frame + self.max_frame
-        else: # sliding window
-            step = int(self.max_frame * (1 - self.overlap_ratio))
-            start_frame = seg_idx * step
-            end_frame = min(start_frame + self.max_frame, num_frames)
+        
+    def fetch_segment(self, file_path, example_index, start_frame, end_frame):
 
         # Slice the feature and pedal arrays.
         selected_feature = self.h5fs[file_path]["features"][str(example_index)][
@@ -234,10 +217,67 @@ class PedalDataset(Dataset):
             quantized_pedal_value_masked,
             soft_pedal_onset_masked,
             soft_pedal_offset_masked,
+            loss_mask,
+        )
+
+    def __getitem__(self, idx):
+        # Map global idx to a specific example and segment.
+        if not self.randomly_sample:
+            running = 0
+            for i, example in enumerate(self.segments_per_example):
+                seg_count = example["num_segments"]
+                if idx < running + seg_count:
+                    ex_idx = i
+                    seg_idx = idx - running
+                    break
+                running += seg_count
+            else:
+                raise IndexError("Index out of range in sliding window mode.")
+        else:
+            ex_idx = idx // self.num_samples_per_clip
+            seg_idx = None  # For training, we'll sample a random segment.
+
+        # Get JSON info for this example.
+        ex_info = self.examples[ex_idx]
+        file_path = os.path.join(self.data_dir, ex_info["file_path"])
+        example_index = ex_info["example_index"]
+        num_frames = ex_info["num_frames"]
+        room_id = ex_info["room_id"]
+        midi_id = ex_info["midi_id"]
+        pedal_factor = ex_info["pedal_factor"]
+
+        # Determine start_frame and end_frame.
+        if self.randomly_sample:
+            if num_frames > self.max_frame:
+                start_frame = np.random.randint(0, num_frames - self.max_frame)
+            else:
+                start_frame = 0
+            end_frame = start_frame + self.max_frame
+        else: # sliding window
+            step = int(self.max_frame * (1 - self.overlap_ratio))
+            start_frame = seg_idx * step
+            end_frame = min(start_frame + self.max_frame, num_frames)
+
+        # Fetch the segment.
+        (
+            selected_feature,
+            low_res_label,
+            quantized_pedal_value_masked,
+            soft_pedal_onset_masked,
+            soft_pedal_offset_masked,
+            loss_mask,
+        ) = self.fetch_segment(file_path, example_index, start_frame, end_frame)
+
+        return (
+            selected_feature,
+            low_res_label,
+            quantized_pedal_value_masked,
+            soft_pedal_onset_masked,
+            soft_pedal_offset_masked,
+            loss_mask,
             room_id,
             midi_id,
             pedal_factor,
-            loss_mask,
         )
     
     def pad_data(self, selected_feature, quantized_pedal_value_masked,
@@ -255,3 +295,133 @@ class PedalDataset(Dataset):
             soft_pedal_offset_masked,
             loss_mask
         )
+
+class PedalRoomContrastiveDataset(PedalDataset):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.anchor_examples = [
+            ex for ex in self.examples if ex["pedal_factor"] == 1 and ex["room_id"] != 0
+        ]
+        self.anchor_segments_per_example = self.precompute_segments_per_example(self.anchor_examples)
+
+        print(f"Loaded {len(self.anchor_examples)} anchor examples in total {len(self.examples)}")
+
+    def __len__(self):
+        if not self.randomly_sample:
+            return sum([seg["num_segments"] for seg in self.anchor_segments_per_example])
+        else:
+            return len(self.anchor_examples) * self.num_samples_per_clip
+
+    def __getitem__(self, idx):
+        # Map global idx to a specific example and segment.
+        if not self.randomly_sample:
+            running = 0
+            for i, example in enumerate(self.anchor_segments_per_example):
+                seg_count = example["num_segments"]
+                if idx < running + seg_count:
+                    ex_idx = i
+                    seg_idx = idx - running
+                    break
+                running += seg_count
+            else:
+                raise IndexError("Index out of range in sliding window mode.")
+        else:
+            ex_idx = idx // self.num_samples_per_clip
+            seg_idx = None  # For training, we'll sample a random segment.
+
+        # Get JSON info for this example.
+        ex_info = self.anchor_examples[ex_idx]
+        file_path = os.path.join(self.data_dir, ex_info["file_path"])
+        example_index = ex_info["example_index"]
+        num_frames = ex_info["num_frames"]
+        anchor_room_id = ex_info["room_id"]
+        anchor_midi_id = ex_info["midi_id"]
+        anchor_pedal_factor = ex_info["pedal_factor"]
+
+        # Determine start_frame and end_frame.
+        if self.randomly_sample:
+            if num_frames > self.max_frame:
+                anchor_start_frame = np.random.randint(0, num_frames - self.max_frame)
+            else:
+                anchor_start_frame = 0
+            anchor_end_frame = anchor_start_frame + self.max_frame
+        else: # sliding window
+            step = int(self.max_frame * (1 - self.overlap_ratio))
+            anchor_start_frame = seg_idx * step
+            anchor_end_frame = min(anchor_start_frame + self.max_frame, num_frames)
+
+        # Fetch the segment.
+        (
+            anchor_feature,
+            anchor_low_res_label,
+            anchor_quantized_pedal_value_masked,
+            anchor_soft_pedal_onset_masked,
+            anchor_soft_pedal_offset_masked,
+            anchor_loss_mask,
+        ) = self.fetch_segment(file_path, example_index, anchor_start_frame, anchor_end_frame)
+
+        anchor_sample = (
+            anchor_feature, anchor_low_res_label, anchor_quantized_pedal_value_masked,
+            anchor_soft_pedal_onset_masked, anchor_soft_pedal_offset_masked, anchor_loss_mask,
+            anchor_room_id, anchor_midi_id, anchor_pedal_factor
+        )
+
+        # Select positive and negative samples.
+        positive_sample = self.select_data_sample(anchor_room_id, anchor_midi_id, anchor_start_frame, anchor_end_frame, positive=True)
+        negative_sample = self.select_data_sample(anchor_room_id, anchor_midi_id, anchor_start_frame, anchor_end_frame, positive=False)
+
+        positive_sample = positive_sample if positive_sample is not None else anchor_sample
+        negative_sample = negative_sample if negative_sample is not None else anchor_sample
+
+        # check anchor, positive, and negative samples
+        assert anchor_room_id != positive_sample[6]
+        assert anchor_room_id == negative_sample[6]
+        assert anchor_midi_id == positive_sample[7] == negative_sample[7]
+        assert anchor_pedal_factor == positive_sample[8]
+        assert anchor_pedal_factor != negative_sample[8]
+        assert anchor_pedal_factor == 1
+        # print("Low res label:", anchor_low_res_label, positive_sample[1], negative_sample[1])
+        # for anchor_label, pos_label, neg_label in zip(anchor_quantized_pedal_value_masked, positive_sample[2], negative_sample[2]):
+        #     print(anchor_label, pos_label, neg_label)
+
+        # Return anchor plus positive and negative features for triplet
+        return anchor_sample + positive_sample + negative_sample
+    
+    def select_data_sample(self, room_id, midi_id, start_frame, end_frame, positive=True):
+        """
+        Select a data sample for room contrastive sampling.
+
+        For positive sampling, select a different room with the same midi_id, pedal_factor=1.
+        For negative sampling, select the same room with pedal_factor=0.
+        """
+        if positive:
+            # Select a different room with the same midi_id and pedal_factor=1.
+            positive_candidates = []
+            for ex in self.examples:
+                if ex["room_id"] != room_id and ex["midi_id"] == midi_id and ex["pedal_factor"] == 1:
+                    positive_candidates.append(ex)
+            if len(positive_candidates) == 0:
+                # If no positive sample is found, return the anchor sample.
+                return None
+            positive_example = np.random.choice(positive_candidates)
+            positive_segment = self.fetch_segment(
+                os.path.join(self.data_dir, positive_example["file_path"]),
+                positive_example["example_index"], start_frame, end_frame
+            )
+            return positive_segment + (positive_example["room_id"], positive_example["midi_id"], positive_example["pedal_factor"])
+        else:
+            # Select the same room with pedal_factor=0.
+            negative_candidates = []
+            for ex in self.examples:
+                if ex["room_id"] == room_id and ex["midi_id"] == midi_id and ex["pedal_factor"] == 0:
+                    negative_candidates.append(ex)
+            if len(negative_candidates) == 0:
+                # If no negative sample is found, return the anchor sample.
+                return None
+            negative_example = np.random.choice(negative_candidates)
+            negative_segment = self.fetch_segment(
+                os.path.join(self.data_dir, negative_example["file_path"]),
+                negative_example["example_index"], start_frame, end_frame
+            )
+            return negative_segment + (negative_example["room_id"], negative_example["midi_id"], negative_example["pedal_factor"])

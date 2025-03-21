@@ -5,7 +5,7 @@ import argparse
 from torch.utils.data import DataLoader
 from src.model1 import PedalDetectionModelwithCNN
 from src.model2 import PedalDetectionModelwithCNN1
-from src.dataset_h5 import PedalDataset
+from src.dataset_h5 import PedalDataset, PedalRoomContrastiveDataset
 from src.trainer2 import PedalTrainer2
 from src.utils import get_label_bin_edges
 import functools
@@ -94,25 +94,25 @@ def parse_args():
     parser.add_argument(
         "--global_pedal_ratio",
         type=float,
-        default=0.1,
+        default=0.2,
         help="Global pedal ratio (default: 0.1)",
     )
     parser.add_argument(
         "--pedal_value_ratio",
         type=float,
-        default=0.4,
+        default=0.6,
         help="Pedal value ratio (default: 0.4)",
     )
     parser.add_argument(
         "--pedal_onset_ratio",
         type=float,
-        default=0.2,
+        default=0.1,
         help="Pedal onset ratio (default: 0.2)",
     )
     parser.add_argument(
         "--pedal_offset_ratio",
         type=float,
-        default=0.2,
+        default=0.1,
         help="Pedal offset ratio (default: 0.2)",
     )
     parser.add_argument(
@@ -121,14 +121,20 @@ def parse_args():
     parser.add_argument(
         "--contrastive_ratio",
         type=float,
-        default=0.1,
+        default=0.0,
         help="Contrastive ratio (default: 0.1)",
+    )
+    parser.add_argument(
+        "--room_contrastive_ratio",
+        type=float,
+        default=0.1,
+        help="Room contrastive ratio (default: 0.1)",
     )
     parser.add_argument(
         "--model_version",
         type=str,
-        default="model1",
-        help="Model version (default: model1)",
+        default="model2",
+        help="Model version (default: model2)",
     )
 
     return parser.parse_args()
@@ -194,6 +200,7 @@ def main():
     print(f"Pedal Offset Ratio: {args.pedal_offset_ratio}")
     print(f"Room Ratio: {args.room_ratio}")
     print(f"Contrastive Ratio: {args.contrastive_ratio}")
+    print(f"Room Contrastive Ratio: {args.room_contrastive_ratio}")
     print(f"Model Version: {args.model_version}")
 
     checkpoint_path = args.checkpoint_path
@@ -214,6 +221,7 @@ def main():
     pedal_offset_ratio = args.pedal_offset_ratio
     room_ratio = args.room_ratio
     contrastive_ratio = args.contrastive_ratio
+    room_contrastive_ratio = args.room_contrastive_ratio
     model_version = args.model_version
 
     # WandB
@@ -239,6 +247,7 @@ def main():
             "pedal_offset_ratio": pedal_offset_ratio,
             "room_ratio": room_ratio,
             "contrastive_ratio": contrastive_ratio,
+            "room_contrastive_ratio": room_contrastive_ratio,
             "model_version": model_version,
         }
     )
@@ -272,21 +281,38 @@ def main():
         f.write(f"pedal_offset_ratio: {args.pedal_offset_ratio}\n")
         f.write(f"room_ratio: {args.room_ratio}\n")
         f.write(f"contrastive_ratio: {args.contrastive_ratio}\n")
+        f.write(f"room_contrastive_ratio: {args.room_contrastive_ratio}\n")
         f.write(f"model_version: {args.model_version}\n")
 
     # Dataset and DataLoader
-    train_dataset = PedalDataset(
-        data_list_path="sample_data/train.json",
-        data_dir=data_dir,
-        num_samples_per_clip=num_samples_per_clip,
-        max_frame=max_frame,
-        label_ratio=1.0,
-        label_bin_edges=label_bin_edges,
-        overlap_ratio=0.70,
-        split="train",
-        datasets=datasets,
-        randomly_sample=train_rand_sample,
-    )
+    if args.room_contrastive_ratio > 0.0:
+        print("[INFO] Using PedalRoomContrastiveDataset for triplet contrastive training")
+        train_dataset = PedalRoomContrastiveDataset(
+            data_list_path="sample_data/train.json",
+            data_dir=args.data_dir,
+            num_samples_per_clip=args.num_samples_per_clip,
+            max_frame=args.max_frame,
+            label_ratio=1.0,
+            label_bin_edges=label_bin_edges,
+            overlap_ratio=0.70,
+            split="train",
+            datasets=args.datasets,
+            randomly_sample=args.train_rand_sample,
+        )
+    else:
+        train_dataset = PedalDataset(
+            data_list_path="sample_data/train.json",
+            data_dir=args.data_dir,
+            num_samples_per_clip=args.num_samples_per_clip,
+            max_frame=args.max_frame,
+            label_ratio=1.0,
+            label_bin_edges=label_bin_edges,
+            overlap_ratio=0.70,
+            split="train",
+            datasets=args.datasets,
+            randomly_sample=args.train_rand_sample,
+        )
+
     val_dataset = PedalDataset(
         data_list_path="sample_data/val.json",
         data_dir=data_dir,
@@ -376,22 +402,26 @@ def main():
         print(f"Epoch {e}: lr={optimizer.param_groups[0]['lr']}")
 
     # DataLoader
-    train_dataloader = DataLoader(
-        train_dataset,
-        batch_size=batch_size,
-        shuffle=True,
-        num_workers=16,
-        pin_memory=True,
-        pin_memory_device=device,
-    )
-    val_dataloader = DataLoader(
-        val_dataset,
-        batch_size=batch_size,
-        shuffle=False,
-        num_workers=16,
-        pin_memory=True,
-        pin_memory_device=device,
-    )
+    if device.startswith("cuda"):
+        train_dataloader = DataLoader(
+            train_dataset,
+            batch_size=batch_size,
+            shuffle=True,
+            num_workers=16,
+            pin_memory=True,
+            pin_memory_device=device,
+        )
+        val_dataloader = DataLoader(
+            val_dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            num_workers=16,
+            pin_memory=True,
+            pin_memory_device=device,
+        )
+    else:
+        train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+        val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)   
 
     # Multi-GPU support using DataParallel
     if device.startswith("cuda") and torch.cuda.device_count() > 1:
@@ -430,6 +460,7 @@ def main():
         pedal_offset_ratio=pedal_offset_ratio,
         room_ratio=room_ratio,
         contrastive_ratio=contrastive_ratio,
+        room_contrastive_ratio=room_contrastive_ratio,
         start_epoch=start_epoch,
         start_global_step=start_global_step,
     )

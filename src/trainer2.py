@@ -1,9 +1,9 @@
 import os
 import torch
-import time
 import wandb
 import numpy as np
 from tqdm import tqdm
+from torch.nn import functional as F
 from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import f1_score, mean_squared_error, mean_absolute_error
 
@@ -26,6 +26,7 @@ def room_invariant_contrastive_loss(
     - room_labels: Tensor of shape (bs * seq_len)
     - temperature: Temperature parameter for the softmax
     """
+    print("latent_repr", latent_repr.shape, "pedal_labels", pedal_labels.shape, "room_labels", room_labels.shape)
     bs = room_labels.shape[0]
     # latent_repr: (bs * seq_len, hidden_dim) -> (bs, seq_len, hidden_dim)
     # pedal_labels: (bs * seq_len) -> (bs, seq_len)
@@ -63,6 +64,22 @@ def room_invariant_contrastive_loss(
         / (torch.exp(negative_similarity).sum() + torch.exp(positive_similarity).sum())
     )
 
+    return loss
+
+
+def compute_room_contrastive_loss(anchor, positive, negative, margin=0.01):
+    """
+    Triplet loss enforcing pedal robustness across room acoustics.
+    Args:
+        anchor (Tensor): [bs, hidden_dim]
+        positive (Tensor): [bs, hidden_dim]
+        negative (Tensor): [bs, hidden_dim]
+    Returns:
+        loss (Tensor)
+    """
+    pos_dist = F.pairwise_distance(anchor, positive, p=2)
+    neg_dist = F.pairwise_distance(anchor, negative, p=2)
+    loss = F.relu(pos_dist - neg_dist + margin).mean()
     return loss
 
 
@@ -129,12 +146,13 @@ class PedalTrainer2:
 
     def train(
         self,
-        global_pedal_ratio=0.1,
-        pedal_value_ratio=0.5,
+        global_pedal_ratio=0.2,
+        pedal_value_ratio=0.6,
         pedal_onset_ratio=0.1,
         pedal_offset_ratio=0.1,
-        room_ratio=0.1,
-        contrastive_ratio=0.1,
+        room_ratio=0.0,
+        contrastive_ratio=0.0,
+        room_contrastive_ratio=0.1,
         start_epoch=0,
         start_global_step=-1,
     ):
@@ -153,6 +171,7 @@ class PedalTrainer2:
                 pedal_offset_ratio,
                 room_ratio,
                 contrastive_ratio,
+                room_contrastive_ratio,
             )
             if self.eval_steps == -1 and self.eval_epochs != -1 and (epoch+1) % self.eval_epochs == 0 and epoch != 0:
                 (
@@ -175,6 +194,7 @@ class PedalTrainer2:
                     pedal_offset_ratio,
                     room_ratio,
                     contrastive_ratio,
+                    room_contrastive_ratio,
                 )
                 # Save the model if it is the best
                 if len(self.best_checkpoints) < self.save_total_limit:
@@ -219,17 +239,76 @@ class PedalTrainer2:
                     )
                     best_val_losses.append(val_loss)
 
+    def forward_for_one_batch(self, inputs, global_p_v_labels, p_v_labels, 
+                              p_on_labels, p_off_labels, loss_mask,
+                              room_labels, midi_ids, pedal_factors):
+
+        # Move data to device
+        inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = (
+            inputs.to(self.device),
+            global_p_v_labels.to(self.device),
+            p_v_labels.to(self.device),
+            p_on_labels.to(self.device),
+            p_off_labels.to(self.device),
+            loss_mask.to(self.device),
+        )
+        room_labels, midi_ids, pedal_factors = (
+            room_labels.to(self.device),
+            midi_ids.to(self.device),
+            pedal_factors.to(self.device),
+        )
+
+        self.model.train()
+        (
+            global_p_v_logits,
+            p_v_logits,
+            p_on_logits,
+            p_off_logits,
+            room_logits,
+            latent_repr,
+            mean_latent_repr,
+        ) = self.model(inputs, loss_mask=loss_mask)
+
+        # Apply loss_mask
+        p_v_labels = p_v_labels[loss_mask == 1]
+        p_v_logits = p_v_logits[loss_mask == 1]
+        p_on_labels = p_on_labels[loss_mask == 1]   
+        p_on_logits = p_on_logits[loss_mask == 1]
+        p_off_labels = p_off_labels[loss_mask == 1]
+        p_off_logits = p_off_logits[loss_mask == 1]
+        latent_repr = latent_repr[loss_mask == 1]
+
+        # Pedal classification loss
+        p_v_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
+        p_on_loss = self.bce_criterion(p_on_logits.squeeze(), p_on_labels)
+        p_off_loss = self.bce_criterion(p_off_logits.squeeze(), p_off_labels)
+
+        # Room classification loss
+        room_labels = room_labels.long()
+        room_loss = self.ce_criterion(room_logits.squeeze(), room_labels)
+
+        # Global pedal mse loss
+        global_p_v_loss = self.mse_criterion(
+            global_p_v_logits.squeeze(), global_p_v_labels
+        )
+        global_p_v_loss = global_p_v_loss.sum() / global_p_v_labels.shape[0]
+
+        # Original contrastive loss (pedal-based)
+        contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
+    
+        return global_p_v_loss, p_v_loss, p_on_loss, p_off_loss, room_loss, contrastive_loss_value, mean_latent_repr
+
     def train_one_epoch(
         self,
         epoch,
         global_step=0,
         best_val_losses=[float("inf")],
-        global_pedal_ratio=0.5,
-        pedal_value_ratio=0.7,
+        global_pedal_ratio=0.2,
+        pedal_value_ratio=0.6,
         pedal_onset_ratio=0.1,
         pedal_offset_ratio=0.1,
-        room_ratio=0.1,
-        contrastive_ratio=0.1,
+        room_ratio=0.0,
+        contrastive_ratio=0.0,
         room_contrastive_ratio=0.1,
     ):
         self.model.train()
@@ -246,66 +325,27 @@ class PedalTrainer2:
             p_v_labels,
             p_on_labels,
             p_off_labels,
+            loss_mask,
             room_labels,
             midi_ids,
             pedal_factors,
-            loss_mask,
-        ) in pbar:            
-            # Move data to device
-            inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = (
-                inputs.to(self.device),
-                global_p_v_labels.to(self.device),
-                p_v_labels.to(self.device),
-                p_on_labels.to(self.device),
-                p_off_labels.to(self.device),
-                loss_mask.to(self.device),
-            )
-            room_labels, midi_ids, pedal_factors = (
-                room_labels.to(self.device),
-                midi_ids.to(self.device),
-                pedal_factors.to(self.device),
-            )
-
-            self.model.train()
+            *pair_features,
+        ) in pbar:
+            
+            # Forward pass
             (
-                global_p_v_logits,
-                p_v_logits,
-                p_on_logits,
-                p_off_logits,
-                room_logits,
-                latent_repr,
-            ) = self.model(inputs, loss_mask=loss_mask)
-
-            # Apply loss_mask
-            p_v_labels = p_v_labels[loss_mask == 1]
-            p_v_logits = p_v_logits[loss_mask == 1]
-            p_on_labels = p_on_labels[loss_mask == 1]   
-            p_on_logits = p_on_logits[loss_mask == 1]
-            p_off_labels = p_off_labels[loss_mask == 1]
-            p_off_logits = p_off_logits[loss_mask == 1]
-            latent_repr = latent_repr[loss_mask == 1]
-
-            # Pedal classification loss
-            p_v_loss = self.mse_criterion(p_v_logits.squeeze(), p_v_labels)
-            p_on_loss = self.bce_criterion(p_on_logits.squeeze(), p_on_labels)
-            p_off_loss = self.bce_criterion(p_off_logits.squeeze(), p_off_labels)
-
-            # Room classification loss
-            room_labels = room_labels.long()
-            room_loss = self.ce_criterion(room_logits.squeeze(), room_labels)
-
-            # Global pedal mse loss
-            global_p_v_loss = self.mse_criterion(
-                global_p_v_logits.squeeze(), global_p_v_labels
+                global_p_v_loss, 
+                p_v_loss, 
+                p_on_loss, 
+                p_off_loss, 
+                room_loss, 
+                contrastive_loss_value, 
+                mean_latent_repr
+            ) = self.forward_for_one_batch(
+                inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask,
+                room_labels, midi_ids, pedal_factors
             )
-            global_p_v_loss = global_p_v_loss.sum() / global_p_v_labels.shape[0]
-
-            # Original contrastive loss (pedal-based)
-            contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
-
-            # # New contrastive loss (room-invariant learning)
-            # room_contrastive_loss_value = room_invariant_contrastive_loss(latent_repr, p_v_labels, room_labels)
-
+            room_contrastive_loss_value = torch.tensor(0.0)
             # Total loss
             loss = (
                 global_pedal_ratio * global_p_v_loss
@@ -314,8 +354,47 @@ class PedalTrainer2:
                 + pedal_offset_ratio * p_off_loss
                 + room_ratio * room_loss
                 + contrastive_ratio * contrastive_loss_value
-                # + room_contrastive_ratio * room_contrastive_loss_value
+                + room_contrastive_ratio * room_contrastive_loss_value
             )
+
+            # If room contrastive loss is enabled
+            if room_contrastive_ratio > 0:
+                positive_pairs = pair_features[:9]
+                negative_pairs = pair_features[9:]
+                # forward pass for positive and negative pairs
+                (
+                    positive_global_p_v_loss,
+                    positive_p_v_loss,
+                    positive_p_on_loss,
+                    positive_p_off_loss,
+                    positive_room_loss,
+                    positive_contrastive_loss_value,
+                    positive_mean_latent_repr,
+                ) = self.forward_for_one_batch(*positive_pairs)
+                (
+                    negative_global_p_v_loss,
+                    negative_p_v_loss,
+                    negative_p_on_loss,
+                    negative_p_off_loss,
+                    negative_room_loss,
+                    negative_contrastive_loss_value,
+                    negative_mean_latent_repr,
+                ) = self.forward_for_one_batch(*negative_pairs)
+
+                room_contrastive_loss_value = compute_room_contrastive_loss(
+                    positive_mean_latent_repr, negative_mean_latent_repr, mean_latent_repr
+                )
+
+                loss += (
+                    global_pedal_ratio * (positive_global_p_v_loss + negative_global_p_v_loss)
+                    + pedal_value_ratio * (positive_p_v_loss + negative_p_v_loss)
+                    + pedal_onset_ratio * (positive_p_on_loss + negative_p_on_loss)
+                    + pedal_offset_ratio * (positive_p_off_loss + negative_p_off_loss)
+                    + room_ratio * (positive_room_loss + negative_room_loss)
+                    + contrastive_ratio * (positive_contrastive_loss_value + negative_contrastive_loss_value)
+                )
+                loss /= 3
+                loss += room_contrastive_ratio * room_contrastive_loss_value
 
             self.optimizer.zero_grad()
             loss.backward()
@@ -333,7 +412,7 @@ class PedalTrainer2:
                     f"p_off: {p_off_loss.item():.4f}, "
                     f"room: {room_loss.item():.4f}, "
                     f"p_cntr: {contrastive_loss_value.item():.4f}, "
-                    # f"Room Contrastive Loss: {room_contrastive_loss_value.item():.4f}, "
+                    f"Room Contrastive Loss: {room_contrastive_loss_value.item():.4f}, "
                     f"total: {loss.item():.4f}"
                 )
                 pbar.set_postfix(
@@ -343,6 +422,7 @@ class PedalTrainer2:
                         "p_v": p_v_loss.item(),
                         "p_on": p_on_loss.item(),
                         "p_off": p_off_loss.item(),
+                        "room_cntr": room_contrastive_loss_value.item(),
                         "room": room_loss.item(),
                         "p_cntr": contrastive_loss_value.item(),
                     }
@@ -350,7 +430,7 @@ class PedalTrainer2:
 
                 # Log to TensorBoard
                 self.writer.add_scalars(
-                    "Global Pedal Loss", {"Train": global_p_v_loss.item()}, global_step
+                    "Global Pedal Value Loss", {"Train": global_p_v_loss.item()}, global_step
                 )
                 self.writer.add_scalars(
                     "Pedal Value Loss", {"Train": p_v_loss.item()}, global_step
@@ -367,7 +447,7 @@ class PedalTrainer2:
                     {"Train": contrastive_loss_value.item()},
                     global_step,
                 )
-                # self.writer.add_scalars("Train/Room Contrastive Loss", room_contrastive_loss_value.item(), global_step)
+                self.writer.add_scalars("Room Contrastive Loss", {"Train": room_contrastive_loss_value.item()}, global_step)
                 self.writer.add_scalars("Total Loss", {"Train": loss.item()}, global_step)
 
                 wandb.log(
@@ -376,6 +456,7 @@ class PedalTrainer2:
                         "Pedal Value Loss/Train": p_v_loss.item(),
                         "Pedal Onset Loss/Train": p_on_loss.item(),
                         "Pedal Offset Loss/Train": p_off_loss.item(),
+                        "Room Contrastive Loss/Train": room_contrastive_loss_value.item(),
                         "Room Loss/Train": room_loss.item(),
                         "Pedal Contrastive Loss/Train": contrastive_loss_value.item(),
                         "Total Loss/Train": loss.item(),
@@ -404,6 +485,7 @@ class PedalTrainer2:
                     pedal_offset_ratio,
                     room_ratio,
                     contrastive_ratio,
+                    room_contrastive_ratio,
                 )
                 # Save best model if conditions are met
                 if len(self.best_checkpoints) < self.save_total_limit:
@@ -453,12 +535,12 @@ class PedalTrainer2:
         self,
         epoch,
         global_step=-1,
-        global_pedal_ratio=0.1,
-        pedal_value_ratio=0.5,
+        global_pedal_ratio=0.2,
+        pedal_value_ratio=0.6,
         pedal_onset_ratio=0.1,
         pedal_offset_ratio=0.1,
-        room_ratio=0.1,
-        contrastive_ratio=0.1,
+        room_ratio=0.0,
+        contrastive_ratio=0.0,
         room_contrastive_ratio=0.0,
     ):
         self.model.eval()
@@ -494,10 +576,11 @@ class PedalTrainer2:
                 p_v_labels,
                 p_on_labels,
                 p_off_labels,
+                loss_mask,
                 room_labels,
                 midi_ids,
                 pedal_factors,
-                loss_mask,
+                *_,
             ) in pbar:
                 # Move data to device
                 inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = (
@@ -521,6 +604,7 @@ class PedalTrainer2:
                     p_off_logits,
                     room_logits,
                     latent_repr,
+                    mean_latent_repr,
                 ) = self.model(inputs, loss_mask=loss_mask)
 
                 # calculate valid frame number according to loss_mask
@@ -552,7 +636,6 @@ class PedalTrainer2:
 
                 # Contrastive losses
                 contrastive_loss_value = pedal_contrastive_loss(latent_repr, p_v_labels)
-                # # room_contrastive_loss_value = room_invariant_contrastive_loss(latent_repr, midi_ids, pedal_factors, room_labels)
 
                 # Total loss
                 loss = (
@@ -562,7 +645,6 @@ class PedalTrainer2:
                     + pedal_offset_ratio * pedal_off_loss
                     + room_ratio * room_loss
                     + contrastive_ratio * contrastive_loss_value
-                    # + room_contrastive_ratio * room_contrastive_loss_value
                 )
 
                 val_loss += loss.item()

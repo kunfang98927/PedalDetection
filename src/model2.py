@@ -121,4 +121,4 @@ class PedalDetectionModelwithCNN1(nn.Module):
         else:
             global_p_v_logits = torch.zeros_like(p_v_logits[:, :1]) # Placeholder tensor
 
-        return global_p_v_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr
+        return global_p_v_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr, mean_latent_repr
