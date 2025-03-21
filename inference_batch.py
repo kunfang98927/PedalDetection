@@ -10,6 +10,7 @@ from sklearn.metrics import (
     f1_score,
     mean_squared_error,
 )
+
 from src.model2 import PedalDetectionModelwithCNN1
 from src.dataset_h5 import PedalDataset
 from src.utils import (
@@ -64,7 +65,7 @@ def infer(model, feature, loss_mask, device="cpu"):
             p_on_logits,
             p_off_logits,
             room_logits,
-            latent_repr,
+            *_,
         ) = model(feature, loss_mask=loss_mask)
 
         # pedal value for each frame
@@ -110,6 +111,12 @@ def main():
         help="Dataset name",
     )
     parser.add_argument(
+        "--data_dir",
+        type=str,
+        required=True,
+        help="Path to the data directory",
+    )
+    parser.add_argument(
         "--predict_global_pedal",
         type=bool,
         default=True,
@@ -138,14 +145,19 @@ def main():
     # Parameters
     checkpoint_path = args.checkpoint_path
     datasets = [args.dataset]
+    data_dir = args.data_dir
     predict_global_pedal = args.predict_global_pedal
     predict_pedal_onset = args.predict_pedal_onset
     predict_pedal_offset = args.predict_pedal_offset
     predict_room = args.predict_room
 
     # Get the name of the checkpoint
-    ckpt_name = checkpoint_path.split("/")[-1]
-    result_dir = checkpoint_path.split("/")[0]
+    if "/" in checkpoint_path:
+        ckpt_name = checkpoint_path.split("/")[-1]
+        result_dir = checkpoint_path.split("/")[0]
+    else:
+        ckpt_name = checkpoint_path
+        result_dir = "results"
     result_dir = f"{result_dir}/results"
     print(f"Result directory: {result_dir}")
     os.makedirs(result_dir, exist_ok=True)
@@ -153,6 +165,7 @@ def main():
     with open(report_path, "a") as f:
         f.write(f"checkpoint: {checkpoint_path}\n")
         f.write(f"datasets: {datasets}\n")
+        f.write(f"data_dir: {data_dir}\n")
         f.write(f"predict_global_pedal: {predict_global_pedal}\n")
         f.write(f"predict_pedal_onset: {predict_pedal_onset}\n")
         f.write(f"predict_pedal_offset: {predict_pedal_offset}\n")
@@ -200,7 +213,7 @@ def main():
     # Data loading
     test_dataset = PedalDataset(
         data_list_path="sample_data/test.json",
-        data_dir="/scratch/kunfang/pedal_data/data/",
+        data_dir=data_dir,
         num_samples_per_clip=1,  # num_samples_per_clip,
         max_frame=max_frame,
         label_ratio=1.0,

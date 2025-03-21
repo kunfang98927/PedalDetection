@@ -44,10 +44,13 @@ datasets=(
   "r3-pf0"
 )
 
+# H5 data directory
+data_dir="/scratch/kunfang/pedal_data/data/"
+
 # Loop over each checkpoint and dataset
 for checkpoint in "${checkpoints[@]}"; do
   for dataset in "${datasets[@]}"; do
     echo "Running inference on dataset ${dataset} with checkpoint ${checkpoint}"
-    python inference_batch.py --dataset "${dataset}" --checkpoint_path "${checkpoint}"
+    python inference_batch.py --dataset "${dataset}" --checkpoint_path "${checkpoint}" --data_dir "${data_dir}"
   done
 done
