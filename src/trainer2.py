@@ -94,7 +94,7 @@ def compute_room_contrastive_loss(anchor, positive, negative, margin=0.02):
     pos_dist = F.pairwise_distance(anchor, positive, p=2, eps=1e-8)
     neg_dist = F.pairwise_distance(anchor, negative, p=2, eps=1e-8)
 
-    print(pos_dist - neg_dist)
+    # print(pos_dist - neg_dist)
 
     # Optional: Skip super-easy batches (no learning signal)
     if torch.abs(pos_dist - neg_dist).mean() < 0.002:

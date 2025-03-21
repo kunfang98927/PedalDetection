@@ -148,13 +148,15 @@ def event_f1_score(pred_events, label_events, tolerance=0.07):
 def calculate_result(all_labels, all_preds, title="p_v", report_path=None):
     print(f"+++++++++++++++++++++ {title} +++++++++++++++++++++")
     print(all_labels.shape, all_preds.shape)
-    print("MAE:", mean_absolute_error(all_labels, all_preds))
-    print("MSE:", mean_squared_error(all_labels, all_preds))
+    mae = mean_absolute_error(all_labels, all_preds)
+    mse = mean_squared_error(all_labels, all_preds)
+    print("MAE:", mae)
+    print("MSE:", mse)
 
     with open(report_path, "a") as f:
-        print(f"+++++++++++++++++++++ {title} +++++++++++++++++++++")
-        f.write(f"MAE: {mean_absolute_error(all_labels, all_preds)}\n")
-        f.write(f"MSE: {mean_squared_error(all_labels, all_preds)}\n")
+        f.write(f"+++++++++++++++++++++ {title} +++++++++++++++++++++\n")
+        f.write(f"MAE: {mae}\n")
+        f.write(f"MSE: {mse}\n")
 
     if title == "p_v":
         label_bin_edges_list = [
@@ -247,7 +249,7 @@ def sliding_window_normalize(a, window_size):
 
 def main():
 
-    ckpt_dir = "ckpt-0317_real_mlp_simplest-withbach/results"
+    ckpt_dir = "ckpt-0317_real_mlp_simplest_onoff/results"
     report_path = f"{ckpt_dir}/report.txt"
 
     all_p_v_labels = np.load(f"{ckpt_dir}/p_v_labels_test_set.npy")
@@ -298,5 +300,5 @@ def main():
     )
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

@@ -1,27 +1,26 @@
 import os
 import torch
+import argparse
 import numpy as np
-import seaborn as sns
 from tqdm import tqdm
-import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from sklearn.metrics import (
     mean_absolute_error,
     classification_report,
-    confusion_matrix,
     f1_score,
     mean_squared_error,
 )
 from src.model2 import PedalDetectionModelwithCNN1
 from src.dataset_h5 import PedalDataset
 from src.utils import (
-    load_data,
-    split_data,
     get_label_bin_edges,
-    load_data_real_audio,
-    split_data_real_audio,
     plot_pedal_pred,
 )
+from calculate_metric import calculate_result, plot_all_pred
+
+import functools
+
+print = functools.partial(print, flush=True)
 
 
 def load_model(
@@ -96,16 +95,53 @@ def infer(model, feature, loss_mask, device="cpu"):
 
 
 def main():
+
+    parser = argparse.ArgumentParser(description="Pedal model inference arguments")
+    parser.add_argument(
+        "--checkpoint_path",
+        type=str,
+        required=True,
+        help="Path to the checkpoint file",
+    )
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        required=True,
+        help="Dataset name",
+    )
+    parser.add_argument(
+        "--predict_global_pedal",
+        type=bool,
+        default=True,
+        help="Predict global pedal value",
+    )
+    parser.add_argument(
+        "--predict_pedal_onset",
+        type=bool,
+        default=True,
+        help="Predict pedal onset",
+    )
+    parser.add_argument(
+        "--predict_pedal_offset",
+        type=bool,
+        default=True,
+        help="Predict pedal offset",
+    )
+    parser.add_argument(
+        "--predict_room",
+        type=bool,
+        default=False,
+        help="Predict room",
+    )
+
+    args = parser.parse_args()
     # Parameters
-    # checkpoint_path = "ckpt_0303_10per-clip-500frm_bs32_no-onoff_sbatch/model_epoch_450_val_loss_0.1921_f1_0.6449_mae_0.1736.pt"
-    # checkpoint_path = "ckpt_0306_10per-clip-500frm_bs32_onoff_sbatch_resume/model_epoch_500_val_loss_0.6021_f1_0.8045_mae_0.1605.pt" # best 1st model
-    # checkpoint_path = "ckpt_0306_10per-clip-500frm_bs32_onoff-bce_sbatch/model_epoch_370_val_loss_0.1002_f1_0.7635_mae_0.1544.pt"  # best 2nd model
-    checkpoint_path = "ckpt-0317_real_mlp_simplest_onoff/model_epoch_2_step_24000_val_loss_0.0425_f1_0.8444_mae_0.1555.pt"
-    datasets = ["r0-pf1"]
-    predict_global_pedal = True
-    predict_pedal_onset = True
-    predict_pedal_offset = True
-    predict_room = False
+    checkpoint_path = args.checkpoint_path
+    datasets = [args.dataset]
+    predict_global_pedal = args.predict_global_pedal
+    predict_pedal_onset = args.predict_pedal_onset
+    predict_pedal_offset = args.predict_pedal_offset
+    predict_room = args.predict_room
 
     # Get the name of the checkpoint
     ckpt_name = checkpoint_path.split("/")[-1]
@@ -113,10 +149,14 @@ def main():
     result_dir = f"{result_dir}/results"
     print(f"Result directory: {result_dir}")
     os.makedirs(result_dir, exist_ok=True)
-    report_path = f"{result_dir}/report.txt"
+    report_path = f"{result_dir}/report-{datasets[0]}-{ckpt_name}.txt"
     with open(report_path, "a") as f:
         f.write(f"checkpoint: {checkpoint_path}\n")
         f.write(f"datasets: {datasets}\n")
+        f.write(f"predict_global_pedal: {predict_global_pedal}\n")
+        f.write(f"predict_pedal_onset: {predict_pedal_onset}\n")
+        f.write(f"predict_pedal_offset: {predict_pedal_offset}\n")
+        f.write(f"predict_room: {predict_room}\n")
 
     feature_dim = 249
     max_frame = 500
@@ -303,11 +343,11 @@ def main():
     all_p_v_preds = np.concatenate(all_p_v_preds)
     print(all_p_v_labels.shape, all_p_v_preds.shape)
     np.save(
-        f"{result_dir}/p_v_labels_test_set.npy",
+        f"{result_dir}/p_v_labels_test_set_{datasets[0]}.npy",
         all_p_v_labels,
     )
     np.save(
-        f"{result_dir}/p_v_preds_test_set.npy",
+        f"{result_dir}/p_v_preds_test_set_{datasets[0]}.npy",
         all_p_v_preds,
     )
 
@@ -316,11 +356,11 @@ def main():
     all_p_onset_preds = np.concatenate(all_p_onset_preds)
     print(all_p_onset_labels.shape, all_p_onset_preds.shape)
     np.save(
-        f"{result_dir}/p_onset_labels_test_set.npy",
+        f"{result_dir}/p_onset_labels_test_set_{datasets[0]}.npy",
         all_p_onset_labels,
     )
     np.save(
-        f"{result_dir}/p_onset_preds_test_set.npy",
+        f"{result_dir}/p_onset_preds_test_set_{datasets[0]}.npy",
         all_p_onset_preds,
     )
 
@@ -329,11 +369,11 @@ def main():
     all_p_offset_preds = np.concatenate(all_p_offset_preds)
     print(all_p_offset_labels.shape, all_p_offset_preds.shape)
     np.save(
-        f"{result_dir}/p_offset_labels_test_set.npy",
+        f"{result_dir}/p_offset_labels_test_set_{datasets[0]}.npy",
         all_p_offset_labels,
     )
     np.save(
-        f"{result_dir}/p_offset_preds_test_set.npy",
+        f"{result_dir}/p_offset_preds_test_set_{datasets[0]}.npy",
         all_p_offset_preds,
     )
 
@@ -342,11 +382,11 @@ def main():
     all_global_p_preds = np.concatenate(all_global_p_preds)
     print(all_global_p_labels.shape, all_global_p_preds.shape)
     np.save(
-        f"{result_dir}/global_p_labels_test_set.npy",
+        f"{result_dir}/global_p_labels_test_set_{datasets[0]}.npy",
         all_global_p_labels,
     )
     np.save(
-        f"{result_dir}/global_p_preds_test_set.npy",
+        f"{result_dir}/global_p_preds_test_set_{datasets[0]}.npy",
         all_global_p_preds,
     )
 
@@ -355,11 +395,11 @@ def main():
     all_room_preds = np.concatenate(all_room_preds)
     print(all_room_labels.shape, all_room_preds.shape)
     np.save(
-        f"{result_dir}/room_labels_test_set.npy",
+        f"{result_dir}/room_labels_test_set_{datasets[0]}.npy",
         all_room_labels,
     )
     np.save(
-        f"{result_dir}/room_preds_test_set.npy",
+        f"{result_dir}/room_preds_test_set_{datasets[0]}.npy",
         all_room_preds,
     )
 
@@ -400,27 +440,50 @@ def main():
         all_global_p_labels,
         all_global_p_preds,
         f"{result_dir}/pedal_pred-global_{ckpt_name}.png",
-        img_num_frames=800,
+        img_num_frames=1000,
     )
     plot_pedal_pred(
         all_p_v_labels,
         all_p_v_preds,
         f"{result_dir}/pedal_pred-p_v_{ckpt_name}.png",
-        img_num_frames=800,
+        img_num_frames=1000,
     )
     plot_pedal_pred(
         all_p_onset_labels,
         all_p_onset_preds,
         f"{result_dir}/pedal_pred-p_on_{ckpt_name}.png",
-        img_num_frames=800,
+        img_num_frames=1000,
     )
     plot_pedal_pred(
         all_p_offset_labels,
         all_p_offset_preds,
         f"{result_dir}/pedal_pred-p_off_{ckpt_name}.png",
-        img_num_frames=800,
+        img_num_frames=1000,
     )
 
+    # Calculate evaluation metrics for pedal value, pedal onset, and pedal offset
+    all_p_v_labels = all_p_v_labels.flatten()
+    all_p_v_preds = all_p_v_preds.flatten()
+    all_p_onset_labels = all_p_onset_labels.flatten()
+    all_p_onset_preds = all_p_onset_preds.flatten()
+    all_p_offset_labels = all_p_offset_labels.flatten()
+    all_p_offset_preds = all_p_offset_preds.flatten()
+
+    calculate_result(all_p_v_labels, all_p_v_preds, "p_v", report_path)
+    calculate_result(all_p_onset_labels, all_p_onset_preds, "p_on", report_path)
+    calculate_result(all_p_offset_labels, all_p_offset_preds, "p_off", report_path)
+
+    plot_all_pred(
+        all_p_v_labels,
+        all_p_v_preds,
+        all_p_onset_labels,
+        all_p_onset_preds,
+        all_p_offset_labels,
+        all_p_offset_preds,
+        "p_v_on_off",
+        img_num_frames=1000,
+        save_dir=result_dir,
+    )
 
 if __name__ == "__main__":
     main()
