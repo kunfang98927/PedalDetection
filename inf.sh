@@ -16,7 +16,6 @@ source env/bin/activate
 
 pip list
 
-
 # List of checkpoint paths
 checkpoints=(
   # "ckpt-0319_real_onoff/model_epoch_3_step_42000_val_loss_0.0490_f1_0.8713_mae_0.1427.pt"

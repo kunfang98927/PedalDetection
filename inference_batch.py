@@ -253,10 +253,10 @@ def main():
         p_v_labels,
         p_on_labels,
         p_off_labels,
+        loss_mask,
         room_labels,
         midi_ids,
         pedal_factors,
-        _,
     ) in tqdm(test_dataloader):
         inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels = (
             inputs.to(device),
