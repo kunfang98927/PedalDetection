@@ -371,16 +371,17 @@ class PedalRoomContrastiveDataset(PedalDataset):
         positive_sample = self.select_data_sample(anchor_room_id, anchor_midi_id, anchor_start_frame, anchor_end_frame, positive=True)
         negative_sample = self.select_data_sample(anchor_room_id, anchor_midi_id, anchor_start_frame, anchor_end_frame, positive=False)
 
+        # check anchor, positive, and negative samples
+        assert anchor_room_id != positive_sample[6] if positive_sample is not None else True
+        assert anchor_room_id == negative_sample[6] if negative_sample is not None else True
+        assert anchor_midi_id == positive_sample[7] == negative_sample[7] if positive_sample is not None and negative_sample is not None else True
+        assert anchor_pedal_factor == positive_sample[8] if positive_sample is not None else True
+        assert anchor_pedal_factor != negative_sample[8] if negative_sample is not None else True
+        assert anchor_pedal_factor == 1 if positive_sample is not None else True
+
         positive_sample = positive_sample if positive_sample is not None else anchor_sample
         negative_sample = negative_sample if negative_sample is not None else anchor_sample
 
-        # check anchor, positive, and negative samples
-        assert anchor_room_id != positive_sample[6]
-        assert anchor_room_id == negative_sample[6]
-        assert anchor_midi_id == positive_sample[7] == negative_sample[7]
-        assert anchor_pedal_factor == positive_sample[8]
-        assert anchor_pedal_factor != negative_sample[8]
-        assert anchor_pedal_factor == 1
         # print("Low res label:", anchor_low_res_label, positive_sample[1], negative_sample[1])
         # for anchor_label, pos_label, neg_label in zip(anchor_quantized_pedal_value_masked, positive_sample[2], negative_sample[2]):
         #     print(anchor_label, pos_label, neg_label)

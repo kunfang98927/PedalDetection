@@ -66,23 +66,41 @@ def room_invariant_contrastive_loss(
 
     return loss
 
+# def compute_room_contrastive_loss(anchor, positive, negative, margin=0.02):
+#     """
+#     Contrastive loss using cosine similarity (scale-invariant).
+#     Args:
+#         anchor, positive, negative: [bs, hidden_dim]
+#     """
+#     cos = torch.nn.CosineSimilarity(dim=1)
 
-def compute_room_contrastive_loss(anchor, positive, negative, margin=0.01, use_soft_margin=True):
-    anchor = F.normalize(anchor, p=2, dim=1)
-    positive = F.normalize(positive, p=2, dim=1)
-    negative = F.normalize(negative, p=2, dim=1)
+#     pos_sim = cos(anchor, positive)  # Higher is better
+#     neg_sim = cos(anchor, negative)  # Lower is better
+
+#     # Optional: Print similarity for debugging
+#     print("pos_sim - neg_sim:", pos_sim.mean().item() - neg_sim.mean().item())
+
+#     # Cosine similarity is [-1, 1], so you flip the margin logic
+#     loss = F.relu(neg_sim - pos_sim + margin).mean()
+#     return loss
+
+
+def compute_room_contrastive_loss(anchor, positive, negative, margin=0.02):
+    scale_factor = 10.0  # Scale up to strengthen gradients
+    anchor = anchor * scale_factor
+    positive = positive * scale_factor
+    negative = negative * scale_factor
 
     pos_dist = F.pairwise_distance(anchor, positive, p=2, eps=1e-8)
     neg_dist = F.pairwise_distance(anchor, negative, p=2, eps=1e-8)
 
-    pos_dist = torch.clamp(pos_dist, min=1e-6)
-    neg_dist = torch.clamp(neg_dist, min=1e-6)
+    print(pos_dist - neg_dist)
 
-    if use_soft_margin:
-        loss = torch.log1p(torch.exp(pos_dist - neg_dist)).mean()
-    else:
-        loss = F.relu(pos_dist - neg_dist + margin).mean()
+    # Optional: Skip super-easy batches (no learning signal)
+    if torch.abs(pos_dist - neg_dist).mean() < 0.002:
+        return torch.tensor(0.0, requires_grad=True).to(anchor.device)
 
+    loss = F.relu(pos_dist - neg_dist + margin).mean()
     return loss
 
 
