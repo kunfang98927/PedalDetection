@@ -5,6 +5,7 @@ import argparse
 from torch.utils.data import DataLoader
 from src.model1 import PedalDetectionModelwithCNN
 from src.model2 import PedalDetectionModelwithCNN1
+from src.model3 import PedalDetectionModelContrastive
 from src.dataset_h5 import PedalDataset, PedalRoomContrastiveDataset
 from src.trainer2 import PedalTrainer2
 from src.utils import get_label_bin_edges
@@ -358,6 +359,19 @@ def main():
             predict_pedal_offset=True if pedal_offset_ratio > 0 else False,
             predict_room=True if room_ratio > 0 else False,
         )
+    elif model_version == "model3":
+        model = PedalDetectionModelContrastive(
+            input_dim=feature_dim,
+            hidden_dim=256,
+            num_heads=8,
+            ff_dim=1024,  # 256,
+            num_layers=8,
+            num_classes=num_classes,
+            predict_global_pedal=True if global_pedal_ratio > 0 else False,
+            predict_pedal_onset=True if pedal_onset_ratio > 0 else False,
+            predict_pedal_offset=True if pedal_offset_ratio > 0 else False,
+            predict_room=True if room_ratio > 0 else False,
+        )
     print(model)
     # print trainable parameters number
     print("Trainable parameters:", sum(p.numel() for p in model.parameters() if p.requires_grad))
@@ -442,7 +456,7 @@ def main():
         optimizer=optimizer,
         scheduler=scheduler,
         device="cuda" if torch.cuda.is_available() else "cpu",
-        logging_steps=50,
+        logging_steps=5,
         eval_steps=eval_steps,
         eval_epochs=eval_epochs,
         save_total_limit=10,

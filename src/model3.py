@@ -11,7 +11,7 @@ from .transformer import (
 from .cnn_block import CNNBlock
 
 
-class PedalDetectionModelwithCNN1(nn.Module):
+class PedalDetectionModelContrastive(nn.Module):
     def __init__(
         self,
         input_dim,
