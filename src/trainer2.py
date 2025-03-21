@@ -67,19 +67,22 @@ def room_invariant_contrastive_loss(
     return loss
 
 
-def compute_room_contrastive_loss(anchor, positive, negative, margin=0.01):
-    """
-    Triplet loss enforcing pedal robustness across room acoustics.
-    Args:
-        anchor (Tensor): [bs, hidden_dim]
-        positive (Tensor): [bs, hidden_dim]
-        negative (Tensor): [bs, hidden_dim]
-    Returns:
-        loss (Tensor)
-    """
-    pos_dist = F.pairwise_distance(anchor, positive, p=2)
-    neg_dist = F.pairwise_distance(anchor, negative, p=2)
-    loss = F.relu(pos_dist - neg_dist + margin).mean()
+def compute_room_contrastive_loss(anchor, positive, negative, margin=0.01, use_soft_margin=True):
+    anchor = F.normalize(anchor, p=2, dim=1)
+    positive = F.normalize(positive, p=2, dim=1)
+    negative = F.normalize(negative, p=2, dim=1)
+
+    pos_dist = F.pairwise_distance(anchor, positive, p=2, eps=1e-8)
+    neg_dist = F.pairwise_distance(anchor, negative, p=2, eps=1e-8)
+
+    pos_dist = torch.clamp(pos_dist, min=1e-6)
+    neg_dist = torch.clamp(neg_dist, min=1e-6)
+
+    if use_soft_margin:
+        loss = torch.log1p(torch.exp(pos_dist - neg_dist)).mean()
+    else:
+        loss = F.relu(pos_dist - neg_dist + margin).mean()
+
     return loss
 
 
