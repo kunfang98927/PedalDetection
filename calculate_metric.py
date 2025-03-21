@@ -160,8 +160,8 @@ def calculate_result(all_labels, all_preds, title="p_v", report_path=None):
 
     if title == "p_v":
         label_bin_edges_list = [
-            [0, 11, 128],
-            [0, 11, 95, 128],
+            # [0, 11, 128],
+            # [0, 11, 95, 128],
             [0, 64, 128],
             [0, 32, 64, 96, 128],
         ]
