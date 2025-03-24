@@ -11,6 +11,17 @@ from .transformer import (
 from .cnn_block import CNNBlock
 
 
+class GradReverse(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, x, lambd=1.0):
+        ctx.lambd = lambd
+        return x.view_as(x)
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        return -ctx.lambd * grad_output, None
+
+
 class PedalDetectionModelwithCNN1(nn.Module):
     def __init__(
         self,
@@ -25,6 +36,7 @@ class PedalDetectionModelwithCNN1(nn.Module):
         predict_pedal_onset=False,
         predict_pedal_offset=False,
         predict_global_pedal=True,
+        room_classes=4,
     ):
         super().__init__()
 
@@ -53,13 +65,16 @@ class PedalDetectionModelwithCNN1(nn.Module):
         if predict_pedal_offset:
             self.pedal_offset_output_layer = self._build_mlp(hidden_dim, 1)
         if predict_room:
-            self.room_head = self._build_mlp(hidden_dim, 4)
+            self.room_head = self._build_mlp(hidden_dim, room_classes)
 
         print("Optional predictions:")
         print(f"Predict Global Pedal: {predict_global_pedal}")
         print(f"Predict Pedal Onset: {predict_pedal_onset}")
         print(f"Predict Pedal Offset: {predict_pedal_offset}")
         print(f"Predict Room: {predict_room}")
+        if predict_room:
+            print(f"Room Classes: {room_classes}")
+        self.room_classes = room_classes
 
     def _build_mlp(self, input_dim, output_dim, dropout=0.1):
         """Helper function to build a two-layer MLP with ReLU and dropout."""
@@ -113,8 +128,9 @@ class PedalDetectionModelwithCNN1(nn.Module):
 
         if room_logits is not None:
             room_logits = room_logits(mean_latent_repr)
+            # room_logits = room_logits(GradReverse.apply(mean_latent_repr))
         else:
-            room_logits = torch.zeros_like(p_v_logits[:, :4]) # Placeholder tensor
+            room_logits = torch.zeros_like(p_v_logits[:, :self.room_classes]) # Placeholder tensor
 
         if global_p_v_logits is not None:
             global_p_v_logits = global_p_v_logits(mean_latent_repr)

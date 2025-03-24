@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader
 from src.model1 import PedalDetectionModelwithCNN
 from src.model2 import PedalDetectionModelwithCNN1
 from src.model3 import PedalDetectionModelContrastive
+from src.model2_room_cond import PedalDetectionModelwithCNN_RoomCond
 from src.dataset_h5 import PedalDataset, PedalRoomContrastiveDataset
 from src.trainer2 import PedalTrainer2
 from src.utils import get_label_bin_edges
@@ -71,7 +72,7 @@ def parse_args():
         help="Evaluate every N steps (default: -1)",
     )
     parser.add_argument(
-        "--feature_dim", type=int, default=249, help="Feature dimension (default: 249)"
+        "--feature_dim", type=int, default=229, help="Feature dimension (default: 249)"
     )
     parser.add_argument(
         "--max_frame", type=int, default=500, help="Maximum frame length (default: 500)"
@@ -136,6 +137,12 @@ def parse_args():
         type=str,
         default="model2",
         help="Model version (default: model2)",
+    )
+    parser.add_argument(
+        "--room_classes",
+        type=int,
+        default=4,
+        help="Number of room classes (default: 4)",
     )
 
     return parser.parse_args()
@@ -203,6 +210,7 @@ def main():
     print(f"Contrastive Ratio: {args.contrastive_ratio}")
     print(f"Room Contrastive Ratio: {args.room_contrastive_ratio}")
     print(f"Model Version: {args.model_version}")
+    print(f"Room Classes: {args.room_classes}")
 
     checkpoint_path = args.checkpoint_path
     data_dir = args.data_dir
@@ -224,6 +232,7 @@ def main():
     contrastive_ratio = args.contrastive_ratio
     room_contrastive_ratio = args.room_contrastive_ratio
     model_version = args.model_version
+    room_classes = args.room_classes
 
     # WandB
     wandb.init(
@@ -250,6 +259,7 @@ def main():
             "contrastive_ratio": contrastive_ratio,
             "room_contrastive_ratio": room_contrastive_ratio,
             "model_version": model_version,
+            "room_classes": room_classes,
         }
     )
 
@@ -284,6 +294,7 @@ def main():
         f.write(f"contrastive_ratio: {args.contrastive_ratio}\n")
         f.write(f"room_contrastive_ratio: {args.room_contrastive_ratio}\n")
         f.write(f"model_version: {args.model_version}\n")
+        f.write(f"room_classes: {args.room_classes}\n")
 
     # Dataset and DataLoader
     if args.room_contrastive_ratio > 0.0:
@@ -312,6 +323,7 @@ def main():
             split="train",
             datasets=args.datasets,
             randomly_sample=args.train_rand_sample,
+            feature_dim=feature_dim,
         )
 
     val_dataset = PedalDataset(
@@ -325,6 +337,7 @@ def main():
         split="validation",
         datasets=[df for df in datasets if "pf0" not in df],  # not evaluate pf=0
         randomly_sample=False,
+        feature_dim=feature_dim,
     )
     print("Train dataset size:", len(train_dataset))
     print("Val dataset size:", len(val_dataset))
@@ -358,6 +371,7 @@ def main():
             predict_pedal_onset=True if pedal_onset_ratio > 0 else False,
             predict_pedal_offset=True if pedal_offset_ratio > 0 else False,
             predict_room=True if room_ratio > 0 else False,
+            room_classes=room_classes,
         )
     elif model_version == "model3":
         model = PedalDetectionModelContrastive(
@@ -371,6 +385,20 @@ def main():
             predict_pedal_onset=True if pedal_onset_ratio > 0 else False,
             predict_pedal_offset=True if pedal_offset_ratio > 0 else False,
             predict_room=True if room_ratio > 0 else False,
+        )
+    elif model_version == "model_condition":
+        model = PedalDetectionModelwithCNN_RoomCond(
+            input_dim=feature_dim,
+            hidden_dim=256,
+            num_heads=8,
+            ff_dim=1024,  # 256,
+            num_layers=8,
+            num_classes=num_classes,
+            predict_global_pedal=True if global_pedal_ratio > 0 else False,
+            predict_pedal_onset=True if pedal_onset_ratio > 0 else False,
+            predict_pedal_offset=True if pedal_offset_ratio > 0 else False,
+            predict_room=True if room_ratio > 0 else False,
+            room_classes=room_classes,
         )
     print(model)
     # print trainable parameters number

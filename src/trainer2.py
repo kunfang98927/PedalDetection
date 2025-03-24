@@ -12,95 +12,84 @@ import functools
 print = functools.partial(print, flush=True)
 
 
-def room_invariant_contrastive_loss(
-    latent_repr, pedal_labels, room_labels, temperature=0.07
-):
+def safe_normalize(x):
+    """Avoid divide-by-zero or NaN."""
+    norm = torch.norm(x, p=2, dim=1, keepdim=True).clamp(min=1e-6)
+    return x / norm
+
+def compute_room_contrastive_loss(anchor, positive, negative, 
+                                  base_margin=0.1, layer_idx=0, total_layers=8, 
+                                  use_cosine=True):
     """
-    Apply contrastive loss by selecting pairs where:
-    - If room acoustics are different but pedal values are the same, the latent representations should be close
-    - If room acoustics are the same but pedal values are different, the latent representations should be far
-
-    Args:
-    - latent_repr: Tensor of shape (bs * seq_len, hidden_dim)
-    - pedal_labels: Tensor of shape (bs * seq_len)
-    - room_labels: Tensor of shape (bs * seq_len)
-    - temperature: Temperature parameter for the softmax
+    Contrastive loss for room robustness, designed for per-layer application.
+    - Margin decays per layer
+    - Safe normalization and clamping
+    - Optional L2 or Cosine mode
+    - Softplus for stability
     """
-    print("latent_repr", latent_repr.shape, "pedal_labels", pedal_labels.shape, "room_labels", room_labels.shape)
-    bs = room_labels.shape[0]
-    # latent_repr: (bs * seq_len, hidden_dim) -> (bs, seq_len, hidden_dim)
-    # pedal_labels: (bs * seq_len) -> (bs, seq_len)
-    latent_repr = latent_repr.view(bs, -1, latent_repr.shape[-1])
-    pedal_labels = pedal_labels.view(bs, -1)
+    # Margin decay based on depth
+    margin = base_margin * ((layer_idx + 1) / total_layers)
 
-    print(
-        latent_repr.shape, pedal_labels.shape, room_labels.shape
-    )  # (bs, seq_len, hidden_dim), (bs, seq_len), (bs, )
-    print("room_labels", room_labels)
+    # print min & max for debugging
+    if torch.isnan(anchor).any() or torch.isinf(anchor).any() or torch.isnan(positive).any() or torch.isinf(positive).any() or torch.isnan(negative).any() or torch.isinf(negative).any():
+        print(f"0 - Layer {layer_idx}, anchor min: {anchor.min().item()}, anchor max: {anchor.max().item()}")
+        print(f"0 - Layer {layer_idx}, positive min: {positive.min().item()}, positive max: {positive.max().item()}")
+        print(f"0 - Layer {layer_idx}, negative min: {negative.min().item()}, negative max: {negative.max().item()}")
 
-    # Compute the pairwise similarity matrix
-    similarity = torch.matmul(latent_repr, latent_repr.permute(0, 2, 1)) / temperature
-    similarity = (
-        similarity - torch.eye(similarity.size(1), device=latent_repr.device) * 1e9
-    )
+    # Clamp to prevent inf
+    anchor = torch.clamp(anchor, min=-5.0, max=5.0)
+    positive = torch.clamp(positive, min=-5.0, max=5.0)
+    negative = torch.clamp(negative, min=-5.0, max=5.0)
+    if torch.isnan(anchor).any() or torch.isinf(anchor).any() or \
+    torch.isnan(positive).any() or torch.isinf(positive).any() or \
+    torch.isnan(negative).any() or torch.isinf(negative).any():
+        print(f"[Warning] NaN or Inf detected BEFORE loss calc at layer {layer_idx}")
+        
+        # Auto-fix
+        anchor = torch.nan_to_num(anchor, nan=0.0, posinf=0.0, neginf=0.0)
+        positive = torch.nan_to_num(positive, nan=0.0, posinf=0.0, neginf=0.0)
+        negative = torch.nan_to_num(negative, nan=0.0, posinf=0.0, neginf=0.0)
 
-    # Positive mask
-    pedal_labels = pedal_labels.unsqueeze(2) == pedal_labels.unsqueeze(1)
-    room_labels = room_labels.unsqueeze(2) == room_labels.unsqueeze(1)
-    positive_mask = pedal_labels & room_labels
+    # print min & max for debugging
+    if torch.isnan(anchor).any() or torch.isinf(anchor).any() or torch.isnan(positive).any() or torch.isinf(positive).any() or torch.isnan(negative).any() or torch.isinf(negative).any():
+        print(f"1 - Layer {layer_idx}, anchor min: {anchor.min().item()}, anchor max: {anchor.max().item()}")
+        print(f"1 - Layer {layer_idx}, positive min: {positive.min().item()}, positive max: {positive.max().item()}")
+        print(f"1 - Layer {layer_idx}, negative min: {negative.min().item()}, negative max: {negative.max().item()}")
 
-    # Negative mask
-    negative_mask = ~positive_mask
+    # Safe normalization
+    anchor = safe_normalize(anchor)
+    positive = safe_normalize(positive)
+    negative = safe_normalize(negative)
 
-    # Positive similarity
-    positive_similarity = similarity[positive_mask]
+    # print min & max for debugging
+    if torch.isnan(anchor).any() or torch.isinf(anchor).any() or torch.isnan(positive).any() or torch.isinf(positive).any() or torch.isnan(negative).any() or torch.isinf(negative).any():
+        print(f"2 - Layer {layer_idx}, anchor min: {anchor.min().item()}, anchor max: {anchor.max().item()}")
+        print(f"2 - Layer {layer_idx}, positive min: {positive.min().item()}, positive max: {positive.max().item()}")
+        print(f"2 - Layer {layer_idx}, negative min: {negative.min().item()}, negative max: {negative.max().item()}")
 
-    # Negative similarity
-    negative_similarity = similarity[negative_mask]
+    # Debug check for NaN / Inf before computation
+    if torch.isnan(positive).any() or torch.isinf(positive).any() or torch.isnan(negative).any() or torch.isinf(negative).any() or torch.isnan(anchor).any() or torch.isinf(anchor).any():
+        print(f"[Warning] NaN or Inf detected in positive at layer {layer_idx}")
+        return torch.tensor(0.0, requires_grad=True, device=anchor.device)
 
-    # Compute the loss
-    loss = -torch.log(
-        torch.exp(positive_similarity).sum()
-        / (torch.exp(negative_similarity).sum() + torch.exp(positive_similarity).sum())
-    )
+    if use_cosine:
+        pos_sim = F.cosine_similarity(anchor, positive, dim=1)
+        neg_sim = F.cosine_similarity(anchor, negative, dim=1)
+        loss = F.softplus(neg_sim - pos_sim + margin).mean()
 
-    return loss
+        # print(f"[DEBUG] Layer {layer_idx}, margin={margin:.4f}, neg_sim - pos_sim: {(neg_sim - pos_sim).mean().item():.4f}")
+    else:
+        pos_dist = F.pairwise_distance(anchor, positive, p=2, eps=1e-8)
+        neg_dist = F.pairwise_distance(anchor, negative, p=2, eps=1e-8)
+        loss = F.softplus(pos_dist - neg_dist + margin).mean()
 
-# def compute_room_contrastive_loss(anchor, positive, negative, margin=0.02):
-#     """
-#     Contrastive loss using cosine similarity (scale-invariant).
-#     Args:
-#         anchor, positive, negative: [bs, hidden_dim]
-#     """
-#     cos = torch.nn.CosineSimilarity(dim=1)
+        # print(f"[DEBUG] Layer {layer_idx}, margin={margin:.4f}, pos_dist - neg_dist: {(pos_dist - neg_dist).mean().item():.4f}")
 
-#     pos_sim = cos(anchor, positive)  # Higher is better
-#     neg_sim = cos(anchor, negative)  # Lower is better
+    # Final NaN check
+    if torch.isnan(loss) or torch.isinf(loss):
+        print(f"[Warning] Contrastive loss unstable at layer {layer_idx}, skipping. Loss={loss.item()}")
+        return torch.tensor(0.0, requires_grad=True, device=anchor.device)
 
-#     # Optional: Print similarity for debugging
-#     print("pos_sim - neg_sim:", pos_sim.mean().item() - neg_sim.mean().item())
-
-#     # Cosine similarity is [-1, 1], so you flip the margin logic
-#     loss = F.relu(neg_sim - pos_sim + margin).mean()
-#     return loss
-
-
-def compute_room_contrastive_loss(anchor, positive, negative, margin=0.02):
-    scale_factor = 10.0  # Scale up to strengthen gradients
-    anchor = anchor * scale_factor
-    positive = positive * scale_factor
-    negative = negative * scale_factor
-
-    pos_dist = F.pairwise_distance(anchor, positive, p=2, eps=1e-8)
-    neg_dist = F.pairwise_distance(anchor, negative, p=2, eps=1e-8)
-
-    # print(pos_dist - neg_dist)
-
-    # Optional: Skip super-easy batches (no learning signal)
-    if torch.abs(pos_dist - neg_dist).mean() < 0.002:
-        return torch.tensor(0.0, requires_grad=True).to(anchor.device)
-
-    loss = F.relu(pos_dist - neg_dist + margin).mean()
     return loss
 
 
@@ -366,7 +355,7 @@ class PedalTrainer2:
                 inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask,
                 room_labels, midi_ids, pedal_factors
             )
-            room_contrastive_loss_value = torch.tensor(0.0)
+            room_contrastive_loss_value = torch.tensor(0.0).to(self.device)
             # Total loss
             loss = (
                 global_pedal_ratio * global_p_v_loss
@@ -402,9 +391,18 @@ class PedalTrainer2:
                     negative_mean_latent_repr,
                 ) = self.forward_for_one_batch(*negative_pairs)
 
-                room_contrastive_loss_value = compute_room_contrastive_loss(
-                    positive_mean_latent_repr, negative_mean_latent_repr, mean_latent_repr
-                )
+                for layer_id, (pos_repr, neg_repr, mean_repr) in enumerate(zip(positive_mean_latent_repr, 
+                                                                             negative_mean_latent_repr, 
+                                                                             mean_latent_repr)):
+                    if layer_id < 4:
+                        continue
+                    room_contrastive_loss_value += compute_room_contrastive_loss(
+                        mean_repr, pos_repr, neg_repr, layer_idx=layer_id
+                    )
+                room_contrastive_loss_value /= 4 # 8 layers
+                # room_contrastive_loss_value = compute_room_contrastive_loss(
+                #     mean_latent_repr[-1], positive_mean_latent_repr[-1], negative_mean_latent_repr[-1], layer_idx=7
+                # )    
 
                 loss += (
                     global_pedal_ratio * (positive_global_p_v_loss + negative_global_p_v_loss)

@@ -9862,5 +9862,2837 @@
     "room_id": 0,
     "midi_id": 1278,
     "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 0,
+    "num_frames": 16820,
+    "room_id": 4,
+    "midi_id": 7,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 1,
+    "num_frames": 16669,
+    "room_id": 5,
+    "midi_id": 7,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 2,
+    "num_frames": 14301,
+    "room_id": 4,
+    "midi_id": 9,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 3,
+    "num_frames": 14250,
+    "room_id": 5,
+    "midi_id": 9,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 4,
+    "num_frames": 48073,
+    "room_id": 4,
+    "midi_id": 33,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 5,
+    "num_frames": 48079,
+    "room_id": 5,
+    "midi_id": 33,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 6,
+    "num_frames": 43184,
+    "room_id": 4,
+    "midi_id": 34,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 7,
+    "num_frames": 43121,
+    "room_id": 5,
+    "midi_id": 34,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 8,
+    "num_frames": 52328,
+    "room_id": 4,
+    "midi_id": 35,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 9,
+    "num_frames": 52315,
+    "room_id": 5,
+    "midi_id": 35,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 10,
+    "num_frames": 52185,
+    "room_id": 4,
+    "midi_id": 36,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 11,
+    "num_frames": 52201,
+    "room_id": 5,
+    "midi_id": 36,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 12,
+    "num_frames": 85619,
+    "room_id": 4,
+    "midi_id": 52,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 13,
+    "num_frames": 85450,
+    "room_id": 5,
+    "midi_id": 52,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 14,
+    "num_frames": 27547,
+    "room_id": 4,
+    "midi_id": 54,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 15,
+    "num_frames": 27348,
+    "room_id": 5,
+    "midi_id": 54,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 16,
+    "num_frames": 13809,
+    "room_id": 4,
+    "midi_id": 57,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 17,
+    "num_frames": 13611,
+    "room_id": 5,
+    "midi_id": 57,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 18,
+    "num_frames": 21215,
+    "room_id": 4,
+    "midi_id": 67,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 19,
+    "num_frames": 21045,
+    "room_id": 5,
+    "midi_id": 67,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 20,
+    "num_frames": 35335,
+    "room_id": 4,
+    "midi_id": 75,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 21,
+    "num_frames": 35244,
+    "room_id": 5,
+    "midi_id": 75,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 22,
+    "num_frames": 74319,
+    "room_id": 4,
+    "midi_id": 76,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 23,
+    "num_frames": 74096,
+    "room_id": 5,
+    "midi_id": 76,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 24,
+    "num_frames": 25266,
+    "room_id": 4,
+    "midi_id": 78,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 25,
+    "num_frames": 25267,
+    "room_id": 5,
+    "midi_id": 78,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 26,
+    "num_frames": 94716,
+    "room_id": 4,
+    "midi_id": 88,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 27,
+    "num_frames": 94481,
+    "room_id": 5,
+    "midi_id": 88,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 28,
+    "num_frames": 7061,
+    "room_id": 4,
+    "midi_id": 96,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 29,
+    "num_frames": 6818,
+    "room_id": 5,
+    "midi_id": 96,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 30,
+    "num_frames": 21019,
+    "room_id": 4,
+    "midi_id": 97,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 31,
+    "num_frames": 20961,
+    "room_id": 5,
+    "midi_id": 97,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 32,
+    "num_frames": 15010,
+    "room_id": 4,
+    "midi_id": 98,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 33,
+    "num_frames": 14965,
+    "room_id": 5,
+    "midi_id": 98,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 34,
+    "num_frames": 24560,
+    "room_id": 4,
+    "midi_id": 104,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 35,
+    "num_frames": 24441,
+    "room_id": 5,
+    "midi_id": 104,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 36,
+    "num_frames": 13991,
+    "room_id": 4,
+    "midi_id": 108,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 37,
+    "num_frames": 13800,
+    "room_id": 5,
+    "midi_id": 108,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 38,
+    "num_frames": 14229,
+    "room_id": 4,
+    "midi_id": 113,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 39,
+    "num_frames": 14033,
+    "room_id": 5,
+    "midi_id": 113,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 40,
+    "num_frames": 14419,
+    "room_id": 4,
+    "midi_id": 114,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 41,
+    "num_frames": 14268,
+    "room_id": 5,
+    "midi_id": 114,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 42,
+    "num_frames": 21861,
+    "room_id": 4,
+    "midi_id": 118,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 43,
+    "num_frames": 21772,
+    "room_id": 5,
+    "midi_id": 118,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 44,
+    "num_frames": 21980,
+    "room_id": 4,
+    "midi_id": 119,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 45,
+    "num_frames": 21896,
+    "room_id": 5,
+    "midi_id": 119,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 46,
+    "num_frames": 9875,
+    "room_id": 4,
+    "midi_id": 120,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 47,
+    "num_frames": 9751,
+    "room_id": 5,
+    "midi_id": 120,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 48,
+    "num_frames": 24195,
+    "room_id": 4,
+    "midi_id": 121,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 49,
+    "num_frames": 24102,
+    "room_id": 5,
+    "midi_id": 121,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 50,
+    "num_frames": 19967,
+    "room_id": 4,
+    "midi_id": 124,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 51,
+    "num_frames": 19791,
+    "room_id": 5,
+    "midi_id": 124,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 52,
+    "num_frames": 37808,
+    "room_id": 4,
+    "midi_id": 125,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 53,
+    "num_frames": 37626,
+    "room_id": 5,
+    "midi_id": 125,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 54,
+    "num_frames": 66713,
+    "room_id": 4,
+    "midi_id": 130,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 55,
+    "num_frames": 66465,
+    "room_id": 5,
+    "midi_id": 130,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 56,
+    "num_frames": 22300,
+    "room_id": 4,
+    "midi_id": 167,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 57,
+    "num_frames": 22240,
+    "room_id": 5,
+    "midi_id": 167,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 58,
+    "num_frames": 17530,
+    "room_id": 4,
+    "midi_id": 172,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 59,
+    "num_frames": 17372,
+    "room_id": 5,
+    "midi_id": 172,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 60,
+    "num_frames": 22238,
+    "room_id": 4,
+    "midi_id": 175,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 61,
+    "num_frames": 22148,
+    "room_id": 5,
+    "midi_id": 175,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 62,
+    "num_frames": 23770,
+    "room_id": 4,
+    "midi_id": 176,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 63,
+    "num_frames": 23708,
+    "room_id": 5,
+    "midi_id": 176,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 64,
+    "num_frames": 16589,
+    "room_id": 4,
+    "midi_id": 177,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 65,
+    "num_frames": 16437,
+    "room_id": 5,
+    "midi_id": 177,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 66,
+    "num_frames": 15948,
+    "room_id": 4,
+    "midi_id": 179,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 67,
+    "num_frames": 15796,
+    "room_id": 5,
+    "midi_id": 179,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 68,
+    "num_frames": 63915,
+    "room_id": 4,
+    "midi_id": 209,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 69,
+    "num_frames": 63664,
+    "room_id": 5,
+    "midi_id": 209,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 70,
+    "num_frames": 65124,
+    "room_id": 4,
+    "midi_id": 210,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 71,
+    "num_frames": 64907,
+    "room_id": 5,
+    "midi_id": 210,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 72,
+    "num_frames": 99986,
+    "room_id": 4,
+    "midi_id": 224,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 73,
+    "num_frames": 99768,
+    "room_id": 5,
+    "midi_id": 224,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 74,
+    "num_frames": 98126,
+    "room_id": 4,
+    "midi_id": 238,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 75,
+    "num_frames": 97914,
+    "room_id": 5,
+    "midi_id": 238,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 76,
+    "num_frames": 26082,
+    "room_id": 4,
+    "midi_id": 258,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 77,
+    "num_frames": 25893,
+    "room_id": 5,
+    "midi_id": 258,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 78,
+    "num_frames": 30940,
+    "room_id": 4,
+    "midi_id": 259,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 79,
+    "num_frames": 30773,
+    "room_id": 5,
+    "midi_id": 259,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 80,
+    "num_frames": 23963,
+    "room_id": 4,
+    "midi_id": 260,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 81,
+    "num_frames": 23731,
+    "room_id": 5,
+    "midi_id": 260,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 82,
+    "num_frames": 60956,
+    "room_id": 4,
+    "midi_id": 261,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 83,
+    "num_frames": 60933,
+    "room_id": 5,
+    "midi_id": 261,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 84,
+    "num_frames": 26249,
+    "room_id": 4,
+    "midi_id": 265,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 85,
+    "num_frames": 26227,
+    "room_id": 5,
+    "midi_id": 265,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 86,
+    "num_frames": 32160,
+    "room_id": 4,
+    "midi_id": 273,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 87,
+    "num_frames": 31935,
+    "room_id": 5,
+    "midi_id": 273,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 88,
+    "num_frames": 30359,
+    "room_id": 4,
+    "midi_id": 274,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 89,
+    "num_frames": 30118,
+    "room_id": 5,
+    "midi_id": 274,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 90,
+    "num_frames": 35954,
+    "room_id": 4,
+    "midi_id": 275,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 91,
+    "num_frames": 35740,
+    "room_id": 5,
+    "midi_id": 275,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 92,
+    "num_frames": 38738,
+    "room_id": 4,
+    "midi_id": 277,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 93,
+    "num_frames": 38685,
+    "room_id": 5,
+    "midi_id": 277,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 94,
+    "num_frames": 27196,
+    "room_id": 4,
+    "midi_id": 287,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 95,
+    "num_frames": 26941,
+    "room_id": 5,
+    "midi_id": 287,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 96,
+    "num_frames": 27983,
+    "room_id": 4,
+    "midi_id": 296,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 97,
+    "num_frames": 27725,
+    "room_id": 5,
+    "midi_id": 296,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 98,
+    "num_frames": 24015,
+    "room_id": 4,
+    "midi_id": 297,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 99,
+    "num_frames": 24001,
+    "room_id": 5,
+    "midi_id": 297,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 100,
+    "num_frames": 120998,
+    "room_id": 4,
+    "midi_id": 298,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 101,
+    "num_frames": 120784,
+    "room_id": 5,
+    "midi_id": 298,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 102,
+    "num_frames": 38153,
+    "room_id": 4,
+    "midi_id": 320,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 103,
+    "num_frames": 37894,
+    "room_id": 5,
+    "midi_id": 320,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 104,
+    "num_frames": 33430,
+    "room_id": 4,
+    "midi_id": 321,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 105,
+    "num_frames": 33186,
+    "room_id": 5,
+    "midi_id": 321,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 106,
+    "num_frames": 40692,
+    "room_id": 4,
+    "midi_id": 345,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 107,
+    "num_frames": 40485,
+    "room_id": 5,
+    "midi_id": 345,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 108,
+    "num_frames": 34772,
+    "room_id": 4,
+    "midi_id": 346,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 109,
+    "num_frames": 34531,
+    "room_id": 5,
+    "midi_id": 346,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 110,
+    "num_frames": 11818,
+    "room_id": 4,
+    "midi_id": 347,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 111,
+    "num_frames": 11628,
+    "room_id": 5,
+    "midi_id": 347,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 112,
+    "num_frames": 35912,
+    "room_id": 4,
+    "midi_id": 348,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 113,
+    "num_frames": 35644,
+    "room_id": 5,
+    "midi_id": 348,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 114,
+    "num_frames": 37241,
+    "room_id": 4,
+    "midi_id": 349,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 115,
+    "num_frames": 37030,
+    "room_id": 5,
+    "midi_id": 349,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 116,
+    "num_frames": 42115,
+    "room_id": 4,
+    "midi_id": 355,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 117,
+    "num_frames": 42094,
+    "room_id": 5,
+    "midi_id": 355,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 118,
+    "num_frames": 32492,
+    "room_id": 4,
+    "midi_id": 356,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 119,
+    "num_frames": 32431,
+    "room_id": 5,
+    "midi_id": 356,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 120,
+    "num_frames": 90822,
+    "room_id": 4,
+    "midi_id": 377,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 121,
+    "num_frames": 90553,
+    "room_id": 5,
+    "midi_id": 377,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 122,
+    "num_frames": 34572,
+    "room_id": 4,
+    "midi_id": 378,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 123,
+    "num_frames": 34511,
+    "room_id": 5,
+    "midi_id": 378,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 124,
+    "num_frames": 34277,
+    "room_id": 4,
+    "midi_id": 383,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 125,
+    "num_frames": 34111,
+    "room_id": 5,
+    "midi_id": 383,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 126,
+    "num_frames": 31397,
+    "room_id": 4,
+    "midi_id": 392,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 127,
+    "num_frames": 31165,
+    "room_id": 5,
+    "midi_id": 392,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 128,
+    "num_frames": 137668,
+    "room_id": 4,
+    "midi_id": 397,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 129,
+    "num_frames": 137421,
+    "room_id": 5,
+    "midi_id": 397,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 130,
+    "num_frames": 70877,
+    "room_id": 4,
+    "midi_id": 424,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 131,
+    "num_frames": 70784,
+    "room_id": 5,
+    "midi_id": 424,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 132,
+    "num_frames": 54368,
+    "room_id": 4,
+    "midi_id": 425,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 133,
+    "num_frames": 54184,
+    "room_id": 5,
+    "midi_id": 425,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 134,
+    "num_frames": 53360,
+    "room_id": 4,
+    "midi_id": 427,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 135,
+    "num_frames": 53125,
+    "room_id": 5,
+    "midi_id": 427,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 136,
+    "num_frames": 158757,
+    "room_id": 4,
+    "midi_id": 452,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 137,
+    "num_frames": 158792,
+    "room_id": 5,
+    "midi_id": 452,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 138,
+    "num_frames": 44653,
+    "room_id": 4,
+    "midi_id": 479,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 139,
+    "num_frames": 44515,
+    "room_id": 5,
+    "midi_id": 479,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 140,
+    "num_frames": 126713,
+    "room_id": 4,
+    "midi_id": 480,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 141,
+    "num_frames": 126509,
+    "room_id": 5,
+    "midi_id": 480,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 142,
+    "num_frames": 20711,
+    "room_id": 4,
+    "midi_id": 484,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 143,
+    "num_frames": 20744,
+    "room_id": 5,
+    "midi_id": 484,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 144,
+    "num_frames": 19260,
+    "room_id": 4,
+    "midi_id": 486,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 145,
+    "num_frames": 19126,
+    "room_id": 5,
+    "midi_id": 486,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 146,
+    "num_frames": 25399,
+    "room_id": 4,
+    "midi_id": 488,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 147,
+    "num_frames": 25145,
+    "room_id": 5,
+    "midi_id": 488,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 148,
+    "num_frames": 16004,
+    "room_id": 4,
+    "midi_id": 554,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 149,
+    "num_frames": 15744,
+    "room_id": 5,
+    "midi_id": 554,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 150,
+    "num_frames": 14102,
+    "room_id": 4,
+    "midi_id": 555,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 151,
+    "num_frames": 13830,
+    "room_id": 5,
+    "midi_id": 555,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 152,
+    "num_frames": 15547,
+    "room_id": 4,
+    "midi_id": 556,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 153,
+    "num_frames": 15288,
+    "room_id": 5,
+    "midi_id": 556,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 154,
+    "num_frames": 16283,
+    "room_id": 4,
+    "midi_id": 557,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 155,
+    "num_frames": 16010,
+    "room_id": 5,
+    "midi_id": 557,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 156,
+    "num_frames": 14298,
+    "room_id": 4,
+    "midi_id": 558,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 157,
+    "num_frames": 14062,
+    "room_id": 5,
+    "midi_id": 558,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 158,
+    "num_frames": 12847,
+    "room_id": 4,
+    "midi_id": 607,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 159,
+    "num_frames": 12650,
+    "room_id": 5,
+    "midi_id": 607,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 160,
+    "num_frames": 24399,
+    "room_id": 4,
+    "midi_id": 618,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 161,
+    "num_frames": 24306,
+    "room_id": 5,
+    "midi_id": 618,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 162,
+    "num_frames": 29606,
+    "room_id": 4,
+    "midi_id": 619,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 163,
+    "num_frames": 29472,
+    "room_id": 5,
+    "midi_id": 619,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 164,
+    "num_frames": 35056,
+    "room_id": 4,
+    "midi_id": 628,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 165,
+    "num_frames": 35025,
+    "room_id": 5,
+    "midi_id": 628,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 166,
+    "num_frames": 35614,
+    "room_id": 4,
+    "midi_id": 629,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 167,
+    "num_frames": 35539,
+    "room_id": 5,
+    "midi_id": 629,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 168,
+    "num_frames": 30503,
+    "room_id": 4,
+    "midi_id": 632,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 169,
+    "num_frames": 30389,
+    "room_id": 5,
+    "midi_id": 632,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 170,
+    "num_frames": 23345,
+    "room_id": 4,
+    "midi_id": 636,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 171,
+    "num_frames": 23338,
+    "room_id": 5,
+    "midi_id": 636,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 172,
+    "num_frames": 42804,
+    "room_id": 4,
+    "midi_id": 637,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 173,
+    "num_frames": 42613,
+    "room_id": 5,
+    "midi_id": 637,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 174,
+    "num_frames": 66578,
+    "room_id": 4,
+    "midi_id": 638,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 175,
+    "num_frames": 66425,
+    "room_id": 5,
+    "midi_id": 638,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 176,
+    "num_frames": 46183,
+    "room_id": 4,
+    "midi_id": 639,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 177,
+    "num_frames": 45944,
+    "room_id": 5,
+    "midi_id": 639,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 178,
+    "num_frames": 38553,
+    "room_id": 4,
+    "midi_id": 640,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 179,
+    "num_frames": 38303,
+    "room_id": 5,
+    "midi_id": 640,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 180,
+    "num_frames": 78241,
+    "room_id": 4,
+    "midi_id": 641,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 181,
+    "num_frames": 78055,
+    "room_id": 5,
+    "midi_id": 641,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 182,
+    "num_frames": 67424,
+    "room_id": 4,
+    "midi_id": 642,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 183,
+    "num_frames": 67312,
+    "room_id": 5,
+    "midi_id": 642,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 184,
+    "num_frames": 72753,
+    "room_id": 4,
+    "midi_id": 643,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 185,
+    "num_frames": 72679,
+    "room_id": 5,
+    "midi_id": 643,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 186,
+    "num_frames": 78328,
+    "room_id": 4,
+    "midi_id": 644,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 187,
+    "num_frames": 78206,
+    "room_id": 5,
+    "midi_id": 644,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 188,
+    "num_frames": 61483,
+    "room_id": 4,
+    "midi_id": 647,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 189,
+    "num_frames": 61296,
+    "room_id": 5,
+    "midi_id": 647,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 190,
+    "num_frames": 50069,
+    "room_id": 4,
+    "midi_id": 648,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 191,
+    "num_frames": 49831,
+    "room_id": 5,
+    "midi_id": 648,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 192,
+    "num_frames": 146543,
+    "room_id": 4,
+    "midi_id": 677,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 193,
+    "num_frames": 146322,
+    "room_id": 5,
+    "midi_id": 677,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 194,
+    "num_frames": 113166,
+    "room_id": 4,
+    "midi_id": 678,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 195,
+    "num_frames": 112917,
+    "room_id": 5,
+    "midi_id": 678,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 196,
+    "num_frames": 30857,
+    "room_id": 4,
+    "midi_id": 692,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 197,
+    "num_frames": 30708,
+    "room_id": 5,
+    "midi_id": 692,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 198,
+    "num_frames": 44761,
+    "room_id": 4,
+    "midi_id": 731,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 199,
+    "num_frames": 44789,
+    "room_id": 5,
+    "midi_id": 731,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 200,
+    "num_frames": 30090,
+    "room_id": 4,
+    "midi_id": 741,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 201,
+    "num_frames": 29999,
+    "room_id": 5,
+    "midi_id": 741,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 202,
+    "num_frames": 23013,
+    "room_id": 4,
+    "midi_id": 742,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 203,
+    "num_frames": 22939,
+    "room_id": 5,
+    "midi_id": 742,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 204,
+    "num_frames": 23493,
+    "room_id": 4,
+    "midi_id": 755,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 205,
+    "num_frames": 23427,
+    "room_id": 5,
+    "midi_id": 755,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 206,
+    "num_frames": 21125,
+    "room_id": 4,
+    "midi_id": 756,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 207,
+    "num_frames": 20970,
+    "room_id": 5,
+    "midi_id": 756,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 208,
+    "num_frames": 42433,
+    "room_id": 4,
+    "midi_id": 763,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 209,
+    "num_frames": 42225,
+    "room_id": 5,
+    "midi_id": 763,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 210,
+    "num_frames": 36400,
+    "room_id": 4,
+    "midi_id": 768,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 211,
+    "num_frames": 36280,
+    "room_id": 5,
+    "midi_id": 768,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 212,
+    "num_frames": 38454,
+    "room_id": 4,
+    "midi_id": 786,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 213,
+    "num_frames": 38293,
+    "room_id": 5,
+    "midi_id": 786,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 214,
+    "num_frames": 17796,
+    "room_id": 4,
+    "midi_id": 788,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 215,
+    "num_frames": 17692,
+    "room_id": 5,
+    "midi_id": 788,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 216,
+    "num_frames": 21415,
+    "room_id": 4,
+    "midi_id": 789,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 217,
+    "num_frames": 21235,
+    "room_id": 5,
+    "midi_id": 789,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 218,
+    "num_frames": 23312,
+    "room_id": 4,
+    "midi_id": 799,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 219,
+    "num_frames": 23171,
+    "room_id": 5,
+    "midi_id": 799,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 220,
+    "num_frames": 39214,
+    "room_id": 4,
+    "midi_id": 802,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 221,
+    "num_frames": 39059,
+    "room_id": 5,
+    "midi_id": 802,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 222,
+    "num_frames": 20557,
+    "room_id": 4,
+    "midi_id": 809,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 223,
+    "num_frames": 20356,
+    "room_id": 5,
+    "midi_id": 809,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 224,
+    "num_frames": 22209,
+    "room_id": 4,
+    "midi_id": 828,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 225,
+    "num_frames": 22041,
+    "room_id": 5,
+    "midi_id": 828,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 226,
+    "num_frames": 27921,
+    "room_id": 4,
+    "midi_id": 846,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 227,
+    "num_frames": 27819,
+    "room_id": 5,
+    "midi_id": 846,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 228,
+    "num_frames": 27362,
+    "room_id": 4,
+    "midi_id": 847,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 229,
+    "num_frames": 27315,
+    "room_id": 5,
+    "midi_id": 847,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 230,
+    "num_frames": 27239,
+    "room_id": 4,
+    "midi_id": 848,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 231,
+    "num_frames": 27197,
+    "room_id": 5,
+    "midi_id": 848,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 232,
+    "num_frames": 144981,
+    "room_id": 4,
+    "midi_id": 884,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 233,
+    "num_frames": 144787,
+    "room_id": 5,
+    "midi_id": 884,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 234,
+    "num_frames": 30365,
+    "room_id": 4,
+    "midi_id": 905,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 235,
+    "num_frames": 30105,
+    "room_id": 5,
+    "midi_id": 905,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 236,
+    "num_frames": 30419,
+    "room_id": 4,
+    "midi_id": 922,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 237,
+    "num_frames": 30224,
+    "room_id": 5,
+    "midi_id": 922,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 238,
+    "num_frames": 32213,
+    "room_id": 4,
+    "midi_id": 923,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 239,
+    "num_frames": 32013,
+    "room_id": 5,
+    "midi_id": 923,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 240,
+    "num_frames": 32528,
+    "room_id": 4,
+    "midi_id": 924,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 241,
+    "num_frames": 32393,
+    "room_id": 5,
+    "midi_id": 924,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 242,
+    "num_frames": 27684,
+    "room_id": 4,
+    "midi_id": 927,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 243,
+    "num_frames": 27415,
+    "room_id": 5,
+    "midi_id": 927,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 244,
+    "num_frames": 30403,
+    "room_id": 4,
+    "midi_id": 929,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 245,
+    "num_frames": 30193,
+    "room_id": 5,
+    "midi_id": 929,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 246,
+    "num_frames": 19105,
+    "room_id": 4,
+    "midi_id": 937,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 247,
+    "num_frames": 18901,
+    "room_id": 5,
+    "midi_id": 937,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 248,
+    "num_frames": 36495,
+    "room_id": 4,
+    "midi_id": 952,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 249,
+    "num_frames": 36240,
+    "room_id": 5,
+    "midi_id": 952,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 250,
+    "num_frames": 34377,
+    "room_id": 4,
+    "midi_id": 953,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 251,
+    "num_frames": 34119,
+    "room_id": 5,
+    "midi_id": 953,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 252,
+    "num_frames": 28286,
+    "room_id": 4,
+    "midi_id": 954,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 253,
+    "num_frames": 28040,
+    "room_id": 5,
+    "midi_id": 954,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 254,
+    "num_frames": 40858,
+    "room_id": 4,
+    "midi_id": 959,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 255,
+    "num_frames": 40769,
+    "room_id": 5,
+    "midi_id": 959,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 256,
+    "num_frames": 45855,
+    "room_id": 4,
+    "midi_id": 960,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 257,
+    "num_frames": 45708,
+    "room_id": 5,
+    "midi_id": 960,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 258,
+    "num_frames": 28563,
+    "room_id": 4,
+    "midi_id": 961,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 259,
+    "num_frames": 28335,
+    "room_id": 5,
+    "midi_id": 961,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 260,
+    "num_frames": 31008,
+    "room_id": 4,
+    "midi_id": 962,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 261,
+    "num_frames": 30798,
+    "room_id": 5,
+    "midi_id": 962,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 262,
+    "num_frames": 28814,
+    "room_id": 4,
+    "midi_id": 963,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 263,
+    "num_frames": 28571,
+    "room_id": 5,
+    "midi_id": 963,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 264,
+    "num_frames": 28170,
+    "room_id": 4,
+    "midi_id": 964,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 265,
+    "num_frames": 27945,
+    "room_id": 5,
+    "midi_id": 964,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 266,
+    "num_frames": 87880,
+    "room_id": 4,
+    "midi_id": 965,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 267,
+    "num_frames": 87795,
+    "room_id": 5,
+    "midi_id": 965,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 268,
+    "num_frames": 35705,
+    "room_id": 4,
+    "midi_id": 974,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 269,
+    "num_frames": 35452,
+    "room_id": 5,
+    "midi_id": 974,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 270,
+    "num_frames": 35727,
+    "room_id": 4,
+    "midi_id": 975,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 271,
+    "num_frames": 35468,
+    "room_id": 5,
+    "midi_id": 975,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 272,
+    "num_frames": 121171,
+    "room_id": 4,
+    "midi_id": 976,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 273,
+    "num_frames": 120915,
+    "room_id": 5,
+    "midi_id": 976,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 274,
+    "num_frames": 35842,
+    "room_id": 4,
+    "midi_id": 977,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 275,
+    "num_frames": 35581,
+    "room_id": 5,
+    "midi_id": 977,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 276,
+    "num_frames": 43536,
+    "room_id": 4,
+    "midi_id": 1017,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 277,
+    "num_frames": 43290,
+    "room_id": 5,
+    "midi_id": 1017,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 278,
+    "num_frames": 45104,
+    "room_id": 4,
+    "midi_id": 1018,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 279,
+    "num_frames": 44850,
+    "room_id": 5,
+    "midi_id": 1018,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 280,
+    "num_frames": 89769,
+    "room_id": 4,
+    "midi_id": 1019,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 281,
+    "num_frames": 89724,
+    "room_id": 5,
+    "midi_id": 1019,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 282,
+    "num_frames": 45522,
+    "room_id": 4,
+    "midi_id": 1020,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 283,
+    "num_frames": 45275,
+    "room_id": 5,
+    "midi_id": 1020,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 284,
+    "num_frames": 27654,
+    "room_id": 4,
+    "midi_id": 1036,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 285,
+    "num_frames": 27426,
+    "room_id": 5,
+    "midi_id": 1036,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 286,
+    "num_frames": 24103,
+    "room_id": 4,
+    "midi_id": 1037,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 287,
+    "num_frames": 23881,
+    "room_id": 5,
+    "midi_id": 1037,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 288,
+    "num_frames": 92628,
+    "room_id": 4,
+    "midi_id": 1044,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 289,
+    "num_frames": 92381,
+    "room_id": 5,
+    "midi_id": 1044,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 290,
+    "num_frames": 112375,
+    "room_id": 4,
+    "midi_id": 1048,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 291,
+    "num_frames": 112136,
+    "room_id": 5,
+    "midi_id": 1048,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 292,
+    "num_frames": 42792,
+    "room_id": 4,
+    "midi_id": 1056,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 293,
+    "num_frames": 42543,
+    "room_id": 5,
+    "midi_id": 1056,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 294,
+    "num_frames": 75888,
+    "room_id": 4,
+    "midi_id": 1062,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 295,
+    "num_frames": 75627,
+    "room_id": 5,
+    "midi_id": 1062,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 296,
+    "num_frames": 50791,
+    "room_id": 4,
+    "midi_id": 1132,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 297,
+    "num_frames": 50767,
+    "room_id": 5,
+    "midi_id": 1132,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 298,
+    "num_frames": 43323,
+    "room_id": 4,
+    "midi_id": 1133,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 299,
+    "num_frames": 43219,
+    "room_id": 5,
+    "midi_id": 1133,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 300,
+    "num_frames": 64008,
+    "room_id": 4,
+    "midi_id": 1152,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 301,
+    "num_frames": 63961,
+    "room_id": 5,
+    "midi_id": 1152,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 302,
+    "num_frames": 130835,
+    "room_id": 4,
+    "midi_id": 1154,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 303,
+    "num_frames": 130594,
+    "room_id": 5,
+    "midi_id": 1154,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 304,
+    "num_frames": 44107,
+    "room_id": 4,
+    "midi_id": 1162,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 305,
+    "num_frames": 44003,
+    "room_id": 5,
+    "midi_id": 1162,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 306,
+    "num_frames": 31452,
+    "room_id": 4,
+    "midi_id": 1178,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 307,
+    "num_frames": 31327,
+    "room_id": 5,
+    "midi_id": 1178,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 308,
+    "num_frames": 40774,
+    "room_id": 4,
+    "midi_id": 1179,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 309,
+    "num_frames": 40605,
+    "room_id": 5,
+    "midi_id": 1179,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 310,
+    "num_frames": 29623,
+    "room_id": 4,
+    "midi_id": 1180,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 311,
+    "num_frames": 29527,
+    "room_id": 5,
+    "midi_id": 1180,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 312,
+    "num_frames": 31586,
+    "room_id": 4,
+    "midi_id": 1181,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 313,
+    "num_frames": 31417,
+    "room_id": 5,
+    "midi_id": 1181,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 314,
+    "num_frames": 39525,
+    "room_id": 4,
+    "midi_id": 1182,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 315,
+    "num_frames": 39398,
+    "room_id": 5,
+    "midi_id": 1182,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 316,
+    "num_frames": 29681,
+    "room_id": 4,
+    "midi_id": 1188,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 317,
+    "num_frames": 29678,
+    "room_id": 5,
+    "midi_id": 1188,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 318,
+    "num_frames": 16910,
+    "room_id": 4,
+    "midi_id": 1189,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 319,
+    "num_frames": 16664,
+    "room_id": 5,
+    "midi_id": 1189,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 320,
+    "num_frames": 20174,
+    "room_id": 4,
+    "midi_id": 1192,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 321,
+    "num_frames": 19949,
+    "room_id": 5,
+    "midi_id": 1192,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 322,
+    "num_frames": 28824,
+    "room_id": 4,
+    "midi_id": 1193,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 323,
+    "num_frames": 28793,
+    "room_id": 5,
+    "midi_id": 1193,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 324,
+    "num_frames": 26487,
+    "room_id": 4,
+    "midi_id": 1195,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 325,
+    "num_frames": 26385,
+    "room_id": 5,
+    "midi_id": 1195,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 326,
+    "num_frames": 27846,
+    "room_id": 4,
+    "midi_id": 1196,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 327,
+    "num_frames": 27744,
+    "room_id": 5,
+    "midi_id": 1196,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 328,
+    "num_frames": 19699,
+    "room_id": 4,
+    "midi_id": 1199,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 329,
+    "num_frames": 19526,
+    "room_id": 5,
+    "midi_id": 1199,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 330,
+    "num_frames": 20986,
+    "room_id": 4,
+    "midi_id": 1200,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 331,
+    "num_frames": 20732,
+    "room_id": 5,
+    "midi_id": 1200,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 332,
+    "num_frames": 17309,
+    "room_id": 4,
+    "midi_id": 1220,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 333,
+    "num_frames": 17219,
+    "room_id": 5,
+    "midi_id": 1220,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 334,
+    "num_frames": 11408,
+    "room_id": 4,
+    "midi_id": 1224,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 335,
+    "num_frames": 11163,
+    "room_id": 5,
+    "midi_id": 1224,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 336,
+    "num_frames": 29051,
+    "room_id": 4,
+    "midi_id": 1225,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 337,
+    "num_frames": 28904,
+    "room_id": 5,
+    "midi_id": 1225,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 338,
+    "num_frames": 13202,
+    "room_id": 4,
+    "midi_id": 1230,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 339,
+    "num_frames": 13133,
+    "room_id": 5,
+    "midi_id": 1230,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 340,
+    "num_frames": 50534,
+    "room_id": 4,
+    "midi_id": 1248,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 341,
+    "num_frames": 50401,
+    "room_id": 5,
+    "midi_id": 1248,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 342,
+    "num_frames": 30250,
+    "room_id": 4,
+    "midi_id": 1251,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 343,
+    "num_frames": 30069,
+    "room_id": 5,
+    "midi_id": 1251,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 344,
+    "num_frames": 31056,
+    "room_id": 4,
+    "midi_id": 1253,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 345,
+    "num_frames": 30972,
+    "room_id": 5,
+    "midi_id": 1253,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 346,
+    "num_frames": 30531,
+    "room_id": 4,
+    "midi_id": 1254,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 347,
+    "num_frames": 30352,
+    "room_id": 5,
+    "midi_id": 1254,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 348,
+    "num_frames": 19703,
+    "room_id": 4,
+    "midi_id": 1276,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 349,
+    "num_frames": 19485,
+    "room_id": 5,
+    "midi_id": 1276,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 350,
+    "num_frames": 24996,
+    "room_id": 4,
+    "midi_id": 1277,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 351,
+    "num_frames": 24756,
+    "room_id": 5,
+    "midi_id": 1277,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 352,
+    "num_frames": 24600,
+    "room_id": 4,
+    "midi_id": 1278,
+    "pedal_factor": 1
+  },
+  {
+    "file_path": "kong354roomextrasynth0320.h5",
+    "example_index": 353,
+    "num_frames": 24336,
+    "room_id": 5,
+    "midi_id": 1278,
+    "pedal_factor": 1
   }
 ]

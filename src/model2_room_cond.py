@@ -11,7 +11,7 @@ from .transformer import (
 from .cnn_block import CNNBlock
 
 
-class PedalDetectionModelContrastive(nn.Module):
+class PedalDetectionModelwithCNN_RoomCond(nn.Module):
     def __init__(
         self,
         input_dim,
@@ -25,6 +25,7 @@ class PedalDetectionModelContrastive(nn.Module):
         predict_pedal_onset=False,
         predict_pedal_offset=False,
         predict_global_pedal=True,
+        room_classes=4,
     ):
         super().__init__()
 
@@ -53,17 +54,16 @@ class PedalDetectionModelContrastive(nn.Module):
         if predict_pedal_offset:
             self.pedal_offset_output_layer = self._build_mlp(hidden_dim, 1)
         if predict_room:
-            self.room_head = self._build_mlp(hidden_dim, 4)
-
-        # # Projections for disentanglement
-        # self.room_projection = self._build_mlp(hidden_dim, hidden_dim)
-        # self.pedal_projection = self._build_mlp(hidden_dim, hidden_dim)
+            self.room_head = self._build_mlp(hidden_dim, room_classes)
 
         print("Optional predictions:")
         print(f"Predict Global Pedal: {predict_global_pedal}")
         print(f"Predict Pedal Onset: {predict_pedal_onset}")
         print(f"Predict Pedal Offset: {predict_pedal_offset}")
         print(f"Predict Room: {predict_room}")
+        if predict_room:
+            print(f"Room Classes: {room_classes}")
+        self.room_classes = room_classes
 
     def _build_mlp(self, input_dim, output_dim, dropout=0.1):
         """Helper function to build a two-layer MLP with ReLU and dropout."""
@@ -80,56 +80,57 @@ class PedalDetectionModelContrastive(nn.Module):
 
         # Transformer Encoder
         x = self.positional_encoding(x)
-        latent_reprs = []
         for layer in self.layers:
             x = layer(x, mask=src_mask)
-            latent_reprs.append(x)
 
-        # Latent Representation for each layer x
-        latent_reprs = [F.normalize(x, p=2, dim=-1) for x in latent_reprs]
-        last_latent_repr = latent_reprs[-1]
+        latent_repr = F.normalize(x, p=2, dim=-1)
+
+        # Apply Loss Mask
+        if loss_mask is not None:
+            loss_mask = loss_mask.unsqueeze(-1)  # Ensure correct shape [batch, seq_len, 1]
+            latent_repr *= loss_mask
+
+        # Mean Latent Representation for Global Predictions
+        mean_latent_repr = latent_repr.sum(dim=1) / loss_mask.sum(dim=1)
+
+        # Global Predictions
+        room_logits = getattr(self, "room_head", None)
+        global_p_v_logits = getattr(self, "global_pedal_value_head", None)
+
+        if room_logits is not None:
+            room_logits = room_logits(mean_latent_repr)
+        else:
+            room_logits = torch.zeros_like(latent_repr[:, :self.room_classes])  # Placeholder tensor
+
+        if global_p_v_logits is not None:
+            global_p_v_logits = global_p_v_logits(mean_latent_repr)
+        else:
+            global_p_v_logits = torch.zeros_like(latent_repr[:, :1])  # Placeholder tensor
+
+        # Room conditioning: Project mean_latent_repr and inject into latent_repr
+        # latent_repr (batch, seq_len, hidden_dim)
+        # mean_latent_repr (batch, hidden_dim)
+        latent_repr = latent_repr + mean_latent_repr.unsqueeze(1)
 
         # Frame-wise Predictions
-        p_v_logits = self.pedal_value_output_layer(last_latent_repr)
+        p_v_logits = self.pedal_value_output_layer(latent_repr)
         p_on_logits = getattr(self, "pedal_onset_output_layer", None)
         p_off_logits = getattr(self, "pedal_offset_output_layer", None)
 
         if p_on_logits is not None:
-            p_on_logits = p_on_logits(last_latent_repr)
+            p_on_logits = p_on_logits(latent_repr)
         else:
             p_on_logits = torch.zeros_like(p_v_logits)  # Placeholder tensor
 
         if p_off_logits is not None:
-            p_off_logits = p_off_logits(last_latent_repr)
+            p_off_logits = p_off_logits(latent_repr)
         else:
             p_off_logits = torch.zeros_like(p_v_logits)  # Placeholder tensor
 
         # Apply Loss Mask
         if loss_mask is not None:
-            loss_mask = loss_mask.unsqueeze(-1)  # [batch, seq_len, 1]
-            p_v_logits = p_v_logits * loss_mask
-            p_on_logits = p_on_logits * loss_mask
-            p_off_logits = p_off_logits * loss_mask
-            latent_reprs = [layer_out * loss_mask for layer_out in latent_reprs]
+            p_v_logits *= loss_mask
+            p_on_logits *= loss_mask
+            p_off_logits *= loss_mask
 
-        # Mean Latent Representation for Global Predictions
-        mean_latent_reprs = [x.sum(dim=1) / loss_mask.sum(dim=1) for x in latent_reprs]
-        last_mean_latent_repr = mean_latent_reprs[-1]
-        # mean_latent_repr = latent_repr.sum(dim=1) / loss_mask.sum(dim=1)
-
-        # Room Prediction uses only room_repr
-        room_logits = getattr(self, "room_head", None)
-        if room_logits is not None:
-            room_logits = self.room_head(last_mean_latent_repr)
-        else:
-            room_logits = torch.zeros_like(p_v_logits[:, :4])  # Placeholder tensor
-
-        # Global pedal prediction uses only pedal_repr
-        global_p_v_logits = getattr(self, "global_pedal_value_head", None)
-        if global_p_v_logits is not None:
-            global_p_v_logits = self.global_pedal_value_head(last_mean_latent_repr)
-        else:
-            global_p_v_logits = torch.zeros_like(p_v_logits[:, :1])  # Placeholder tensor
-
-        return global_p_v_logits, p_v_logits, p_on_logits, p_off_logits, \
-            room_logits, last_latent_repr, mean_latent_reprs
+        return global_p_v_logits, p_v_logits, p_on_logits, p_off_logits, room_logits, latent_repr, mean_latent_repr

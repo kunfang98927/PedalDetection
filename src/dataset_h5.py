@@ -26,6 +26,7 @@ class PedalDataset(Dataset):
         split="train",
         num_examples=None,
         randomly_sample=False,
+        feature_dim=229,
     ):
         """
         Args:
@@ -67,6 +68,7 @@ class PedalDataset(Dataset):
         self.overlap_ratio = overlap_ratio
         self.split = split.lower()
         self.randomly_sample = randomly_sample
+        self.feature_dim = feature_dim
 
         # Open all H5 files and store them in a dictionary.
         self.h5fs = {}
@@ -140,7 +142,7 @@ class PedalDataset(Dataset):
 
         # Slice the feature and pedal arrays.
         selected_feature = self.h5fs[file_path]["features"][str(example_index)][
-            :, start_frame:end_frame
+            :self.feature_dim, start_frame:end_frame
         ].T  # [max_frame, feature_dim]
         selected_pedal_value = self.h5fs[file_path]["instant_values"][
             str(example_index)
