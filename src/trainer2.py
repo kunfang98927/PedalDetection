@@ -56,16 +56,16 @@ def compute_room_contrastive_loss(anchor, positive, negative,
         print(f"1 - Layer {layer_idx}, positive min: {positive.min().item()}, positive max: {positive.max().item()}")
         print(f"1 - Layer {layer_idx}, negative min: {negative.min().item()}, negative max: {negative.max().item()}")
 
-    # Safe normalization
-    anchor = safe_normalize(anchor)
-    positive = safe_normalize(positive)
-    negative = safe_normalize(negative)
+    # # # Safe normalization
+    # # anchor = safe_normalize(anchor)
+    # # positive = safe_normalize(positive)
+    # # negative = safe_normalize(negative)
 
-    # print min & max for debugging
-    if torch.isnan(anchor).any() or torch.isinf(anchor).any() or torch.isnan(positive).any() or torch.isinf(positive).any() or torch.isnan(negative).any() or torch.isinf(negative).any():
-        print(f"2 - Layer {layer_idx}, anchor min: {anchor.min().item()}, anchor max: {anchor.max().item()}")
-        print(f"2 - Layer {layer_idx}, positive min: {positive.min().item()}, positive max: {positive.max().item()}")
-        print(f"2 - Layer {layer_idx}, negative min: {negative.min().item()}, negative max: {negative.max().item()}")
+    # # print min & max for debugging
+    # if torch.isnan(anchor).any() or torch.isinf(anchor).any() or torch.isnan(positive).any() or torch.isinf(positive).any() or torch.isnan(negative).any() or torch.isinf(negative).any():
+    #     print(f"2 - Layer {layer_idx}, anchor min: {anchor.min().item()}, anchor max: {anchor.max().item()}")
+    #     print(f"2 - Layer {layer_idx}, positive min: {positive.min().item()}, positive max: {positive.max().item()}")
+    #     print(f"2 - Layer {layer_idx}, negative min: {negative.min().item()}, negative max: {negative.max().item()}")
 
     # Debug check for NaN / Inf before computation
     if torch.isnan(positive).any() or torch.isinf(positive).any() or torch.isnan(negative).any() or torch.isinf(negative).any() or torch.isnan(anchor).any() or torch.isinf(anchor).any():
@@ -252,6 +252,9 @@ class PedalTrainer2:
     def forward_for_one_batch(self, inputs, global_p_v_labels, p_v_labels, 
                               p_on_labels, p_off_labels, loss_mask,
                               room_labels, midi_ids, pedal_factors):
+        for i, msk in enumerate(loss_mask):
+            if msk.sum() == 0:
+                print("[Warning] Empty mask detected!")
 
         # Move data to device
         inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = (
@@ -417,6 +420,7 @@ class PedalTrainer2:
 
             self.optimizer.zero_grad()
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
             self.optimizer.step()
 
             total_loss += loss.item()

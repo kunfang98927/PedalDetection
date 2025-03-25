@@ -144,6 +144,12 @@ def parse_args():
         default=4,
         help="Number of room classes (default: 4)",
     )
+    parser.add_argument(
+        "--on_off_threshold",
+        type=float,
+        default=64,
+        help="Onset offset threshold (default: 64)",
+    )
 
     return parser.parse_args()
 
@@ -211,6 +217,7 @@ def main():
     print(f"Room Contrastive Ratio: {args.room_contrastive_ratio}")
     print(f"Model Version: {args.model_version}")
     print(f"Room Classes: {args.room_classes}")
+    print(f"On Off Threshold: {args.on_off_threshold}")
 
     checkpoint_path = args.checkpoint_path
     data_dir = args.data_dir
@@ -233,6 +240,7 @@ def main():
     room_contrastive_ratio = args.room_contrastive_ratio
     model_version = args.model_version
     room_classes = args.room_classes
+    on_off_threshold = args.on_off_threshold
 
     # WandB
     wandb.init(
@@ -260,6 +268,7 @@ def main():
             "room_contrastive_ratio": room_contrastive_ratio,
             "model_version": model_version,
             "room_classes": room_classes,
+            "on_off_threshold": on_off_threshold,
         }
     )
 
@@ -295,6 +304,7 @@ def main():
         f.write(f"room_contrastive_ratio: {args.room_contrastive_ratio}\n")
         f.write(f"model_version: {args.model_version}\n")
         f.write(f"room_classes: {args.room_classes}\n")
+        f.write(f"on_off_threshold: {args.on_off_threshold}\n")
 
     # Dataset and DataLoader
     if args.room_contrastive_ratio > 0.0:
@@ -324,6 +334,7 @@ def main():
             datasets=args.datasets,
             randomly_sample=args.train_rand_sample,
             feature_dim=feature_dim,
+            on_off_threshold=on_off_threshold,
         )
 
     val_dataset = PedalDataset(
@@ -338,6 +349,7 @@ def main():
         datasets=[df for df in datasets if "pf0" not in df],  # not evaluate pf=0
         randomly_sample=False,
         feature_dim=feature_dim,
+        on_off_threshold=on_off_threshold,
     )
     print("Train dataset size:", len(train_dataset))
     print("Val dataset size:", len(val_dataset))

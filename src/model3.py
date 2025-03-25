@@ -86,7 +86,7 @@ class PedalDetectionModelContrastive(nn.Module):
             latent_reprs.append(x)
 
         # Latent Representation for each layer x
-        latent_reprs = [F.normalize(x, p=2, dim=-1) for x in latent_reprs]
+        latent_reprs[-1] = F.normalize(latent_reprs[-1], p=2, dim=-1)
         last_latent_repr = latent_reprs[-1]
 
         # Frame-wise Predictions

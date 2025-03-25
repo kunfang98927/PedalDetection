@@ -27,6 +27,7 @@ class PedalDataset(Dataset):
         num_examples=None,
         randomly_sample=False,
         feature_dim=229,
+        on_off_threshold=64,
     ):
         """
         Args:
@@ -69,6 +70,7 @@ class PedalDataset(Dataset):
         self.split = split.lower()
         self.randomly_sample = randomly_sample
         self.feature_dim = feature_dim
+        self.on_off_threshold = on_off_threshold
 
         # Open all H5 files and store them in a dictionary.
         self.h5fs = {}
@@ -151,7 +153,7 @@ class PedalDataset(Dataset):
 
         # Process labels.
         pedal_onset, pedal_offset = calculate_pedal_onset_offset(
-            selected_pedal_value, on_off_threshold=64
+            selected_pedal_value, on_off_threshold=self.on_off_threshold
         )
         quantized_pedal_value = selected_pedal_value / 127.0
         soft_pedal_onset = calculate_soft_regresion_label(pedal_onset)
@@ -202,8 +204,13 @@ class PedalDataset(Dataset):
         loss_mask = torch.zeros(self.max_frame, dtype=torch.float32)
         loss_mask[label_start:label_end] = 1.0
 
+        if loss_mask.sum() == 0:
+            print(self.split, "[0 - Warning] Empty mask detected!")
+
         # pad the feature to max_frame
         if selected_feature.shape[0] < self.max_frame:
+            if selected_feature.shape[0] == 0:
+                print(self.split, "[0 - Warning] Empty feature detected!")
             (selected_feature, quantized_pedal_value_masked,
             soft_pedal_onset_masked, soft_pedal_offset_masked, loss_mask) = self.pad_data(
                 selected_feature,
@@ -212,6 +219,8 @@ class PedalDataset(Dataset):
                 soft_pedal_offset_masked,
                 loss_mask
             )
+            if loss_mask.sum() == 0:
+                print(self.split, "[1 - Warning] Empty mask detected!")
 
         return (
             selected_feature,
@@ -270,6 +279,11 @@ class PedalDataset(Dataset):
             loss_mask,
         ) = self.fetch_segment(file_path, example_index, start_frame, end_frame)
 
+        # protect from empty mask or feature
+        if loss_mask.sum() == 0 or selected_feature.shape[0] == 0:
+            print("[Warning] Empty mask or feature detected!", loss_mask.sum(), selected_feature.shape[0])
+            return self.__getitem__(np.random.randint(0, len(self)))
+
         return (
             selected_feature,
             low_res_label,
@@ -285,11 +299,17 @@ class PedalDataset(Dataset):
     def pad_data(self, selected_feature, quantized_pedal_value_masked,
                     soft_pedal_onset_masked, soft_pedal_offset_masked, loss_mask):
         pad_length = self.max_frame - selected_feature.shape[0]
+        if pad_length == self.max_frame:
+            print("[Warning] pad_length", pad_length)
         selected_feature = F.pad(selected_feature, (0, 0, 0, pad_length), "constant", 0)
         quantized_pedal_value_masked = F.pad(quantized_pedal_value_masked, (0, pad_length), "constant", -1)
         soft_pedal_onset_masked = F.pad(soft_pedal_onset_masked, (0, pad_length), "constant", -1)
         soft_pedal_offset_masked = F.pad(soft_pedal_offset_masked, (0, pad_length), "constant", -1)
+        if loss_mask.sum() == 0:
+            print("[Warning] before loss_mask.shape", loss_mask.shape, loss_mask.sum())
         loss_mask[-pad_length:] = 0
+        if loss_mask.sum() == 0:
+            print("[Warning] after loss_mask.shape", loss_mask.shape, loss_mask.sum())
         return (
             selected_feature,
             quantized_pedal_value_masked,
@@ -383,6 +403,19 @@ class PedalRoomContrastiveDataset(PedalDataset):
 
         positive_sample = positive_sample if positive_sample is not None else anchor_sample
         negative_sample = negative_sample if negative_sample is not None else anchor_sample
+
+        if positive_sample[0].shape[0] == 0:
+            print("[Warning] Empty feature detected in positive sample!")
+            positive_sample = anchor_sample
+        if negative_sample[0].shape[0] == 0:
+            print("[Warning] Empty feature detected in negative sample!")
+            negative_sample = anchor_sample
+        if positive_sample[5].sum() == 0:
+            print("[Warning] Empty mask detected in positive sample!")
+            positive_sample = anchor_sample
+        if negative_sample[5].sum() == 0:
+            print("[Warning] Empty mask detected in negative sample!")
+            negative_sample = anchor_sample
 
         # print("Low res label:", anchor_low_res_label, positive_sample[1], negative_sample[1])
         # for anchor_label, pos_label, neg_label in zip(anchor_quantized_pedal_value_masked, positive_sample[2], negative_sample[2]):

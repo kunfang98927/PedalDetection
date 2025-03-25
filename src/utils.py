@@ -31,7 +31,7 @@ def plot_pedal_pred(labels, preds, save_path, img_num_frames=100, img_num_plots=
     plt.close()
 
 
-def calculate_pedal_onset_offset(quantized_pedal_value, on_off_threshold=0.0):
+def calculate_pedal_onset_offset(quantized_pedal_value, on_off_threshold=64):
     """
     Calculate the pedal onset and offset from the pedal value.
 

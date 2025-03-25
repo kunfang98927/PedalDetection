@@ -223,6 +223,7 @@ def main():
         datasets=datasets,
         # num_examples=20,
         randomly_sample=False,
+        feature_dim=feature_dim,
     )
     print("Test dataset size:", len(test_dataset))
 
