@@ -155,7 +155,14 @@ class PedalDataset(Dataset):
         pedal_onset, pedal_offset = calculate_pedal_onset_offset(
             selected_pedal_value, on_off_threshold=self.on_off_threshold
         )
-        quantized_pedal_value = selected_pedal_value / 127.0
+        if len(self.label_bin_edges) == 2: # regression
+            quantized_pedal_value = selected_pedal_value / 127.0
+        else: # classification
+            quantized_pedal_value = np.digitize(
+                selected_pedal_value, self.label_bin_edges
+            ) - 1
+            quantized_pedal_value = np.clip(quantized_pedal_value, 0, len(self.label_bin_edges) - 2)
+        # Convert pedal values to soft labels.
         soft_pedal_onset = calculate_soft_regresion_label(pedal_onset)
         soft_pedal_offset = calculate_soft_regresion_label(pedal_offset)
 
@@ -283,6 +290,15 @@ class PedalDataset(Dataset):
         if loss_mask.sum() == 0 or selected_feature.shape[0] == 0:
             print("[Warning] Empty mask or feature detected!", loss_mask.sum(), selected_feature.shape[0])
             return self.__getitem__(np.random.randint(0, len(self)))
+
+        if len(self.label_bin_edges) == 3:
+            # assert that quantized_pedal_value_masked and low_res_label should only be 0 or 1
+            assert not torch.any(
+                (quantized_pedal_value_masked != -1) & (quantized_pedal_value_masked != 0) & (quantized_pedal_value_masked != 1)
+            ), f"Quantized pedal value should be -1, 0, or 1. Found: {quantized_pedal_value_masked}"
+            assert not torch.any(
+                (low_res_label != -1) & (low_res_label != 0) & (low_res_label != 1)
+            ), f"Low res label should be -1, 0, or 1. Found: {low_res_label}"
 
         return (
             selected_feature,

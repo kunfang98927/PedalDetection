@@ -127,8 +127,8 @@ def get_label_bin_edges(num_classes):
     label_bins = {
         1: [0, 128],
         2: [0, 64, 128],
-        3: [0, 11, 95, 128],
-        4: [0, 11, 60, 95, 128],
+        # 3: [0, 11, 95, 128],
+        # 4: [0, 11, 60, 95, 128],
         128: list(range(129)),
     }
     return label_bins.get(num_classes, None)

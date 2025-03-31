@@ -9,7 +9,7 @@ from src.model_split_feat import PedalDetectionModelwithCNNSplitFeat
 from src.model3 import PedalDetectionModelContrastive
 from src.model2_room_cond import PedalDetectionModelwithCNN_RoomCond
 from src.dataset_h5 import PedalDataset, PedalRoomContrastiveDataset
-from src.trainer2 import PedalTrainer2
+from src.trainer2_bce import PedalTrainerBCE
 from src.utils import get_label_bin_edges
 import functools
 import wandb
@@ -204,7 +204,8 @@ def main():
     print(f"Batch Size: {args.batch_size}")
     print(f"Eval Epochs: {args.eval_epochs}")
     print(f"Eval Steps: {args.eval_steps}")
-    print(f"Feature Dimension: {args.feature_dim}")
+    # print(f"Feature Dimension: {args.feature_dim}")
+    print(f"Feature Dimension: 249")
     print(f"Max Frame: {args.max_frame}")
     print(f"Num Samples per Clip: {args.num_samples_per_clip}")
     print(f"Num Classes: {args.num_classes}")
@@ -227,7 +228,7 @@ def main():
     batch_size = args.batch_size
     eval_epochs = args.eval_epochs
     eval_steps = args.eval_steps
-    feature_dim = args.feature_dim
+    feature_dim = 249 #args.feature_dim
     max_frame = args.max_frame
     num_samples_per_clip = args.num_samples_per_clip
     num_classes = args.num_classes
@@ -291,7 +292,8 @@ def main():
         f.write(f"batch_size: {args.batch_size}\n")
         f.write(f"eval_epochs: {args.eval_epochs}\n")
         f.write(f"eval_steps: {args.eval_steps}\n")
-        f.write(f"feature_dim: {args.feature_dim}\n")
+        # f.write(f"feature_dim: {args.feature_dim}\n")
+        f.write(f"feature_dim: 249\n")
         f.write(f"max_frame: {args.max_frame}\n")
         f.write(f"num_samples_per_clip: {args.num_samples_per_clip}\n")
         f.write(f"num_classes: {args.num_classes}\n")
@@ -504,7 +506,7 @@ def main():
         model = model.to(device)
 
     # Trainer
-    trainer = PedalTrainer2(
+    trainer = PedalTrainerBCE(
         model=model,
         train_dataloader=train_dataloader,
         val_dataloader=val_dataloader,
