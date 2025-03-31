@@ -2,7 +2,7 @@
 #SBATCH --export=ALL,DISABLE_DCGM=1
 #SBATCH --gpus-per-node=v100l:1
 #SBATCH --mem=8000MB
-#SBATCH --time=0-02:00:00
+#SBATCH --time=0-01:00:00
 #SBATCH --output=train-%N-%j.out
 #SBATCH --error=train-%N-%j.err
 #SBATCH --job-name=inf-batch
@@ -28,20 +28,23 @@ checkpoints=(
   # "ckpt-0319_real+r1pf1+r2pf1_onoff/model_epoch_2_step_48000_val_loss_0.0414_f1_0.8581_mae_0.1219.pt"
   # "ckpt-0319_real+r1pf1+r3pf1_onoff/model_epoch_2_step_54000_val_loss_0.0476_f1_0.7880_mae_0.1335.pt"
   # "ckpt-0319_real+r2pf1+r3pf1_onoff/model_epoch_2_step_51000_val_loss_0.0474_f1_0.8907_mae_0.1397.pt"
-  "ckpt-0319_real+r1pf1+r2pf1+r3pf1_onoff/model_epoch_1_step_44000_val_loss_0.0479_f1_0.8372_mae_0.1387.pt"
+  # "ckpt-0319_real+r1pf1+r2pf1+r3pf1_onoff/model_epoch_1_step_44000_val_loss_0.0479_f1_0.8372_mae_0.1387.pt"
+
+  # "ckpt-0327_real_onoff_feat249_bce/model_epoch_3_step_45000_val_loss_0.1872_f1_0.8779_mae_0.1527.pt"
+  "ckpt-0327_real_onoff_feat249_bce/model_epoch_4_step_55000_val_loss_0.1770_f1_0.8854_mae_0.1496.pt"
 )
 
 # List of datasets
 datasets=(
-  "r0-pf1"
-  "r1-pf1"
-  "r2-pf1"
-  "r3-pf1"
+  # "r0-pf1"
+  # "r1-pf1"
+  # "r2-pf1"
+  # "r3-pf1"
   "r4-pf1"
-  "r5-pf1"
-  "r1-pf0"
-  "r2-pf0"
-  "r3-pf0"
+  # "r5-pf1"
+  # "r1-pf0"
+  # "r2-pf0"
+  # "r3-pf0"
 )
 
 # H5 data directory
@@ -51,6 +54,11 @@ data_dir="/scratch/kunfang/pedal_data/data/"
 for checkpoint in "${checkpoints[@]}"; do
   for dataset in "${datasets[@]}"; do
     echo "Running inference on dataset ${dataset} with checkpoint ${checkpoint}"
-    python inference_batch.py --dataset "${dataset}" --checkpoint_path "${checkpoint}" --data_dir "${data_dir}"
+    python inference_batch_bce.py --dataset "${dataset}" --checkpoint_path "${checkpoint}" --data_dir "${data_dir}"
   done
 done
+
+
+# python inference_batch_bce.py --data_dir "/scratch/kunfang/pedal_data/data/" \
+#   --checkpoint_path "ckpt-0327_real_onoff_feat249_bce/model_epoch_3_step_45000_val_loss_0.1872_f1_0.8779_mae_0.1527.pt" \
+#   --dataset "r0-pf1"
