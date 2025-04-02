@@ -7,8 +7,26 @@ inference_results*
 *.out
 *.err
 *.sh
+*.npy
 train
 __pycache__/
 
 # exclude the following files
 !ckpt-test-mse-aug-newdata/model_epoch_60_val_loss_0.0364_val_f1_0.8220.pt
+!ckpt-test-mse-aug-newdata/train
+!ckpt-test-mse-aug-newdata-2factor/model_epoch_120_val_loss_0.0378_val_f1_0.7176.pt
+!ckpt-test-mse-aug-newdata-2factor/train
+!ckpt-mse-2fac-100fr-cntxt/model_epoch_160_val_loss_0.0519_val_f1_0.8261.pt
+!ckpt-mse-2fac-100fr-cntxt/train
+
+realyan
+ckpt*
+*.h5
+*.json
+sample_data*
+.DS_Store
+*.zip
+
+testkong
+events.out.*
+wandb

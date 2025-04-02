@@ -1,17 +1,11 @@
 import numpy as np
-
-# import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.metrics import (
     mean_absolute_error,
     classification_report,
-    confusion_matrix,
     f1_score,
     mean_squared_error,
 )
-
-# from src.utils import plot_pedal_pred
-
 
 def plot_all_pred(
     p_v_labels,
@@ -160,8 +154,6 @@ def calculate_result(all_labels, all_preds, title="p_v", report_path=None):
 
     if title == "p_v":
         label_bin_edges_list = [
-            # [0, 11, 128],
-            # [0, 11, 95, 128],
             [0, 64, 128],
             [0, 32, 64, 96, 128],
         ]
@@ -197,17 +189,6 @@ def calculate_result(all_labels, all_preds, title="p_v", report_path=None):
             f.write(f"Precision: {precision}\n")
             f.write(f"Recall: {recall}\n")
             f.write(f"F1: {f1}\n")
-    elif title == "room":
-        print("room")
-        print(all_labels)
-        print(all_preds)
-        print(confusion_matrix(all_labels, all_preds))
-        print(classification_report(all_labels, all_preds, digits=4))
-        with open(report_path, "a") as f:
-            f.write(f"Confusion Matrix:\n{confusion_matrix(all_labels, all_preds)}\n")
-            f.write(
-                f"Classification Report:\n{classification_report(all_labels, all_preds, digits=4)}\n"
-            )
 
 
 def sliding_window_normalize(a, window_size):
@@ -261,31 +242,20 @@ def main():
     all_off_labels = np.load(f"{ckpt_dir}/p_offset_labels_test_set.npy")
     all_off_preds = np.load(f"{ckpt_dir}/p_offset_preds_test_set.npy")
 
-    # all_room_labels = np.load(
-    #     f"{ckpt_dir}/room_labels_test_set.npy"
-    # )
-    # all_room_preds = np.load(
-    #     f"{ckpt_dir}/room_preds_test_set.npy"
-    # )
-
     all_p_v_labels = all_p_v_labels.flatten()
     all_p_v_preds = all_p_v_preds.flatten()
     all_on_labels = all_on_labels.flatten()
     all_on_preds = all_on_preds.flatten()
     all_off_labels = all_off_labels.flatten()
     all_off_preds = all_off_preds.flatten()
-    # all_room_labels = all_room_labels.flatten()
-    # all_room_preds = all_room_preds.flatten()
 
     print(all_p_v_labels.shape, all_p_v_preds.shape)
     print(all_on_labels.shape, all_on_preds.shape)
     print(all_off_labels.shape, all_off_preds.shape)
-    # print(all_room_labels.shape, all_room_preds.shape)
 
     calculate_result(all_p_v_labels, all_p_v_preds, "p_v", report_path)
     calculate_result(all_on_labels, all_on_preds, "p_on", report_path)
     calculate_result(all_off_labels, all_off_preds, "p_off", report_path)
-    # calculate_result(all_room_labels, all_room_preds, "room", report_path)
 
     plot_all_pred(
         all_p_v_labels,
