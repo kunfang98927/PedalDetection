@@ -3,10 +3,10 @@ import torch
 import shutil
 import argparse
 from torch.utils.data import DataLoader
-from pedal_detection.src.model_basic import PedalDetectionModelBasic
-from pedal_detection.src.dataset_basic import PedalDataset
-from pedal_detection.src.trainer_basic import PedalTrainerBasic
-from pedal_detection.src.trainer_bce import PedalTrainerBCE
+from src.model_basic import PedalDetectionModelBasic
+from src.dataset_basic import PedalDataset
+from src.trainer_basic import PedalTrainerBasic
+from src.trainer_bce import PedalTrainerBCE
 from src.utils import get_label_bin_edges
 import functools
 import wandb

@@ -11,8 +11,8 @@ from sklearn.metrics import (
     mean_squared_error,
 )
 
-from pedal_detection.src.model_basic import PedalDetectionModelBasic
-from pedal_detection.src.dataset_basic import PedalDataset
+from src.model_basic import PedalDetectionModelBasic
+from src.dataset_basic import PedalDataset
 from src.utils import (
     get_label_bin_edges,
     plot_pedal_pred,
