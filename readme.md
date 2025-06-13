@@ -52,3 +52,16 @@ Some useful training options:
 | `--loss_function` | Loss type (`mse` or `bce`) | `mse` |
 | `--batch_size` | Batch size | `24` |
 | `--train_rand_sample` | Use random sampling | `False` |
+
+### 📚 Paper
+
+```bibtex
+@inproceedings{KZ25pedal,
+  title={High-Resolution Sustain Pedal Depth Estimation from Piano Audio across Room Acoustics},
+  author={Kun Fang and Hanwen Zhang and Ziyu Wang and Ichiro Fujinaga},
+  booktitle={Proceedings of the 26th International Society for Music Information Retrieval Conference (ISMIR)},
+  year={2025},
+  address={Daejeon, Korea},
+  month={September},
+  day={21--25}
+}
