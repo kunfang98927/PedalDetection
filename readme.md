@@ -1,51 +1,67 @@
-## Pedal Detection
+## 🎹 High-Resolution Sustain Pedal Depth Estimation
 
-### Create the dataset .json file
+This repository contains code for training a Transformer-based model to detect piano sustain pedal usage from audio.
 
-Run the following command will create a .json file which contains the path of all .h5 dataset files with num_frames, midi_id, room_id, pedal_factor for each audio file. Easy to load the dataset in the training stage.
-```
-python create_json_data.py
-```
-
-The output .json file will be have the following format:
-```
-[
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
-    "example_index": 12,
-    "num_frames": 16776,
-    "room_id": 1,
-    "midi_id": 7,
-    "pedal_factor": 1
-  },
-  {
-    "file_path": "/scratch/kunfang/pedal_data/data/kong2552room1synth0303.h5",
-    "example_index": 13,
-    "num_frames": 16776,
-    "room_id": 1,
-    "midi_id": 7,
-    "pedal_factor": 0
-  },
-  ...
-]
-```
-
-### Train the model
+### 📂 Project Structure
 
 ```
-python train_h5.py
+.
+├── train_basic.py                # Main training script
+├── inference_basic.py            # Main inference & metrics calculation script
+├── calculate_metric.py           # Helper functions related to evaluation metrics
+├── requirements.txt              # Python dependencies for the project
+├── sample_data/                  # JSON file lists for training, validation, and test data
+├── src/
+│   ├── model_basic.py            # Transformer-based model for pedal detection
+│   ├── dataset_basic.py          # PyTorch dataset class for pedal data
+│   ├── trainer_basic.py          # Trainer with MSE loss for pedal depth estimation
+│   ├── trainer_bce.py            # Trainer with BCE loss for pedal depth estimation
+│   ├── utils.py                  # Utility functions
+│   ├── cnn_block.py              # Convolutional blocks
+│   ├── transformer.py            # Transformer
+│   ├── dirs.py                   # Directory and path utilities
 ```
 
-### Inference
+### 🚀 Getting Started
 
-Run the following command will inference the model and save the results in .npy files.
-```
-python inference_h5.py
+#### 1. **Install dependencies**
+```bash
+pip install -r requirements.txt
 ```
 
-### View the result
+#### 2. **Prepare data**
+Place your `.h5` data files in a directory (e.g., `/path/to/data/`) and update paths in `sample_data/train.json`, `sample_data/val.json` and `sample_data/test.json`.
 
-This will read the .npy files saved in inference stage and calculate all metrics (MSE, MAE, F1) and plot the results.
+#### 3. **Run training**
+```bash
+python train_basic.py \
+  --data_dir /path/to/data \
+  --datasets r0-pf1 \
+  --save_dir results \
+  --loss_function mse
 ```
-python calculate_metric.py
-```
+
+Some useful training options:
+
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `--checkpoint_path` | Resume training from checkpoint | `None` |
+| `--data_dir` | Path to H5 feature data | `/path/to/data/` |
+| `--datasets` | Dataset names to include | `["r0-pf1"]` |
+| `--save_dir` | Output directory for logs and checkpoints | `results` |
+| `--loss_function` | Loss type (`mse` or `bce`) | `mse` |
+| `--batch_size` | Batch size | `24` |
+| `--train_rand_sample` | Use random sampling | `False` |
+
+### 📚 Paper
+
+```bibtex
+@inproceedings{KZ25pedal,
+  title={High-Resolution Sustain Pedal Depth Estimation from Piano Audio across Room Acoustics},
+  author={Kun Fang and Hanwen Zhang and Ziyu Wang and Ichiro Fujinaga},
+  booktitle={Proceedings of the 26th International Society for Music Information Retrieval Conference (ISMIR)},
+  year={2025},
+  address={Daejeon, Korea},
+  month={September},
+  day={21--25}
+}
