@@ -65,3 +65,8 @@ Some useful training options:
   month={September},
   day={21--25}
 }
+```
+
+### 📦 Dataset
+
+The dataset associated with this paper is available on [Zenodo](https://doi.org/10.5281/zenodo.15659089).
