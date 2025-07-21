@@ -351,12 +351,6 @@ def main():
         start_epoch = 0
         start_global_step = -1
 
-    # Manually step the scheduler based on the epoch number
-    num_iterations = start_global_step if start_global_step != -1 else start_epoch * len(train_dataset)
-    for e in range(num_iterations):
-        optimizer.step()
-        scheduler.step()
-        print(f"Epoch {e}: lr={optimizer.param_groups[0]['lr']}")
 
     # DataLoader
     if device.startswith("cuda"):
