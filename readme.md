@@ -56,7 +56,7 @@ Some useful training options:
 ### 📚 Paper
 
 ```bibtex
-@inproceedings{KZ25pedal,
+@inproceedings{FZ25pedal,
   title={High-Resolution Sustain Pedal Depth Estimation from Piano Audio across Room Acoustics},
   author={Kun Fang and Hanwen Zhang and Ziyu Wang and Ichiro Fujinaga},
   booktitle={Proceedings of the 26th International Society for Music Information Retrieval Conference (ISMIR)},
