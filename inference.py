@@ -11,8 +11,8 @@ from sklearn.metrics import (
     mean_squared_error,
 )
 
-from src.model_extra import PedalDetectionModelExtra
-from src.dataset_extra import PedalDataset
+from src.model import PedalDetectionModel
+from src.dataset import PedalDataset
 from src.utils import (
     get_label_bin_edges,
     plot_pedal_pred,
@@ -27,9 +27,6 @@ print = functools.partial(print, flush=True)
 def load_model(
     checkpoint_path,
     hidden_dim,
-    num_heads,
-    ff_dim,
-    num_layers,
     device="cpu",
     predict_global_pedal=True,
     predict_pedal_onset=False,
@@ -37,28 +34,27 @@ def load_model(
     use_midi=False,
     use_pred_pedal=False,
     pedal_latent=False,
-    cnn_dim=128,
+    cnn_dim=256,
     mfcc_dim=128, 
     midi_dim=0, 
     pedal_dim=0
 ):
     
     # model
-    model = PedalDetectionModelExtra(
-    hidden_dim=hidden_dim,
-    num_heads=8,
-    ff_dim=1024,
-    num_layers=8,
-    predict_global_pedal=predict_global_pedal,
-    predict_pedal_onset=predict_pedal_onset,
-    predict_pedal_offset=predict_pedal_offset,
-    use_midi=use_midi,
-    use_pred_pedal=use_pred_pedal,
-    pedal_latent=pedal_latent,
-    cnn_dim=cnn_dim,
-    mfcc_dim=mfcc_dim,
-    midi_dim=midi_dim,
-    pedal_dim=pedal_dim
+    model = PedalDetectionModel(
+        hidden_dim=hidden_dim,
+        num_heads=8,
+        num_layers=8,
+        predict_global_pedal=predict_global_pedal,
+        predict_pedal_onset=predict_pedal_onset,
+        predict_pedal_offset=predict_pedal_offset,
+        use_midi=use_midi,
+        use_pred_pedal=use_pred_pedal,
+        pedal_latent=pedal_latent,
+        cnn_dim=cnn_dim,
+        mfcc_dim=mfcc_dim,
+        midi_dim=midi_dim,
+        pedal_dim=pedal_dim
     ).to(device)
    
    
@@ -215,8 +211,8 @@ def main():
     parser.add_argument(
         "--cnn_dim",
         type=int,
-        default=128,
-        help="dimension of cnn output (default: 128)",
+        default=256,
+        help="dimension of cnn output (default: 256)",
     )
 
     parser.add_argument(
@@ -278,7 +274,7 @@ def main():
     # Get the name of the checkpoint
     if "/" in checkpoint_path:
         ckpt_name = checkpoint_path.split("/")[-1]
-        result_dir = checkpoint_path.split("/")[0]
+        result_dir = checkpoint_path.split("/")[0:-1]
     else:
         ckpt_name = checkpoint_path
         result_dir = "results"
@@ -297,9 +293,6 @@ def main():
 
     feature_dim = 249
     max_frame = 500
-    num_heads = 8
-    ff_dim = 1024  # 256
-    num_layers = 8
     num_classes = 1  # 1 stands for regression
 
     label_bin_edges = get_label_bin_edges(num_classes)
@@ -311,9 +304,6 @@ def main():
     model = load_model(
         checkpoint_path,
         hidden_dim=hidden_dim,
-        num_heads=num_heads,
-        ff_dim=ff_dim,
-        num_layers=num_layers,
         device=device,
         predict_global_pedal=predict_global_pedal,
         predict_pedal_onset=predict_pedal_onset,
@@ -367,7 +357,7 @@ def main():
 
     test_dataloader = DataLoader(
         test_dataset,
-        batch_size=64,
+        batch_size=256,
         shuffle=False,
         num_workers=num_workers,
         pin_memory=True,

@@ -1,9 +1,7 @@
 import os
 import torch
-import wandb
 import numpy as np
 from tqdm import tqdm
-from torch.nn import functional as F
 from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import f1_score, mean_squared_error, mean_absolute_error
 
@@ -29,6 +27,8 @@ class PedalTrainerBasic:
         num_train_epochs=100,
         val_label_bin_edges=[0, 64, 128],
         log_dir="logs",
+        use_midi=False,
+        use_pred_pedal=False
     ):
         self.train_dataloader = train_dataloader
         self.val_dataloader = val_dataloader
@@ -48,6 +48,9 @@ class PedalTrainerBasic:
         self.num_train_epochs = num_train_epochs
         self.val_label_bin_edges = val_label_bin_edges
         self.best_checkpoints = []  # To keep track of the best checkpoints
+        self.use_midi = use_midi
+        self.use_pred_pedal = use_pred_pedal
+        self.train_from_step_in_epoch = True
         os.makedirs(save_dir, exist_ok=True)
 
     def train(
@@ -58,6 +61,7 @@ class PedalTrainerBasic:
         pedal_offset_ratio=0.1,
         start_epoch=0,
         start_global_step=-1,
+        step_in_epoch=0
     ):
         best_val_losses = [float("inf")]
         global_step = 0 if start_global_step == -1 else start_global_step
@@ -66,13 +70,20 @@ class PedalTrainerBasic:
             print(f"Starting Epoch {epoch + 1}/{self.num_train_epochs}")
             train_loss, global_step, best_val_losses = self.train_one_epoch(
                 epoch,
-                global_step,
-                best_val_losses,
-                global_pedal_ratio,
-                pedal_value_ratio,
-                pedal_onset_ratio,
-                pedal_offset_ratio,
+                global_step=global_step,
+                best_val_losses=best_val_losses,
+                global_pedal_ratio=global_pedal_ratio,
+                pedal_value_ratio=pedal_value_ratio,
+                pedal_onset_ratio=pedal_onset_ratio,
+                pedal_offset_ratio=pedal_offset_ratio,
+                step_in_epoch=step_in_epoch
             )
+            # Handle epoch-based schedulers (but NOT ReduceLROnPlateau)
+            if hasattr(self, 'scheduler') and self.scheduler is not None:
+                scheduler_name = type(self.scheduler).__name__
+                if scheduler_name in ['StepLR', 'MultiStepLR', 'ExponentialLR', 'CosineAnnealingLR']:
+                    self.scheduler.step()
+
             if self.eval_steps == -1 and self.eval_epochs != -1 and (epoch+1) % self.eval_epochs == 0 and epoch != 0:
                 (
                     val_loss,
@@ -134,8 +145,12 @@ class PedalTrainerBasic:
                         scheduler=self.scheduler,
                     )
                     best_val_losses.append(val_loss)
+                # Handle ReduceLROnPlateau AFTER validation
+                if hasattr(self, 'scheduler') and self.scheduler is not None:
+                    if type(self.scheduler).__name__ == 'ReduceLROnPlateau':
+                        self.scheduler.step(val_loss)
 
-    def forward_for_one_batch(self, inputs, global_p_v_labels, p_v_labels, 
+    def forward_for_one_batch(self, inputs, midi_inputs, pedal_inputs, global_p_v_labels, p_v_labels, 
                               p_on_labels, p_off_labels, loss_mask):
         for i, msk in enumerate(loss_mask):
             if msk.sum() == 0:
@@ -151,13 +166,47 @@ class PedalTrainerBasic:
             loss_mask.to(self.device),
         )
 
+        if self.use_midi and midi_inputs is not None:
+            midi_inputs = midi_inputs.to(self.device)
+
+        if self.use_pred_pedal and pedal_inputs is not None:
+            pedal_inputs = pedal_inputs.to(self.device)
+
         self.model.train()
-        (
-            global_p_v_logits,
-            p_v_logits,
-            p_on_logits,
-            p_off_logits,
-        ) = self.model(inputs, loss_mask=loss_mask)
+
+        # MODIFIED: Updated model forward call logic to handle all 4 modes
+        if self.use_midi and self.use_pred_pedal:
+            # Audio + MIDI + Predicted Pedal
+            (
+                global_p_v_logits,
+                p_v_logits,
+                p_on_logits,
+                p_off_logits,
+            ) = self.model(inputs, midi_inputs=midi_inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
+        elif self.use_midi:
+            # Audio + MIDI only
+            (
+                global_p_v_logits,
+                p_v_logits,
+                p_on_logits,
+                p_off_logits,
+            ) = self.model(inputs, midi_inputs=midi_inputs, loss_mask=loss_mask)
+        elif self.use_pred_pedal:
+            # Audio + Predicted Pedal (new mode)
+            (
+                global_p_v_logits,
+                p_v_logits,
+                p_on_logits,
+                p_off_logits,
+            ) = self.model(inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
+        else:
+            # Audio only
+            (
+                global_p_v_logits,
+                p_v_logits,
+                p_on_logits,
+                p_off_logits,
+            ) = self.model(inputs, loss_mask=loss_mask)
 
         # Apply loss_mask
         p_v_labels = p_v_labels[loss_mask == 1]
@@ -189,6 +238,7 @@ class PedalTrainerBasic:
         pedal_value_ratio=0.6,
         pedal_onset_ratio=0.1,
         pedal_offset_ratio=0.1,
+        step_in_epoch=0
     ):
         self.model.train()
         total_loss = 0
@@ -198,15 +248,34 @@ class PedalTrainerBasic:
             total=len(self.train_dataloader),
             desc=f"Epoch {epoch+1}",
         )
-        for batch_idx, (
-            inputs,
-            global_p_v_labels,
-            p_v_labels,
-            p_on_labels,
-            p_off_labels,
-            loss_mask,
-        ) in pbar:
+
+        # MODIFIED: Updated batch unpacking to handle all 4 modes
+        for batch_idx, batch in pbar:
+            # Initialize inputs
+            midi_inputs = None
+            pedal_inputs = None
+
+            # Unpack batch based on the dataset configuration
+            if self.use_midi and self.use_pred_pedal:
+                # Audio + MIDI + Predicted Pedal (8 elements)
+                (inputs, midi_inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
+            elif self.use_midi:
+                # Audio + MIDI (7 elements)
+                (inputs, midi_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
+            elif self.use_pred_pedal:
+                # Audio + Predicted Pedal (7 elements) - NEW MODE
+                (inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
+            else:
+                # Audio only (6 elements)
+                (inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
             
+            if batch_idx <= step_in_epoch and self.train_from_step_in_epoch:
+                # print(f"Skip batch {batch_idx} that has already been processed in the checkpoint.")
+                continue
+            elif batch_idx == step_in_epoch + 1 and step_in_epoch != 0:
+                print(f"Processing batch {batch_idx} for the first time in this epoch.")
+                self.train_from_step_in_epoch = False
+          
             # Forward pass
             (
                 global_p_v_loss, 
@@ -214,8 +283,9 @@ class PedalTrainerBasic:
                 p_on_loss, 
                 p_off_loss
             ) = self.forward_for_one_batch(
-                inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask
+                inputs, midi_inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask
             )
+
             # Total loss
             loss = (
                 global_pedal_ratio * global_p_v_loss
@@ -229,10 +299,19 @@ class PedalTrainerBasic:
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
             self.optimizer.step()
 
+            # Step-based scheduler updates (every batch)
+            # Handle step-based schedulers
+            if hasattr(self, 'scheduler') and self.scheduler is not None:
+                scheduler_name = type(self.scheduler).__name__
+                if scheduler_name in ['OneCycleLR', 'CyclicLR', 'CosineAnnealingWarmRestarts']:
+                    self.scheduler.step()
+
             total_loss += loss.item()
             global_step += 1
 
             if batch_idx % self.logging_steps == 0:
+                current_lr = self.optimizer.param_groups[0]['lr']
+
                 print(
                     f"Epoch {epoch + 1}, Batch {batch_idx + 1}/{len(self.train_dataloader)}, Loss: "
                     f"glob_p_v: {global_p_v_loss.item():.4f}, "
@@ -241,6 +320,7 @@ class PedalTrainerBasic:
                     f"p_off: {p_off_loss.item():.4f}, "
                     f"total: {loss.item():.4f}"
                 )
+                
                 pbar.set_postfix(
                     {
                         "loss": loss.item(),
@@ -266,15 +346,9 @@ class PedalTrainerBasic:
                 )
                 self.writer.add_scalars("Total Loss", {"Train": loss.item()}, global_step)
 
-                wandb.log(
-                    {
-                        "Global Pedal Loss/Train": global_p_v_loss.item(),
-                        "Pedal Value Loss/Train": p_v_loss.item(),
-                        "Pedal Onset Loss/Train": p_on_loss.item(),
-                        "Pedal Offset Loss/Train": p_off_loss.item(),
-                        "Total Loss/Train": loss.item(),
-                    }
-                )
+                self.writer.add_scalar("Learning Rate", current_lr, global_step)
+
+
 
             # Validate by step, not just at epoch end.
             if self.eval_steps != -1 and global_step % self.eval_steps == 0:
@@ -337,6 +411,9 @@ class PedalTrainerBasic:
                         scheduler=self.scheduler,
                     )
                     best_val_losses.append(val_loss)
+                if hasattr(self, 'scheduler') and self.scheduler is not None:
+                    if type(self.scheduler).__name__ == 'ReduceLROnPlateau':
+                        self.scheduler.step(val_loss)
 
         return total_loss / len(self.train_dataloader), global_step, best_val_losses
 
@@ -372,14 +449,25 @@ class PedalTrainerBasic:
                 total=len(self.val_dataloader),
                 desc=f"Validation Epoch {epoch+1}",
             )
-            for (
-                inputs,
-                global_p_v_labels,
-                p_v_labels,
-                p_on_labels,
-                p_off_labels,
-                loss_mask,
-            ) in pbar:
+            for batch in pbar:
+                # Initialize inputs
+                midi_inputs = None
+                pedal_inputs = None
+
+                # MODIFIED: Updated batch unpacking to handle all 4 modes
+                if self.use_midi and self.use_pred_pedal:
+                    # Audio + MIDI + Predicted Pedal (8 elements)
+                    (inputs, midi_inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
+                elif self.use_midi:
+                    # Audio + MIDI (7 elements)
+                    (inputs, midi_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
+                elif self.use_pred_pedal:
+                    # Audio + Predicted Pedal (7 elements) - NEW MODE
+                    (inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
+                else:
+                    # Audio only (6 elements)
+                    (inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
+
                 # Move data to device
                 inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = (
                     inputs.to(self.device),
@@ -390,12 +478,46 @@ class PedalTrainerBasic:
                     loss_mask.to(self.device),
                 )
 
-                (
-                    global_p_v_logits,
-                    p_v_logits,
-                    p_on_logits,
-                    p_off_logits,
-                ) = self.model(inputs, loss_mask=loss_mask)
+                # Handle MIDI inputs
+                if self.use_midi and midi_inputs is not None:
+                    midi_inputs = midi_inputs.to(self.device)
+                
+                if self.use_pred_pedal and pedal_inputs is not None:
+                    pedal_inputs = pedal_inputs.to(self.device)
+
+                # MODIFIED: Updated model forward call logic to handle all 4 modes
+                if self.use_midi and self.use_pred_pedal:
+                    # Audio + MIDI + Predicted Pedal
+                    (
+                        global_p_v_logits,
+                        p_v_logits,
+                        p_on_logits,
+                        p_off_logits,
+                    ) = self.model(inputs, midi_inputs=midi_inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
+                elif self.use_midi:
+                    # Audio + MIDI only
+                    (
+                        global_p_v_logits,
+                        p_v_logits,
+                        p_on_logits,
+                        p_off_logits,
+                    ) = self.model(inputs, midi_inputs=midi_inputs, loss_mask=loss_mask)
+                elif self.use_pred_pedal:
+                    # Audio + Predicted Pedal (new mode)
+                    (
+                        global_p_v_logits,
+                        p_v_logits,
+                        p_on_logits,
+                        p_off_logits,
+                    ) = self.model(inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
+                else:
+                    # Audio only
+                    (
+                        global_p_v_logits,
+                        p_v_logits,
+                        p_on_logits,
+                        p_off_logits,
+                    ) = self.model(inputs, loss_mask=loss_mask)
 
                 # calculate valid frame number according to loss_mask
                 # Apply loss_mask
@@ -555,23 +677,6 @@ class PedalTrainerBasic:
         self.writer.add_scalar("Pedal Value MAE", avg_pedal_value_mae, log_step)
         self.writer.add_scalar("Pedal Value MSE", avg_pedal_value_mse, log_step)
 
-        wandb.log(
-            {
-                "Total Loss/Val": val_loss / len(self.val_dataloader),
-                "Global Pedal Value Loss/Val": total_global_p_v_loss / len(self.val_dataloader),
-                "Pedal Value Loss/Val": total_pedal_value_loss / len(self.val_dataloader),
-                "Pedal Onset Loss/Val": total_pedal_on_loss / len(self.val_dataloader),
-                "Pedal Offset Loss/Val": total_pedal_off_loss / len(self.val_dataloader),
-                "Global Pedal Value F1": avg_global_pedal_value_f1,
-                "Pedal Value F1": avg_pedal_value_f1,
-                "Pedal Onset MAE": avg_pedal_onset_mae,
-                "Pedal Offset MAE": avg_pedal_offset_mae,
-                "Global Pedal Value MAE": avg_global_pedal_value_mae,
-                "Global Pedal Value MSE": avg_global_pedal_value_mse,
-                "Pedal Value MAE": avg_pedal_value_mae,
-                "Pedal Value MSE": avg_pedal_value_mse,
-            }
-        )
 
         pbar.set_postfix(
             {
@@ -644,11 +749,13 @@ class PedalTrainerBasic:
                     "scheduler": scheduler.state_dict() if scheduler else None,
                     "epoch": epoch,
                     "global_step": global_step if global_step is not None else -1,
+                    "use_midi": self.use_midi,
+                    "use_pred_pedal": self.use_pred_pedal,  # ADDED: Save pedal configuration
                 },
                 best_checkpoint_path,
             )
             # Save to wandb
-            wandb.save(best_checkpoint_path)
+            # wandb.save(best_checkpoint_path)
 
             self.best_checkpoints.append(best_checkpoint_path)
             print(f"Best model saved at {best_checkpoint_path}")

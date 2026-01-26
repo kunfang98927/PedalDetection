@@ -1,9 +1,7 @@
 import os
 import torch
-import wandb
 import numpy as np
 from tqdm import tqdm
-from torch.nn import functional as F
 from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import f1_score, mean_squared_error, mean_absolute_error
 
@@ -46,6 +44,7 @@ class PedalTrainerBCE:
         self.num_train_epochs = num_train_epochs
         self.val_label_bin_edges = val_label_bin_edges
         self.best_checkpoints = []  # To keep track of the best checkpoints
+        self.train_from_step_in_epoch = True
         os.makedirs(save_dir, exist_ok=True)
 
     def train(
@@ -56,6 +55,7 @@ class PedalTrainerBCE:
         pedal_offset_ratio=0.1,
         start_epoch=0,
         start_global_step=-1,
+        step_in_epoch=0,
     ):
         best_val_losses = [float("inf")]
         global_step = 0 if start_global_step == -1 else start_global_step
@@ -69,7 +69,8 @@ class PedalTrainerBCE:
                 global_pedal_ratio,
                 pedal_value_ratio,
                 pedal_onset_ratio,
-                pedal_offset_ratio
+                pedal_offset_ratio,
+                step_in_epoch=step_in_epoch
             )
             if self.eval_steps == -1 and self.eval_epochs != -1 and (epoch+1) % self.eval_epochs == 0 and epoch != 0:
                 (
@@ -187,6 +188,7 @@ class PedalTrainerBCE:
         pedal_value_ratio=0.6,
         pedal_onset_ratio=0.1,
         pedal_offset_ratio=0.1,
+        step_in_epoch=0,
     ):
         self.model.train()
         total_loss = 0
@@ -204,6 +206,13 @@ class PedalTrainerBCE:
             p_off_labels,
             loss_mask,
         ) in pbar:
+            
+            if batch_idx <= step_in_epoch and self.train_from_step_in_epoch:
+                # print(f"Skip batch {batch_idx} that has already been processed in the checkpoint.")
+                continue
+            elif batch_idx == step_in_epoch + 1 and step_in_epoch != 0:
+                print(f"Processing batch {batch_idx} for the first time in this epoch.")
+                self.train_from_step_in_epoch = False
             
             # Forward pass
             (
@@ -264,16 +273,6 @@ class PedalTrainerBCE:
                     "Pedal Offset Loss", {"Train": p_off_loss.item()}, global_step
                 )
                 self.writer.add_scalars("Total Loss", {"Train": loss.item()}, global_step)
-
-                wandb.log(
-                    {
-                        "Global Pedal Loss/Train": global_p_v_loss.item(),
-                        "Pedal Value Loss/Train": p_v_loss.item(),
-                        "Pedal Onset Loss/Train": p_on_loss.item(),
-                        "Pedal Offset Loss/Train": p_off_loss.item(),
-                        "Total Loss/Train": loss.item(),
-                    }
-                )
 
             # Validate by step, not just at epoch end.
             if self.eval_steps != -1 and global_step % self.eval_steps == 0:
@@ -550,24 +549,6 @@ class PedalTrainerBCE:
         self.writer.add_scalar("Pedal Value MAE", avg_pedal_value_mae, log_step)
         self.writer.add_scalar("Pedal Value MSE", avg_pedal_value_mse, log_step)
 
-        wandb.log(
-            {
-                "Total Loss/Val": val_loss / len(self.val_dataloader),
-                "Global Pedal Value Loss/Val": total_global_p_v_loss / len(self.val_dataloader),
-                "Pedal Value Loss/Val": total_pedal_value_loss / len(self.val_dataloader),
-                "Pedal Onset Loss/Val": total_pedal_on_loss / len(self.val_dataloader),
-                "Pedal Offset Loss/Val": total_pedal_off_loss / len(self.val_dataloader),
-                "Global Pedal Value F1": avg_global_pedal_value_f1,
-                "Pedal Value F1": avg_pedal_value_f1,
-                "Pedal Onset MAE": avg_pedal_onset_mae,
-                "Pedal Offset MAE": avg_pedal_offset_mae,
-                "Global Pedal Value MAE": avg_global_pedal_value_mae,
-                "Global Pedal Value MSE": avg_global_pedal_value_mse,
-                "Pedal Value MAE": avg_pedal_value_mae,
-                "Pedal Value MSE": avg_pedal_value_mse,
-            }
-        )
-
         pbar.set_postfix(
             {
                 "val_loss": val_loss / len(self.val_dataloader),
@@ -643,8 +624,6 @@ class PedalTrainerBCE:
                 },
                 best_checkpoint_path,
             )
-            # Save to wandb
-            wandb.save(best_checkpoint_path)
 
             self.best_checkpoints.append(best_checkpoint_path)
             print(f"Best model saved at {best_checkpoint_path}")

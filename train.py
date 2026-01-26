@@ -5,16 +5,13 @@ import argparse
 from torch.utils.data import DataLoader, Subset
 import numpy as np
 
-from src.model_extra import (
-    PedalDetectionModelExtra
-)
+from src.model import PedalDetectionModel
 
-from src.dataset_extra import PedalDataset
-from src.trainer_extra import PedalTrainerBasic
+from src.dataset import PedalDataset
+from src.trainer import PedalTrainerBasic
 from src.trainer_bce import PedalTrainerBCE
 from src.utils import get_label_bin_edges
 import functools
-import math
 
 torch.autograd.set_detect_anomaly(True)
 
@@ -228,8 +225,8 @@ def parse_args():
     parser.add_argument(
         "--cnn_dim",
         type=int,
-        default=128,
-        help="dimension of cnn output (default: 128)",
+        default=256,
+        help="dimension of cnn output (default: 256)",
     )
 
     parser.add_argument(
@@ -327,9 +324,7 @@ def main():
     eval_steps = args.eval_steps
     feature_dim = args.feature_dim
     max_frame = args.max_frame
-    num_samples_per_clip = args.num_samples_per_clip
     num_classes = args.num_classes
-    train_rand_sample = args.train_rand_sample
     global_pedal_ratio = args.global_pedal_ratio
     pedal_value_ratio = args.pedal_value_ratio
     pedal_onset_ratio = args.pedal_onset_ratio
@@ -393,7 +388,7 @@ def main():
 
     # Dataset and DataLoader
     train_dataset = PedalDataset(
-        data_list_path="sample_data/train.json",
+        data_list_path="../pedal-icassp/PedalDetection/sample_data/train.json",
         data_dir=args.data_dir,
         num_samples_per_clip=args.num_samples_per_clip,
         max_frame=args.max_frame,
@@ -414,7 +409,7 @@ def main():
         pedal_latent=pedal_latent,
     )
     val_dataset = PedalDataset(
-        data_list_path="sample_data/val.json",
+        data_list_path="../pedal-icassp/PedalDetection/sample_data/val.json",
         data_dir=data_dir,
         num_samples_per_clip=5,  # num_samples_per_clip,
         max_frame=max_frame,
@@ -461,10 +456,9 @@ def main():
         print(f"Number of GPUs available: {torch.cuda.device_count()}")
 
     # Model
-    model = PedalDetectionModelExtra(
+    model = PedalDetectionModel(
         hidden_dim=hidden_dim,
         num_heads=8,
-        ff_dim=1024,
         num_layers=8,
         predict_global_pedal=True if global_pedal_ratio > 0 else False,
         predict_pedal_onset=True if pedal_onset_ratio > 0 else False,
@@ -601,14 +595,14 @@ def main():
         "num_train_epochs": 50,
         "val_label_bin_edges": val_label_bin_edges,
         "save_dir": save_dir,
-        "log_dir": log_dir,
-        "use_midi": use_midi,
-        "use_pred_pedal": use_pred_pedal
+        "log_dir": log_dir
     }
     trainer = None
     if loss_function == "bce":
         trainer = PedalTrainerBCE(**trainer_params)
     elif loss_function == "mse":
+        trainer_params["use_midi"] = use_midi
+        trainer_params["use_pred_pedal"] = use_pred_pedal
         trainer = PedalTrainerBasic(**trainer_params)
 
     # Train the model

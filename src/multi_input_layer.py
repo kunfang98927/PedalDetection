@@ -1,12 +1,11 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 class InputFusion(nn.Module):
     """Process mel, MFCC, and optionally MIDI features separately with optimized MLPs, then fuse"""
     def __init__(self, mel_bins=229, mfcc_dims=20, hidden_dim=256, dropout=0.15, 
                  use_midi=True, use_pred_pedal=False, pedal_latent=False, num_heads=8,
-                 cnn_dim=128, mfcc_dim=128, midi_dim=0, pedal_dim=0):
+                 cnn_dim=256, mfcc_dim=128, midi_dim=0, pedal_dim=0):
         super().__init__()
         
         self.mel_bins = mel_bins

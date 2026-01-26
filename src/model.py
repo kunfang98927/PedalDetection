@@ -8,19 +8,17 @@ from .transformer import (
     PositionwiseFeedForward,
     EncoderLayer,
 )
-from .cnn_block import CNNBlock
 
 from .multi_input_layer import InputFusion
 torch.autograd.set_detect_anomaly(True)
 
 
 
-class PedalDetectionModelExtra(nn.Module):
+class PedalDetectionModel(nn.Module):
     def __init__(
         self,
         hidden_dim,
         num_heads,
-        ff_dim,
         num_layers,
         dropout=0.15,
         predict_pedal_onset=False,
@@ -29,7 +27,7 @@ class PedalDetectionModelExtra(nn.Module):
         use_midi=False,
         use_pred_pedal=False, # placeholder for compatibility
         pedal_latent=False,
-        cnn_dim=128,
+        cnn_dim=256,
         mfcc_dim=128,
         midi_dim=128,
         pedal_dim=128
@@ -48,7 +46,7 @@ class PedalDetectionModelExtra(nn.Module):
             mfcc_dim=mfcc_dim,
             midi_dim=midi_dim,
             pedal_dim=pedal_dim
-            )
+        )
     
 
         # update hidden dim
