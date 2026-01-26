@@ -9,7 +9,7 @@ from .transformer import (
     EncoderLayer,
 )
 
-from .multi_input_layer import InputFusion
+from .input_layer import InputFusion
 torch.autograd.set_detect_anomaly(True)
 
 
