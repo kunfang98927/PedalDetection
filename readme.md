@@ -144,7 +144,7 @@ python train_extra.py --batch_size 32 --eval_steps 200 --feature_dim 249 \
   --midi_dim 96
 ```
 
-### 📚 Paper
+### 📚 Cite the paper
 
 ```bibtex
 @inproceedings{Zhang2026pedal,
