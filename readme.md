@@ -58,7 +58,7 @@ To reproduce the paper’s evaluation, use **three model variants**:
 - **audio**
 - **audio+midi**
 
-We provide checkpoints for these three models here: **TBD**.
+**Checkpoints (Hugging Face):** https://huggingface.co/KunFang/PedalDetection/tree/main
 
 #### Inference
 
