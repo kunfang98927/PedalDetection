@@ -195,13 +195,6 @@ def main():
         )
     
     parser.add_argument(
-        "--bin_pedal_cutoff",
-        type=int,
-        default=-1,
-        help="binarize pred pedal values on/off cutoff as >= [int] (default: -1, i.e., not binarizing the pred pedal)",
-        )
-    
-    parser.add_argument(
         "--pedal_latent",
         action='store_true',
         default=False,
@@ -265,7 +258,6 @@ def main():
         use_pred_pedal = True
     else:
         use_pred_pedal = False
-    bin_pedal_cutoff = args.bin_pedal_cutoff
     pedal_latent = args.pedal_latent
     if pedal_latent and not use_pred_pedal:
         raise ValueError("Warning: pedal_latent is set to True but use_pred_pedal is False.")
@@ -344,7 +336,6 @@ def main():
         dynamic=use_dynamic,
         external_midi=ex_midi,
         pred_pedal=ex_pedal,
-        binarize_pedal_threshold=bin_pedal_cutoff,
         pedal_latent=pedal_latent
     )
     print("Test dataset size:", len(test_dataset))

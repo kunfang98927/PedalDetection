@@ -206,13 +206,6 @@ def parse_args():
         default="",
         help="file name of the external pedal prediction file to train with (default: empty string, i.e., not using prediction)",
         )
-    
-    parser.add_argument(
-        "--bin_pedal_cutoff",
-        type=int,
-        default=-1,
-        help="binarize pred pedal values on/off cutoff as >= [int] (default: -1, i.e., not binarizing the pred pedal)",
-        )
 
     parser.add_argument(
         "--pedal_latent",
@@ -346,7 +339,6 @@ def main():
         use_pred_pedal = True
     else:
         use_pred_pedal = False
-    bin_pedal_cutoff = args.bin_pedal_cutoff
     pedal_latent = args.pedal_latent
     if pedal_latent and not use_pred_pedal:
         raise ValueError("Warning: pedal_latent is set to True but use_pred_pedal is False.")
@@ -363,7 +355,7 @@ def main():
     # Copy this file to save_dir
     log_dir = os.path.join(save_dir, "logs")
     os.makedirs(log_dir, exist_ok=True)
-    shutil.copy("train_basic.py", os.path.join(save_dir, "train_basic"))
+    shutil.copy("train.py", os.path.join(save_dir, "train"))
 
     # write the arguments to a yaml file
     with open(f"{save_dir}/config.yaml", "w") as f:
@@ -405,7 +397,6 @@ def main():
         dynamic=use_dynamic,
         external_midi=ex_midi,
         pred_pedal=ex_pedal,
-        binarize_pedal_threshold=bin_pedal_cutoff,
         pedal_latent=pedal_latent,
     )
     val_dataset = PedalDataset(
@@ -426,7 +417,6 @@ def main():
         dynamic=use_dynamic,
         external_midi=ex_midi,
         pred_pedal=ex_pedal,
-        binarize_pedal_threshold=bin_pedal_cutoff,
         pedal_latent=pedal_latent,
     )
 
