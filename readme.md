@@ -107,19 +107,20 @@ If you want to train the three model variants yourself, run the commands below.
 ##### Training: audio (binary)
 
 ```bash
-python train.py --batch_size 32 --eval_steps 200 --feature_dim 249 \
+python train.py --batch_size 32 --eval_steps 2000 --feature_dim 249 \
   --max_frame 500 --data_dir /path/to/data --datasets r0-pf1 --save_dir /path/to/save_dir \
   --logging_steps 20 --loss_function bce \
   --norm_feat \
   --hidden_dim 384 \
   --cnn_dim 256 \
-  --mfcc_dim 128
+  --mfcc_dim 128 \
+  --num_classes 2
 ```
 
 ##### Training: audio
 
 ```bash
-python train.py --batch_size 32 --eval_steps 200 --feature_dim 249 \
+python train.py --batch_size 32 --eval_steps 2000 --feature_dim 249 \
   --max_frame 500 --data_dir /path/to/data --datasets r0-pf1 --save_dir /path/to/save_dir \
   --logging_steps 20 --loss_function mse \
   --norm_feat \
@@ -131,7 +132,7 @@ python train.py --batch_size 32 --eval_steps 200 --feature_dim 249 \
 ##### Training: audio+midi
 
 ```bash
-python train_extra.py --batch_size 32 --eval_steps 200 --feature_dim 249 \
+python train.py --batch_size 32 --eval_steps 2000 --feature_dim 249 \
   --max_frame 500 --data_dir /path/to/data --ex_midi /path/to/midi.npy \
   --datasets r0-pf1 --save_dir /path/to/save_dir \
   --logging_steps 20 --loss_function mse \
