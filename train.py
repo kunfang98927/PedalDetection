@@ -132,43 +132,36 @@ def parse_args():
         choices=["bce", "mse"],
         help="Loss function to use (default: mse)",
     )
-
     parser.add_argument(
         "--data_subset",
         type=float,
         default=1.0,
         help="Choose a subset of the dataset (default: 1.0, i.e., use the full dataset)",
     )
-
     parser.add_argument(
         "--actual_epoch",
         type=float,
         default=10,
         help="Actual epoch to be trained (default: 10)",
     )
-
-
     parser.add_argument(
         "--norm_feat",
         action='store_true',
         default=False,
         help="normalize the input features per track (default: False)",
     )
-
     parser.add_argument(
         "--use_midi",
         action='store_true',
         default=False,
         help="use midi as additional input (default: False)",
     )
-
     parser.add_argument(
         "--hidden_dim",
         type=int,
         default=128,
         help="hidden dimension per modality (default: 128)",
     )
-
     parser.add_argument(
         "--lr_scheduler",
         type=str,
@@ -176,73 +169,47 @@ def parse_args():
         choices=["step", "onecycle"],
         help="Type of lr scheduler to use (default: onecycle)",
     )
-
-    parser.add_argument("--logging_steps", type=int, default=5, help="Log every N steps")
-
+    parser.add_argument(
+        "--logging_steps", 
+        type=int, default=5, 
+        help="Log every N steps"
+    )
     parser.add_argument(
         "--num_workers",
         type=int,
         default=16,
         help="Number of workers for data loading (default: 16, and 0 for no parallel loading)",
     )
-
     parser.add_argument(
         "--use_dynamic",
         action='store_true',
         default=False,
         help="use dynamic information/pitch velocity (default: False)",
     )
-
     parser.add_argument(
         "--ex_midi",
         type=str,
         default="",
         help="file name of the external midi to substitute the existing midi (default: empty string, i.e., not using external midi)",
         )
-    
-    parser.add_argument(
-        "--ex_pedal",
-        type=str,
-        default="",
-        help="file name of the external pedal prediction file to train with (default: empty string, i.e., not using prediction)",
-        )
-
-    parser.add_argument(
-        "--pedal_latent",
-        action='store_true',
-        default=False,
-        help="use latent representation of predicted pedal values (default: False)",
-    )
-
-
     parser.add_argument(
         "--cnn_dim",
         type=int,
         default=256,
         help="dimension of cnn output (default: 256)",
     )
-
     parser.add_argument(
         "--mfcc_dim",
         type=int,
         default=128,
         help="dimension of mfcc output (default: 128)",
     )
-
     parser.add_argument(
         "--midi_dim",
         type=int,
         default=128,
         help="dimension of midi output (default: 128)",
     )
-
-    parser.add_argument(
-        "--pedal_dim",
-        type=int,
-        default=128,
-        help="dimension of pedal output (default: 128)",
-    )
-    
 
     return parser.parse_args()
 
@@ -335,18 +302,9 @@ def main():
     use_dynamic = args.use_dynamic
     ex_midi = args.ex_midi
     ex_pedal = args.ex_pedal
-    if ex_pedal != "":
-        use_pred_pedal = True
-    else:
-        use_pred_pedal = False
-    pedal_latent = args.pedal_latent
-    if pedal_latent and not use_pred_pedal:
-        raise ValueError("Warning: pedal_latent is set to True but use_pred_pedal is False.")
     cnn_dim = args.cnn_dim
     mfcc_dim = args.mfcc_dim
-    midi_dim = args.midi_dim
-    pedal_dim = args.pedal_dim
-        
+    midi_dim = args.midi_dim        
 
     # Label bin edges, train and val
     label_bin_edges = get_label_bin_edges(num_classes)
@@ -381,6 +339,7 @@ def main():
     # Dataset and DataLoader
     train_dataset = PedalDataset(
         data_list_path="../pedal-icassp/PedalDetection/sample_data/train.json",
+        data_list_path="sample_data/train.json",
         data_dir=args.data_dir,
         num_samples_per_clip=args.num_samples_per_clip,
         max_frame=args.max_frame,
@@ -397,10 +356,9 @@ def main():
         dynamic=use_dynamic,
         external_midi=ex_midi,
         pred_pedal=ex_pedal,
-        pedal_latent=pedal_latent,
     )
     val_dataset = PedalDataset(
-        data_list_path="../pedal-icassp/PedalDetection/sample_data/val.json",
+        data_list_path="sample_data/val.json",
         data_dir=data_dir,
         num_samples_per_clip=5,  # num_samples_per_clip,
         max_frame=max_frame,
@@ -415,9 +373,7 @@ def main():
         normalize_features=if_normalize_features,
         midi=use_midi,
         dynamic=use_dynamic,
-        external_midi=ex_midi,
-        pred_pedal=ex_pedal,
-        pedal_latent=pedal_latent,
+        external_midi=ex_midi
     )
 
     if subset_ratio < 1.0:
@@ -454,12 +410,9 @@ def main():
         predict_pedal_onset=True if pedal_onset_ratio > 0 else False,
         predict_pedal_offset=True if pedal_offset_ratio > 0 else False,
         use_midi=use_midi,
-        use_pred_pedal=use_pred_pedal,
-        pedal_latent=pedal_latent,
         cnn_dim=cnn_dim,
         mfcc_dim=mfcc_dim,
         midi_dim=midi_dim,
-        pedal_dim=pedal_dim
     )
     
     print(model)
@@ -592,7 +545,6 @@ def main():
         trainer = PedalTrainerBCE(**trainer_params)
     elif loss_function == "mse":
         trainer_params["use_midi"] = use_midi
-        trainer_params["use_pred_pedal"] = use_pred_pedal
         trainer = PedalTrainerBasic(**trainer_params)
 
     # Train the model

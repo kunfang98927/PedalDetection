@@ -28,7 +28,6 @@ class PedalTrainerBasic:
         val_label_bin_edges=[0, 64, 128],
         log_dir="logs",
         use_midi=False,
-        use_pred_pedal=False
     ):
         self.train_dataloader = train_dataloader
         self.val_dataloader = val_dataloader
@@ -49,7 +48,6 @@ class PedalTrainerBasic:
         self.val_label_bin_edges = val_label_bin_edges
         self.best_checkpoints = []  # To keep track of the best checkpoints
         self.use_midi = use_midi
-        self.use_pred_pedal = use_pred_pedal
         self.train_from_step_in_epoch = True
         os.makedirs(save_dir, exist_ok=True)
 
@@ -169,36 +167,16 @@ class PedalTrainerBasic:
         if self.use_midi and midi_inputs is not None:
             midi_inputs = midi_inputs.to(self.device)
 
-        if self.use_pred_pedal and pedal_inputs is not None:
-            pedal_inputs = pedal_inputs.to(self.device)
-
         self.model.train()
 
-        # MODIFIED: Updated model forward call logic to handle all 4 modes
-        if self.use_midi and self.use_pred_pedal:
-            # Audio + MIDI + Predicted Pedal
-            (
-                global_p_v_logits,
-                p_v_logits,
-                p_on_logits,
-                p_off_logits,
-            ) = self.model(inputs, midi_inputs=midi_inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
-        elif self.use_midi:
-            # Audio + MIDI only
+        if self.use_midi:
+            # Audio + MIDI
             (
                 global_p_v_logits,
                 p_v_logits,
                 p_on_logits,
                 p_off_logits,
             ) = self.model(inputs, midi_inputs=midi_inputs, loss_mask=loss_mask)
-        elif self.use_pred_pedal:
-            # Audio + Predicted Pedal (new mode)
-            (
-                global_p_v_logits,
-                p_v_logits,
-                p_on_logits,
-                p_off_logits,
-            ) = self.model(inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
         else:
             # Audio only
             (
@@ -256,15 +234,9 @@ class PedalTrainerBasic:
             pedal_inputs = None
 
             # Unpack batch based on the dataset configuration
-            if self.use_midi and self.use_pred_pedal:
-                # Audio + MIDI + Predicted Pedal (8 elements)
-                (inputs, midi_inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
-            elif self.use_midi:
+            if self.use_midi:
                 # Audio + MIDI (7 elements)
                 (inputs, midi_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
-            elif self.use_pred_pedal:
-                # Audio + Predicted Pedal (7 elements) - NEW MODE
-                (inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
             else:
                 # Audio only (6 elements)
                 (inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
@@ -454,16 +426,9 @@ class PedalTrainerBasic:
                 midi_inputs = None
                 pedal_inputs = None
 
-                # MODIFIED: Updated batch unpacking to handle all 4 modes
-                if self.use_midi and self.use_pred_pedal:
-                    # Audio + MIDI + Predicted Pedal (8 elements)
-                    (inputs, midi_inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
-                elif self.use_midi:
+                if self.use_midi:
                     # Audio + MIDI (7 elements)
                     (inputs, midi_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
-                elif self.use_pred_pedal:
-                    # Audio + Predicted Pedal (7 elements) - NEW MODE
-                    (inputs, pedal_inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
                 else:
                     # Audio only (6 elements)
                     (inputs, global_p_v_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask) = batch
@@ -481,20 +446,10 @@ class PedalTrainerBasic:
                 # Handle MIDI inputs
                 if self.use_midi and midi_inputs is not None:
                     midi_inputs = midi_inputs.to(self.device)
-                
-                if self.use_pred_pedal and pedal_inputs is not None:
-                    pedal_inputs = pedal_inputs.to(self.device)
+           
 
                 # MODIFIED: Updated model forward call logic to handle all 4 modes
-                if self.use_midi and self.use_pred_pedal:
-                    # Audio + MIDI + Predicted Pedal
-                    (
-                        global_p_v_logits,
-                        p_v_logits,
-                        p_on_logits,
-                        p_off_logits,
-                    ) = self.model(inputs, midi_inputs=midi_inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
-                elif self.use_midi:
+                if self.use_midi:
                     # Audio + MIDI only
                     (
                         global_p_v_logits,
@@ -502,14 +457,6 @@ class PedalTrainerBasic:
                         p_on_logits,
                         p_off_logits,
                     ) = self.model(inputs, midi_inputs=midi_inputs, loss_mask=loss_mask)
-                elif self.use_pred_pedal:
-                    # Audio + Predicted Pedal (new mode)
-                    (
-                        global_p_v_logits,
-                        p_v_logits,
-                        p_on_logits,
-                        p_off_logits,
-                    ) = self.model(inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
                 else:
                     # Audio only
                     (
@@ -750,7 +697,6 @@ class PedalTrainerBasic:
                     "epoch": epoch,
                     "global_step": global_step if global_step is not None else -1,
                     "use_midi": self.use_midi,
-                    "use_pred_pedal": self.use_pred_pedal,  # ADDED: Save pedal configuration
                 },
                 best_checkpoint_path,
             )

@@ -4,26 +4,22 @@ import torch.nn as nn
 class InputFusion(nn.Module):
     """Process mel, MFCC, and optionally MIDI features separately with optimized MLPs, then fuse"""
     def __init__(self, mel_bins=229, mfcc_dims=20, hidden_dim=256, dropout=0.15, 
-                 use_midi=True, use_pred_pedal=False, pedal_latent=False, num_heads=8,
-                 cnn_dim=256, mfcc_dim=128, midi_dim=0, pedal_dim=0):
+                 use_midi=True, num_heads=8, cnn_dim=256, mfcc_dim=128, midi_dim=0, pedal_dim=0):
         super().__init__()
         
         self.mel_bins = mel_bins
         self.mfcc_dims = mfcc_dims
         self.dropout = dropout
         self.use_midi = use_midi
-        self.use_pred_pedal = use_pred_pedal
-        self.use_pedal_latent = pedal_latent
         self.hidden_dim = hidden_dim
         
         self.mel_dim = cnn_dim
         self.mfcc_dim = mfcc_dim
         self.midi_dim = midi_dim if use_midi else 0
-        self.pedal_dim = pedal_dim if use_pred_pedal else 0
-        raw_hidden_dim = self.mel_dim + self.mfcc_dim + self.midi_dim + self.pedal_dim
+        raw_hidden_dim = self.mel_dim + self.mfcc_dim + self.midi_dim
 
         # Calculate modality dimensions based on MIDI usage
-        self.num_modalities = 2 + int(self.use_midi) + int(self.use_pred_pedal)
+        self.num_modalities = 2 + int(self.use_midi)
         
         print(f"Fusion Configuration:")
         print(f"  Num modalities: {self.num_modalities}")
@@ -71,33 +67,6 @@ class InputFusion(nn.Module):
         else:
             self.midi_mlp = None
 
-        # MLP for predicted pedal features 
-        if self.use_pred_pedal:
-            if self.use_pedal_latent:
-                print("  Using latent pedal feature as input (256 dims)")
-                # BERT-style processing for pre-trained latent features
-                self.pedal_mlp = nn.Sequential(
-                    nn.LayerNorm(256),  # Stabilize pre-trained features
-                    nn.Linear(256, 64),  # Bottleneck compression
-                    nn.GELU(),  # GELU for pre-trained features
-                    nn.Dropout(dropout),
-                    nn.Linear(64, self.pedal_dim),
-                    nn.GELU(),
-                    nn.LayerNorm(self.pedal_dim)
-                )
-            else:
-                print("  Using predicted pedal value as input (1 dim)")
-                # Simple expansion for scalar pedal value
-                self.pedal_mlp = nn.Sequential(
-                    nn.Linear(1, 16),
-                    nn.ReLU(),
-                    nn.Dropout(dropout),
-                    nn.Linear(16, self.pedal_dim),
-                    nn.ReLU(),
-                    nn.LayerNorm(self.pedal_dim)
-                )
-        else:
-            self.pedal_mlp = None
         
         self.fusion = nn.Sequential(
             nn.Linear(raw_hidden_dim, self.hidden_dim),
@@ -110,7 +79,7 @@ class InputFusion(nn.Module):
         total_params = sum(p.numel() for p in self.parameters()) / 1e6
         print(f"  Total parameters: ~{total_params:.2f}M")
         
-    def forward(self, x, midi_inputs=None, pred_pedal_inputs=None):
+    def forward(self, x, midi_inputs=None):
         batch_size, seq_len, total_features = x.shape
         assert total_features == self.mel_bins + self.mfcc_dims, (
             f"Expected input with {self.mel_bins + self.mfcc_dims} features, but got {total_features}"
@@ -134,7 +103,6 @@ class InputFusion(nn.Module):
         mfcc_out = self.mfcc_mlp(mfcc_features)  # [batch, seq, modality_dim]
 
         midi_out = None
-        pedal_out = None
 
         # Handle MIDI based on initialization flag
         if self.use_midi:
@@ -146,15 +114,7 @@ class InputFusion(nn.Module):
             if midi_inputs is not None:
                 print("Warning: MIDI inputs provided but model was initialized with use_midi=False. Ignoring MIDI.")
 
-        # Handle predicted pedal if specified
-        if self.use_pred_pedal:
-            if pred_pedal_inputs is None:
-                raise ValueError("Model was initialized with use_pred_pedal=True but no predicted pedal inputs provided")
-                        
-            pedal_out = self.pedal_mlp(pred_pedal_inputs)  # [batch, seq, modality_dim]
-
-
-        tensors_to_cat = [t for t in [mel_out, mfcc_out, midi_out, pedal_out] if t is not None]
+        tensors_to_cat = [t for t in [mel_out, mfcc_out, midi_out] if t is not None]
 
         fused = torch.cat(tensors_to_cat, dim=-1)  # [batch, seq, hidden_dim]
         

@@ -32,8 +32,6 @@ def load_model(
     predict_pedal_onset=False,
     predict_pedal_offset=False,
     use_midi=False,
-    use_pred_pedal=False,
-    pedal_latent=False,
     cnn_dim=256,
     mfcc_dim=128, 
     midi_dim=0, 
@@ -49,8 +47,6 @@ def load_model(
         predict_pedal_onset=predict_pedal_onset,
         predict_pedal_offset=predict_pedal_offset,
         use_midi=use_midi,
-        use_pred_pedal=use_pred_pedal,
-        pedal_latent=pedal_latent,
         cnn_dim=cnn_dim,
         mfcc_dim=mfcc_dim,
         midi_dim=midi_dim,
@@ -65,7 +61,7 @@ def load_model(
     return model
 
 
-def infer(model, feature, midi_inputs, pedal_inputs, loss_mask, device="cpu", loss_function="mse"):
+def infer(model, feature, midi_inputs, loss_mask, device="cpu", loss_function="mse"):
     feature = feature.to(device)
     with torch.no_grad():
         (
@@ -73,7 +69,7 @@ def infer(model, feature, midi_inputs, pedal_inputs, loss_mask, device="cpu", lo
             p_v_logits,
             p_on_logits,
             p_off_logits,
-        ) = model(feature, midi_inputs=midi_inputs, pred_pedal_inputs=pedal_inputs, loss_mask=loss_mask)
+        ) = model(feature, midi_inputs=midi_inputs, loss_mask=loss_mask)
 
         # pedal value for each frame
         p_v_logits = p_v_logits[loss_mask]
@@ -144,89 +140,59 @@ def main():
         choices=["bce", "mse"],
         help="Loss function to use (default: mse)",
     )
-
     parser.add_argument(
         "--norm_feat",
         action='store_true',
         default=False,
         help="normalize the input features per track (default: False)",
     )
-
     parser.add_argument(
         "--use_midi",
         action='store_true',
         default=False,
         help="use midi as additional input (default: False)",
     )
-
     parser.add_argument(
         "--hidden_dim",
         type=int,
         default=128,
         help="hidden dimension (default: 128)",
     )
-
     parser.add_argument(
         "--num_workers",
         type=int,
         default=0,
         help="Number of workers for data loading (default: 0, no parallel loading)",
     )
-
     parser.add_argument(
         "--use_dynamic",
         action='store_true',
         default=False,
         help="use dynamic information/pitch velocity (default: False)",
     )
-
     parser.add_argument(
         "--ex_midi",
         type=str,
         default="",
         help="file name of the external midi to substitute the existing midi (default: empty string, i.e., not using external midi)",
         )
-    
-    parser.add_argument(
-        "--ex_pedal",
-        type=str,
-        default="",
-        help="file name of the external pedal prediction file to train with (default: empty string, i.e., not using prediction)",
-        )
-    
-    parser.add_argument(
-        "--pedal_latent",
-        action='store_true',
-        default=False,
-        help="use latent representation of predicted pedal values (default: False)",
-    )
-
     parser.add_argument(
         "--cnn_dim",
         type=int,
         default=256,
         help="dimension of cnn output (default: 256)",
     )
-
     parser.add_argument(
         "--mfcc_dim",
         type=int,
         default=128,
         help="dimension of mfcc output (default: 128)",
     )
-
     parser.add_argument(
         "--midi_dim",
         type=int,
         default=128,
         help="dimension of midi output (default: 128)",
-    )
-
-    parser.add_argument(
-        "--pedal_dim",
-        type=int,
-        default=128,
-        help="dimension of pedal output (default: 128)",
     )
 
 
@@ -249,28 +215,18 @@ def main():
     cnn_dim = args.cnn_dim
     mfcc_dim = args.mfcc_dim
     midi_dim = args.midi_dim
-    pedal_dim = args.pedal_dim
-
     use_dynamic = args.use_dynamic
     ex_midi = args.ex_midi
-    ex_pedal = args.ex_pedal
-    if ex_pedal != "":
-        use_pred_pedal = True
-    else:
-        use_pred_pedal = False
-    pedal_latent = args.pedal_latent
-    if pedal_latent and not use_pred_pedal:
-        raise ValueError("Warning: pedal_latent is set to True but use_pred_pedal is False.")
-
+   
 
     # Get the name of the checkpoint
     if "/" in checkpoint_path:
         ckpt_name = checkpoint_path.split("/")[-1]
-        result_dir = checkpoint_path.split("/")[0:-1]
+        result_dir = checkpoint_path.split("/")[0]
     else:
         ckpt_name = checkpoint_path
         result_dir = "results"
-    result_dir = f"{result_dir}/results-{ckpt_name.split('_')[4]}" #step number
+    result_dir = f"{result_dir}/results-{ckpt_name.split('_')[4].replace('.pt', '')}" #step number
     print(f"Result directory: {result_dir}")
     os.makedirs(result_dir, exist_ok=True)
     report_path = f"{result_dir}/report-{datasets[0]}-{ckpt_name}.txt"
@@ -301,12 +257,9 @@ def main():
         predict_pedal_onset=predict_pedal_onset,
         predict_pedal_offset=predict_pedal_offset,
         use_midi=use_midi,
-        use_pred_pedal=use_pred_pedal,
-        pedal_latent=pedal_latent,
         cnn_dim=cnn_dim,
         mfcc_dim=mfcc_dim,
         midi_dim=midi_dim,
-        pedal_dim=pedal_dim
     )
     # print model trainable parameters number
     print(
@@ -335,8 +288,6 @@ def main():
         midi=use_midi,
         dynamic=use_dynamic,
         external_midi=ex_midi,
-        pred_pedal=ex_pedal,
-        pedal_latent=pedal_latent
     )
     print("Test dataset size:", len(test_dataset))
 
@@ -373,19 +324,7 @@ def main():
 
     for batch in tqdm(test_dataloader):
         midi_inputs = None
-        pedal_inputs = None 
-        if use_midi and use_pred_pedal:
-            inputs, midi_inputs, pedal_inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = batch
-            inputs, midi_inputs, pedal_inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels = (
-            inputs.to(device),
-            midi_inputs.to(device),
-            pedal_inputs.to(device),
-            global_p_labels.to(device),
-            p_v_labels.to(device),
-            p_on_labels.to(device),
-            p_off_labels.to(device),
-            )
-        elif use_midi:
+        if use_midi:
             inputs, midi_inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = batch
             inputs, midi_inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels = (
             inputs.to(device),
@@ -395,16 +334,6 @@ def main():
             p_on_labels.to(device),
             p_off_labels.to(device),
             )            
-        elif use_pred_pedal:
-            inputs, pedal_inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = batch
-            inputs, pedal_inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels = (
-            inputs.to(device),
-            pedal_inputs.to(device),
-            global_p_labels.to(device),
-            p_v_labels.to(device),
-            p_on_labels.to(device),
-            p_off_labels.to(device),
-            )
         else:
             inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels, loss_mask = batch
             inputs, global_p_labels, p_v_labels, p_on_labels, p_off_labels = (
@@ -415,11 +344,10 @@ def main():
                 p_off_labels.to(device),
             )
             midi_inputs = None
-            pedal_inputs = None  
 
         loss_mask = p_v_labels != -1
         global_p_preds, p_v_preds, p_on_preds, p_off_preds = infer(
-            model, inputs, midi_inputs, pedal_inputs, loss_mask, device=device, loss_function=loss_function
+            model, inputs, midi_inputs, loss_mask, device=device, loss_function=loss_function
         )
 
         # Apply loss_mask

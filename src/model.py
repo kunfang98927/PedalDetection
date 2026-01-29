@@ -25,8 +25,6 @@ class PedalDetectionModel(nn.Module):
         predict_pedal_offset=False,
         predict_global_pedal=True,
         use_midi=False,
-        use_pred_pedal=False, # placeholder for compatibility
-        pedal_latent=False,
         cnn_dim=256,
         mfcc_dim=128,
         midi_dim=128,
@@ -40,8 +38,6 @@ class PedalDetectionModel(nn.Module):
             hidden_dim=hidden_dim, 
             dropout=dropout, 
             use_midi=use_midi, 
-            use_pred_pedal=use_pred_pedal,
-            pedal_latent=pedal_latent,
             cnn_dim=cnn_dim,
             mfcc_dim=mfcc_dim,
             midi_dim=midi_dim,
@@ -91,11 +87,11 @@ class PedalDetectionModel(nn.Module):
             nn.Linear(input_dim * 2, output_dim),
         )
 
-    def forward(self, x, midi_inputs=None, pred_pedal_inputs=None, loss_mask=None, src_mask=None):
+    def forward(self, x, midi_inputs=None, loss_mask=None, src_mask=None):
         batch_size, seq_len = x.shape[0], x.shape[1]
         
         # CNN preprocessing with optional MIDI
-        x = self.fusion_block(x, midi_inputs=midi_inputs, pred_pedal_inputs=pred_pedal_inputs)
+        x = self.fusion_block(x, midi_inputs=midi_inputs)
         # Transformer Encoder
         x = self.positional_encoding(x)
         for layer in self.layers:

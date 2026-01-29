@@ -32,10 +32,7 @@ class PedalDataset(Dataset):
         midi=False, # read MIDI files as additional input too
         dynamic=True,
         external_midi="", # pass external midi files to substitute existing ones
-        pred_pedal="", # pass external pedal files
-        binarize_pedal_threshold=-1, # whether to binarize the pedal values to 0/1 according to this threshold
         unique_index=False, # whether to use unique index for external data
-        pedal_latent=False, # whether to use latent representation of predicted pedal values
     ):
         """
         Args:
@@ -90,27 +87,14 @@ class PedalDataset(Dataset):
         self.midi = midi
         self.dynamic = dynamic
         self.ex_midi = external_midi
-        self.pred_pedal=pred_pedal
-        
-        # Remove the requirement for MIDI when using predicted pedal
-        # if self.pred_pedal != "" and not self.midi:
-        #     raise ValueError("use_pred_pedal=True requires use_midi=True. Predicted pedal can only be used when MIDI is available.")
-        
+            
         print(f"Use dynamic (pitch velocity): {self.dynamic}")
-        if binarize_pedal_threshold == -1:
-            self.binarize_pedal = False
-        else:
-            self.binarize_pedal = True
-            self.on_off_threshold = binarize_pedal_threshold
-            print(f"Binarize given pedal predictions with threshold: {self.on_off_threshold}")
-        if self.pred_pedal == "" and self.binarize_pedal:
-            raise ValueError("binarize_pedal=True requires pred_pedal to be provided.")
+        
         self.unique_index = unique_index
         if '885' in self.ex_midi or 'test' in self.ex_midi:
             self.unique_index = True       
         if self.unique_index:
             print("Using unique index for external data")
-        self.latent_pedal = pedal_latent
        
 
         # Cache for track normalization statistics
@@ -150,28 +134,6 @@ class PedalDataset(Dataset):
         else:
             self.external_midi_key = None
 
-        if self.pred_pedal != "":
-            print(f"Loading external pedal prediction files from {self.pred_pedal}")
-            external_file_path = os.path.join(data_dir, self.pred_pedal)
-
-            # Store external MIDI file with a recognizable key
-            self.predict_pedal_key = "predict_pedal"
-            self.h5fs[self.predict_pedal_key] = h5py.File(external_file_path, "r")
-            print(f"Opened external MIDI file: {external_file_path}")
-            
-            if self.latent_pedal:
-                if "latent_repr" not in self.h5fs[self.predict_pedal_key]:
-                    raise ValueError(f"'latent_repr' not found in external pedal file: {external_file_path}")
-                else:
-                    print(f"Found latent pedal data in external pedal file and use it to train.")
-            else:
-                if "pedal_values" not in self.h5fs[self.predict_pedal_key]:
-                    raise ValueError(f"'pedal_values' not found in external MIDI file: {external_file_path}")
-                else:
-                    print(f"Found predicted pedal data in external pedal file and use it to train.")
-        else:
-            self.predict_pedal_key = None
-
 
         # if split is validation, only validate on pedal factor 1
         if self.split == "validation":
@@ -192,13 +154,6 @@ class PedalDataset(Dataset):
             else:
                 modalities.append("gt MIDI values (note)")
 
-        # Add pedal modality info regardless of MIDI
-        if self.pred_pedal != "":
-            if self.latent_pedal:
-                modalities.append("Predicted pedal values (latent)")
-            else:
-                modalities.append("Predicted pedal values")
-        
         print(
             f"Loaded {len(self.examples)} examples from {data_list_path} for split: {self.split}"
         )
@@ -320,15 +275,13 @@ class PedalDataset(Dataset):
             mean, std = self.get_track_normalization_stats(file_path, example_index)
             selected_feature = self.normalize_feature_tensor(selected_feature, mean, std)
 
-        # Handle MIDI modality (no normalization - preserve semantic meaning)
+        # Handle MIDI modality
         selected_midi = None
-        selected_pred_pedal = None
         if self.midi:
 
             # Get MIDI data - use external if available, otherwise original
             if self.external_midi_key is not None:
                 midi_source = self.h5fs[self.external_midi_key]
-                # print(f"Using external MIDI data for example {example_index}")
             else:
                 midi_source = self.h5fs[file_path]
 
@@ -348,33 +301,7 @@ class PedalDataset(Dataset):
             # Convert to tensor (no normalization)
             selected_midi = torch.tensor(selected_midi, dtype=torch.float32)
             # print(f"MIDI shape: {selected_midi.shape}")
-
-        # Handle predicted pedal regardless of MIDI mode
-        if self.predict_pedal_key is not None:
-            
-            if self.unique_index:
-                fetch_idx_key = f"{example_index}-r{room_id}"
-            else: 
-                fetch_idx_key = str(example_index)
                 
-            if self.latent_pedal:
-                selected_pred_pedal_values = self.h5fs[self.predict_pedal_key]["latent_repr"][
-                    fetch_idx_key][:, start_frame:end_frame]
-            else:
-                selected_pred_pedal_values = self.h5fs[self.predict_pedal_key]["pedal_values"][
-                    fetch_idx_key][start_frame:end_frame]
-            
-            
-            selected_pred_pedal = selected_pred_pedal_values.T
-            selected_pred_pedal = torch.tensor(selected_pred_pedal, dtype=torch.float32)
-            
-            if selected_pred_pedal.dim() == 1:
-                selected_pred_pedal = selected_pred_pedal.unsqueeze(-1)
-
-            # print(f"Predicted pedal shape: {selected_pred_pedal.shape}")
-            if self.binarize_pedal:
-                selected_pred_pedal = (selected_pred_pedal * 127 >= self.on_off_threshold).float()
-
         # Process labels.
         pedal_onset, pedal_offset = calculate_pedal_onset_offset(
             selected_pedal_value, on_off_threshold=self.on_off_threshold
@@ -443,11 +370,10 @@ class PedalDataset(Dataset):
                 print(self.split, "[0 - Warning] Empty feature detected!")
             
             # Include MIDI in padding, which will be None if MIDI is not used
-            (selected_feature, selected_midi, selected_pred_pedal, quantized_pedal_value_masked,
+            (selected_feature, selected_midi, quantized_pedal_value_masked,
             soft_pedal_onset_masked, soft_pedal_offset_masked, loss_mask) = self.pad_data(
                 selected_feature,
                 selected_midi,
-                selected_pred_pedal,
                 quantized_pedal_value_masked,
                 soft_pedal_onset_masked,
                 soft_pedal_offset_masked,
@@ -459,7 +385,6 @@ class PedalDataset(Dataset):
         return (
             selected_feature,
             selected_midi,
-            selected_pred_pedal,  # Return MIDI data
             low_res_label,
             quantized_pedal_value_masked,
             soft_pedal_onset_masked,
@@ -507,8 +432,7 @@ class PedalDataset(Dataset):
         # Fetch the segment.
         (
             selected_feature,
-            selected_midi,  # MIDI data, which will be None if MIDI is not used
-            selected_pred_pedal, # None if no pred pedal is used
+            selected_midi,  # None if MIDI is not used
             low_res_label,
             quantized_pedal_value_masked,
             soft_pedal_onset_masked,
@@ -530,33 +454,8 @@ class PedalDataset(Dataset):
                 (low_res_label != -1) & (low_res_label != 0) & (low_res_label != 1)
             ), f"Low res label should be -1, 0, or 1. Found: {low_res_label}"
 
-        # Update return logic to handle audio+pedal mode without MIDI
-        if self.predict_pedal_key is not None:
-            if self.midi:
-                # Audio + MIDI + Predicted Pedal (existing mode)
-                return (
-                    selected_feature,
-                    selected_midi,
-                    selected_pred_pedal,
-                    low_res_label,
-                    quantized_pedal_value_masked,
-                    soft_pedal_onset_masked,
-                    soft_pedal_offset_masked,
-                    loss_mask
-                )
-            else:
-                # Audio + Predicted Pedal (new mode)
-                return (
-                    selected_feature,
-                    selected_pred_pedal,
-                    low_res_label,
-                    quantized_pedal_value_masked,
-                    soft_pedal_onset_masked,
-                    soft_pedal_offset_masked,
-                    loss_mask
-                )
-        elif self.midi:
-            # Audio + MIDI (existing mode)
+        if self.midi:
+            # Audio + MIDI
             return (
                 selected_feature,
                 selected_midi,
@@ -567,7 +466,7 @@ class PedalDataset(Dataset):
                 loss_mask
             )
         else:
-            # Audio only (existing mode)
+            # Audio only
             return (
                 selected_feature,
                 low_res_label,
@@ -577,7 +476,7 @@ class PedalDataset(Dataset):
                 loss_mask
             )
     
-    def pad_data(self, selected_feature, selected_midi, selected_pred_pedal, quantized_pedal_value_masked,
+    def pad_data(self, selected_feature, selected_midi, quantized_pedal_value_masked,
                     soft_pedal_onset_masked, soft_pedal_offset_masked, loss_mask):
         """
         Updated to handle MIDI padding as well
@@ -592,10 +491,7 @@ class PedalDataset(Dataset):
         # Pad MIDI features if they exist
         if selected_midi is not None:
             selected_midi = F.pad(selected_midi, (0, 0, 0, pad_length), "constant", 0)
-        
-        if selected_pred_pedal is not None:
-            selected_pred_pedal = F.pad(selected_pred_pedal, (0, 0, 0, pad_length), "constant", 0)
-            
+           
         
         # Pad labels and masks
         quantized_pedal_value_masked = F.pad(quantized_pedal_value_masked, (0, pad_length), "constant", -1)
@@ -610,7 +506,6 @@ class PedalDataset(Dataset):
         return (
             selected_feature,
             selected_midi,
-            selected_pred_pedal, 
             quantized_pedal_value_masked,
             soft_pedal_onset_masked,
             soft_pedal_offset_masked,
