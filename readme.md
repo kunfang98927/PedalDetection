@@ -4,6 +4,8 @@ This repository accompanies the ICASSP 2026 paper on **musically informed evalua
 
 **Paper status:** Accepted to ICASSP 2026.
 
+Arxiv paper: https://arxiv.org/abs/2510.03750
+
 ### 📂 Project Structure
 
 ```
